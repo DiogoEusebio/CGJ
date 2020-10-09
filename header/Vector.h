@@ -54,23 +54,24 @@ namespace egn
 		vec3& operator += (const vec3& v);
 		vec3& operator -= (const vec3& v);
 		vec3& operator *= (const float k);
-		friend const vec3 normalize(const vec3& v);
-		friend const vec3 operator + (const vec3& v0, const vec3& v1);
-		friend const vec3 operator - (const vec3& v0, const vec3& v1);
-		friend const vec3 operator * (const vec3& v0, const float k);
+		//vec3 normalize();
+		vec3 static normalize(const vec3& v);
+		vec3 operator+ (const vec3& v0);
+		vec3 operator- (const vec3& v1);
+		vec3 operator* (const float k);
 		friend const vec3 operator * (const float k, const vec3& v1);
 		friend const vec3 operator / (const float k, const vec3& v);
-		friend const float dot(const vec3& v0, const vec3& v1);
-		friend const vec3 cross(const vec3& v0, const vec3& v1);
-		friend const bool operator == (const vec3& v0, const vec3& v1);
-		friend const bool operator != (const vec3& v0, const vec3& v1);
+		float static dot(const vec3& v0, const vec3& v1);
+		vec3 static cross(const vec3& v0, const vec3& v1);
+		bool operator== (const vec3& v1);
+		bool operator!= (const vec3& v1);
 		friend std::ostream& operator << (std::ostream& os, const vec3& v);
 		friend std::istream& operator >> (std::istream& is, vec3& v);
 	};
 
 	struct vec4 {
 		float x, y, z, w;
-		float data[4];
+		//float data[4];
 		vec4();
 		vec4(const float k);
 		vec4(const float x, const float y, const float z);

@@ -104,6 +104,7 @@ namespace egn {
 	const vec2 normalize(const vec2& v)
 	{
 		float len = v.length();
+		if (len == 0) { return vec2(0, 0); }
 		return vec2(v.x / len, v.y / len);
 	}
 
@@ -246,19 +247,20 @@ namespace egn {
 		return *this;
 	}
 
-	const vec3 normalize(const vec3& v)
+	vec3 vec3::normalize(const vec3& v)
 	{
 		float len = v.length();
+		if (len == 0) { return vec3(0, 0, 0); }
 		return vec3(v.x / len, v.y / len, v.z / len);
 	}
 
-	const vec3 operator+(const vec3& v0, const vec3& v1)
+	vec3 vec3::operator+(const vec3& v1)
 	{
-		return vec3(v0.x + v1.x, v0.y + v1.y, v0.z + v1.z);
+		return vec3(this->x + v1.x, this->y + v1.y, this->z + v1.z);
 	}
-	const vec3 operator-(const vec3& v0, const vec3& v1)
+	vec3 vec3::operator-(const vec3& v1)
 	{
-		return vec3(v0.x - v1.x, v0.y - v1.y, v0.z - v1.z);
+		return vec3(this->x - v1.x, this->y - v1.y, this->z - v1.z);
 	}
 	const vec3 operator*(const vec3& v, const float k)
 	{
@@ -268,15 +270,19 @@ namespace egn {
 	{
 		return vec3(v.x * k, v.y * k, v.z * k);
 	}
+	vec3 vec3::operator*(const float k)
+	{
+		return vec3(this->x * k, this->y * k, this->z * k);
+	}
 	const vec3 operator/(const float k, const vec3& v)
 	{
 		return vec3(k / v.x, k / v.y, k / v.z);
 	}
-	const float dot(const vec3& v0, const vec3& v1)
+	float vec3::dot(const vec3& v0, const vec3& v1)
 	{
 		return v0.x * v1.x + v0.y * v1.y + v0.z * v1.z;
 	}
-	const vec3 cross(const vec3& v0, const vec3& v1)
+	vec3 vec3::cross(const vec3& v0, const vec3& v1)
 	{
 		float x = v0.y * v1.z - v0.z * v1.y;
 		float y = v0.z * v1.x - v0.x * v1.z;
