@@ -1,8 +1,11 @@
 #pragma once
+#ifndef VECTOR
+#define VECTOR
 #include <iostream>
 #include <math.h>
+#include "Constants.h"
 
-#define THRESHOLD 1.0e-5f //dictates precision of vector values
+
 
 namespace egn
 {
@@ -21,17 +24,27 @@ namespace egn
 		void clean();
 		const float length() const;
 		vec2& operator = (const vec2& v);
-		const vec2 operator - () const;
+		vec2 operator - ();
 		vec2& operator += (const vec2& v);
+		vec2& operator += (const float k);
 		vec2& operator -= (const vec2& v);
+		vec2& operator -= (const float k);
 		vec2& operator *= (const float k);
-		friend const vec2 normalize(const vec2& v);
-		friend const vec2 operator + (const vec2& v0, const vec2& v1);
-		friend const vec2 operator - (const vec2& v0, const vec2& v1);
-		friend const vec2 operator * (const vec2& v, const float k);
-		friend const vec2 operator * (const float k, const vec2& v);
-		friend const bool operator == (const vec2& v0, const vec2& v1);
-		friend const bool operator != (const vec2& v0, const vec2& v1);
+		friend vec2 normalize(const vec2& v);
+		friend vec2 operator + (vec2& v0, vec2& v1);
+		friend vec2 operator + (vec2 v0, vec2 v1);
+		friend vec2 operator + (vec2& v, float k);
+		friend vec2 operator + (float k, vec2& v);
+		friend vec2 operator - (vec2& v0, vec2& v1);
+		friend vec2 operator - (vec2 v0, vec2 v1);
+		friend vec2 operator - (vec2& v, float k);
+		friend vec2 operator - (float k, vec2& v);
+		friend vec2 operator * (vec2& v, float k);
+		friend vec2 operator * (float k, vec2& v);
+		friend vec2 operator / (vec2& v, float k);
+		friend vec2 operator / (float k, vec2& v);
+		friend bool operator == (const vec2& v0, const vec2& v1);
+		friend bool operator != (const vec2& v0, const vec2& v1);
 		friend std::ostream& operator << (std::ostream& os, const vec2& v);
 		friend std::istream& operator >> (std::istream& is, vec2& v);
 
@@ -50,21 +63,29 @@ namespace egn
 		const float length() const;
 		vec3& operator = (const vec3& v);
 		vec3& operator = (const vec4& v);
-		const vec3 operator - () const; //additive inverse
+		vec3 operator - (); //additive inverse
 		vec3& operator += (const vec3& v);
+		vec3& operator += (float k);
 		vec3& operator -= (const vec3& v);
+		vec3& operator -= (float k);
 		vec3& operator *= (const float k);
 		//vec3 normalize();
 		vec3 static normalize(const vec3& v);
-		vec3 operator+ (const vec3& v0);
-		vec3 operator- (const vec3& v1);
+		friend vec3 operator + (vec3& v0, vec3& v1);
+		friend vec3 operator + (vec3 v0, vec3 v1);
+		friend vec3 operator + (vec3& v, float k);
+		friend vec3 operator + (float k, vec3& v);
+		friend vec3 operator - (vec3& v0, vec3& v1);
+		friend vec3 operator - (vec3 v0, vec3 v1);
+		friend vec3 operator - (vec3& v, float k);
+		friend vec3 operator - (float k, vec3& v);
 		vec3 operator* (const float k);
 		friend const vec3 operator * (const float k, const vec3& v1);
 		friend const vec3 operator / (const float k, const vec3& v);
 		float static dot(const vec3& v0, const vec3& v1);
 		vec3 static cross(const vec3& v0, const vec3& v1);
-		bool operator== (const vec3& v1);
-		bool operator!= (const vec3& v1);
+		friend bool operator == (const vec3& v0, const vec3& v1);
+		friend bool operator != (const vec3& v0, const vec3& v1);
 		friend std::ostream& operator << (std::ostream& os, const vec3& v);
 		friend std::istream& operator >> (std::istream& is, vec3& v);
 	};
@@ -87,3 +108,4 @@ namespace egn
 		friend std::istream& operator >> (std::istream& is, vec4& v);
 	};
 };
+#endif

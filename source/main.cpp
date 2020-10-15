@@ -1,17 +1,19 @@
 #include <iostream>
-#include "../header/Vector.h"
+#include "../header/MasterHeader.h"
+
 
 int main(int argc, char* argv[])
 {
+	/*
 	std::cout << "CGJ vectors | delivery 1" << std::endl;
 	std::cout << "2D Vectors" << std::endl;
 	egn::vec2 v1 = egn::vec2(1);
-	egn::vec2 v2 = egn::vec2();
+	egn::vec2 v2; //0 arguments operator
 	egn::vec2 v3 = egn::vec2(1, 0);
 	egn::vec2 v4 = egn::vec2(1, 1);
 	std::cout << "v1 " << v1 << std::endl << "v2 " << v2 << std::endl << "v3 " << v3 << std::endl << "v4 " << v4 << std::endl;
 	v2 += v3;
-	v2 += 1;
+	v2 += 1 + egn::vec2(1);
 	std::cout << v2 << " addition v2 " << std::endl;
 	v2 = egn::vec2(4) - v2;
 	std::cout << v2 << " subtraction v2 " << std::endl;
@@ -26,7 +28,7 @@ int main(int argc, char* argv[])
 	egn::vec3 v7 = egn::vec3();
 	egn::vec3 v8 = egn::vec3();
 	v7 = egn::vec3::normalize(v6);
-	v8 = v5 + v6;
+	v8 += 1 + egn::vec3(1) + v6;
 	std::cout << "v5 " << v5 << std::endl << "v6 " << v6 << std::endl << "v7 " << v7 << std::endl << "v8 " << v8 << std::endl;
 	std::cout << "v5 * 3 . v6 = " << egn::vec3::dot(v5 * 3, v6) << std::endl;
 	std::cout << "v7 * v8 = " << -egn::vec3::cross(v7, v8) << std::endl;
@@ -61,4 +63,53 @@ int main(int argc, char* argv[])
 			//std::cout << "v " << v << " w " << w1 << " u " << u << std::endl;
 		}
 	}
+	*/
+	egn::mat2 m0 = egn::mat2(4, 2, 7, 6);
+	egn::mat2 m1 = egn::mat2(m0);
+	egn::mat2 m2 = m0;
+	egn::mat2 m3;
+	egn::mat2 m4 = egn::mat2(1);
+	m3 += m0;
+	m3 += 2;
+	m3 -= 1;
+	m4 += m4;
+	m0 *= 2;
+	std::cout << m0 << inverse(m1) << transpose(m2) << m3 << m4 << std::endl;
+
+	egn::vec2 v0 = egn::vec2(1, 2);
+	egn::mat2 m5 = egn::mat2(1);
+	egn::mat2 m6;
+	m5 = 2 + m5 + 1;
+	m5 = 4 - (m5 - 1);
+	m6 = m5 + v0;
+	std::cout << v0 << m5 << m6 << std::endl;
+
+	egn::mat2 m7 = egn::mat2(-2, 1, 0, 4);
+	egn::mat2 m8 = egn::mat2(6, 5, -7, 1);
+	m7 *= m8;
+	std::cout << m7 << std::endl;
+
+
+	egn::mat3 m30 = egn::mat3(1, 1, 1, 2, 2, 2, 3, 3, 3);
+	std::cout << "0:\n" << m30 << std::endl;
+	egn::mat3 m31 = egn::mat3(m30);
+	egn::mat3 m312 = egn::mat3(inverse(m31));
+	m312.clean();
+	std::cout << "1:\n" << m31 << "\n1(inversed):\n" << m312 << std::endl;
+	egn::mat3 m32 = egn::mat3(1, 2, 3, 0, 1, 4, 5, 6, 0);
+	std::cout << "2:\n" << transpose(m32) << std::endl;
+	egn::mat3 m33 = inverse(m32);
+	std::cout << "3:\n" << m33 << std::endl;
+	egn::mat3 m34 = egn::mat3(1);
+	m34 += m30;
+	std::cout << "4:\n" << m34 << std::endl;
+	egn::mat3 m35 = egn::mat3(1, 2, 3, 4, 5, 6, 7, 8, 9);
+	std::cout << "5:\n" << m35 << std::endl;
+	m35 *= m35;
+	std::cout << "5*=5:\n" << m35 << std::endl;
+	egn::mat3 m36 = egn::mat3();
+	m36 = m30 + m35;
+	std::cout << "6:\n" << m36 << std::endl;
+	m36 = m36 - m35;
+	std::cout << "6 - 5:\n" << m36 << std::endl;
 }

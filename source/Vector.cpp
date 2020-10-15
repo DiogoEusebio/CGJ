@@ -77,20 +77,34 @@ namespace egn {
 		y = v.y;
 		return *this;
 	}
-	const vec2 vec2::operator-() const
+	vec2 vec2::operator-()
 	{
 		return vec2(-vec2::x, -vec2::y);
 	}
+
 	vec2& vec2::operator+=(const vec2& v)
 	{
 		x += v.x;
 		y += v.y;
 		return *this;
 	}
+
+	vec2& vec2::operator+=(const float k)
+	{
+		x += k;
+		y += k;
+		return *this;
+	}
+
 	vec2& vec2::operator-=(const vec2& v)
 	{
 		x -= v.x;
 		y -= v.y;
+		return *this;
+	}
+	vec2& vec2::operator-=(const float k) {
+		x -= k;
+		y -= k;
 		return *this;
 	}
 
@@ -101,41 +115,89 @@ namespace egn {
 		return *this;
 	}
 
-	const vec2 normalize(const vec2& v)
+	vec2 normalize(const vec2& v)
 	{
 		float len = v.length();
 		if (len == 0) { return vec2(0, 0); }
 		return vec2(v.x / len, v.y / len);
 	}
 
-	const vec2 operator + (const vec2& v0, const vec2& v1)
+	vec2 operator + (vec2& v0, vec2& v1)
 	{
 		return vec2(v0.x + v1.x, v0.y + v1.y);
 	}
 
-	const vec2 operator-(const vec2& v0, const vec2& v1)
+	vec2 operator + (vec2 v0, vec2 v1)
+	{
+		return vec2(v0.x + v1.x, v0.y + v1.y);
+	}
+
+	vec2 operator + (vec2& v, float k)
+	{
+		return vec2(v.x + k, v.y + k);
+	}
+
+	vec2 operator + (float k, vec2& v)
+	{
+		return vec2(v.x + k, v.y + k);
+	}
+
+	vec2 operator - (vec2& v0, vec2& v1)
 	{
 		return vec2(v0.x - v1.x, v0.y - v1.y);
 	}
 
-	const vec2 operator*(const vec2& v, const float k)
+	vec2 operator - (vec2 v0, vec2 v1)
+	{
+		return vec2(v0.x - v1.x, v0.y - v1.y);
+	}
+
+	vec2 operator - (vec2& v, float k) 
+	{
+		return vec2(v.x - k, v.y - k);
+	}
+
+	vec2 operator - (float k, vec2& v)
+	{
+		return vec2(k - v.x, k - v.y);
+	}
+
+	vec2 operator * (vec2& v, float k)
 	{
 		return vec2(v.x * k, v.y * k);
 	}
 
-	const vec2 operator*(const float k, const vec2& v)
+	vec2 operator*(float k, vec2& v)
 	{
 		return vec2(v.x * k, v.y * k);
 	}
 
-	const bool operator==(const vec2& v0, const vec2& v1)
+	vec2 operator / (vec2& v, float k)
+	{
+		if (k == 0)
+			return vec2(0, 0);
+		return vec2(v.x / k, v.y / k);
+	}
+
+	vec2 operator / (float k, vec2& v)
+	{
+		if (v.x == 0)
+			if (v.y == 0)
+				return vec2(0, 0);
+			return vec2(0, k / v.y);
+		if (v.y == 0)
+			return vec2(k / v.x, 0);
+		return vec2(k / v.x, k / v.y);
+	}
+
+	bool operator==(const vec2& v0, const vec2& v1)
 	{
 		if (v0.x == v1.x && v0.y == v1.y)
 			return true;
 		return false;
 	}
 
-	const bool operator!=(const vec2& v0, const vec2& v1)
+	bool operator!=(const vec2& v0, const vec2& v1)
 	{
 		if (v0.x == v1.x && v0.y == v1.y)
 			return false;
@@ -221,7 +283,7 @@ namespace egn {
 		z = v.z;
 		return *this;
 	}
-	const vec3 vec3::operator-() const
+	vec3 vec3::operator-()
 	{
 		return vec3(-vec3::x, -vec3::y, -vec3::z);
 	}
@@ -232,11 +294,27 @@ namespace egn {
 		z += v.z;
 		return *this;
 	}
+
+	vec3& vec3::operator+=(float k)
+	{
+		x += k;
+		y += k;
+		z += k;
+		return *this;
+	}
+
 	vec3& vec3::operator-=(const vec3& v)
 	{
 		x -= v.x;
 		y -= v.y;
 		z -= v.z;
+		return *this;
+	}
+	vec3& vec3::operator-=(float k)
+	{
+		x -= k;
+		y -= k;
+		z -= k;
 		return *this;
 	}
 	vec3& vec3::operator*=(const float k)
@@ -254,14 +332,40 @@ namespace egn {
 		return vec3(v.x / len, v.y / len, v.z / len);
 	}
 
-	vec3 vec3::operator+(const vec3& v1)
+	vec3 operator+ (vec3& v0, vec3& v1) 
 	{
-		return vec3(this->x + v1.x, this->y + v1.y, this->z + v1.z);
+		return vec3(v0.x + v1.x, v0.y + v1.y, v0.z + v1.z);
 	}
-	vec3 vec3::operator-(const vec3& v1)
+	vec3 operator+ (vec3 v0, vec3 v1)
 	{
-		return vec3(this->x - v1.x, this->y - v1.y, this->z - v1.z);
+		return vec3(v0.x + v1.x, v0.y + v1.y, v0.z + v1.z);
 	}
+	vec3 operator+(vec3& v, float k)
+	{
+		return vec3(v.x + k, v.y + k, v.z + k);
+	}
+	vec3 operator+(float k, vec3& v)
+	{
+		return vec3(k + v.x, k + v.y, k + v.z);
+	}
+
+	vec3 operator-(vec3& v0, vec3& v1)
+	{
+		return vec3(v0.x - v1.x, v0.y - v1.y, v0.z - v1.z);
+	}
+	vec3 operator-(vec3 v0, vec3 v1)
+	{
+		return vec3(v0.x - v1.x, v0.y - v1.y, v0.z - v1.z);
+	}
+	vec3 operator-(vec3& v, float k)
+	{
+		return vec3(v.x - k, v.y - k, v.z - k);
+	}
+	vec3 operator-(float k, vec3& v)
+	{
+		return vec3(k - v.x, k - v.y, k - v.z);
+	}
+
 	const vec3 operator*(const vec3& v, const float k)
 	{
 		return vec3(v.x * k, v.y * k, v.z * k);
@@ -290,14 +394,14 @@ namespace egn {
 		return vec3(x, y, z);
 	}
 
-	const bool operator==(const vec3& v0, const vec3& v1)
+	bool operator==(const vec3& v0, const vec3& v1)
 	{
 		if (v0.x == v1.x && v0.y == v1.y && v0.z == v1.z)
 			return true;
 		return false;
 	}
 
-	const bool operator!=(const vec3& v0, const vec3& v1)
+	bool operator!=(const vec3& v0, const vec3& v1)
 	{
 		if (v0.x == v1.x && v0.y == v1.y && v0.z == v1.z)
 			return false;
