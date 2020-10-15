@@ -4,6 +4,7 @@
 #include <iostream>
 #include <math.h>
 #include "Constants.h"
+#include "Vector.h"
 
 namespace egn
 {
@@ -24,6 +25,23 @@ namespace egn
 		mat2& operator = (const mat2& m);
 		friend mat2 transpose(const mat2& m);
 		friend mat2 inverse(const mat2& m);
+		mat2& operator += (const mat2& m);
+		mat2& operator += (const float k);
+		mat2& operator += (const vec2 v);
+		mat2& operator -= (const mat2& m);
+		mat2& operator -= (const float k);
+		mat2& operator -= (const vec2 v);
+		mat2& operator *= (const float k);
+		mat2& operator *= (const mat2& m);
+		mat2& operator *= (const vec2& v);
+		friend mat2 operator + (const mat2& m0, const mat2& m1);
+		friend mat2 operator + (float k, const mat2& m);
+		friend mat2 operator + (const mat2& m, float k);
+		friend mat2 operator + (const mat2& m, const vec2 v);
+		friend mat2 operator + (const vec2 v, const mat2& m);
+		friend mat2 operator - (const mat2& m0, const mat2& m1);
+		friend mat2 operator - (float, const mat2& m);
+		friend mat2 operator - (const mat2& m, float);
 	};
 	struct mat3 {
 

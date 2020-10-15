@@ -67,5 +67,25 @@ int main(int argc, char* argv[])
 	egn::mat2 m0 = egn::mat2(4, 2, 7, 6);
 	egn::mat2 m1 = egn::mat2(m0);
 	egn::mat2 m2 = m0;
-	std::cout << m0 << inverse(m1) << transpose(m2) << std::endl;
+	egn::mat2 m3;
+	egn::mat2 m4 = egn::mat2(1);
+	m3 += m0;
+	m3 += 2;
+	m3 -= 1;
+	m4 += m4;
+	m0 *= 2;
+	std::cout << m0 << inverse(m1) << transpose(m2) << m3 << m4 << std::endl;
+	
+	egn::vec2 v0 = egn::vec2(1, 2);
+	egn::mat2 m5 = egn::mat2(1);
+	egn::mat2 m6;
+	m5 = 2 + m5 + 1;
+	m5 = 4 - (m5 - 1);
+	m6 = m5 + v0;
+	std::cout << v0 << m5 << m6 << std::endl;
+
+	egn::mat2 m7 = egn::mat2(-2, 1, 0, 4);
+	egn::mat2 m8 = egn::mat2(6, 5, -7, 1);
+	m7 *= m8;
+	std::cout << m7 << std::endl;
 }
