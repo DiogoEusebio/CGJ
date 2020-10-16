@@ -49,12 +49,14 @@ namespace egn {
 	}
 	mat2 transpose(const mat2& m)
 	{
-		return mat2(m.data[0][0], m.data[0][1], m.data[1][0], m.data[1][1]);
+		return mat2(m.data[0][0], m.data[1][0], m.data[0][1], m.data[1][1]);
 	}
 	mat2 inverse(const mat2& m)
-	{
+	{	
 		float det = m.determinant();
-		return mat2(m.data[1][1] / det, -m.data[1][0] / det, -m.data[0][1] / det, m.data[0][0] / det);
+		std::cout << det << std::endl;
+		if (det == 0) { std::cout << "cant inverse matrix, det == 0" << std::endl; mat2(0); }
+		return mat2( m.data[1][1] / det, -m.data[0][1] / det, -m.data[1][0] / det, m.data[0][0] / det);
 	}
 	mat2& mat2::operator+=(const mat2& v)
 	{
@@ -123,16 +125,7 @@ namespace egn {
 
 		return *this;
 	}
-	/*mat2& operator *= (const vec2& v)
-	{
-		mat2 res = mat2(0);
-		for (int i = 0; i < 2; i++) {
-			for (int j = 0; j < 2; j++)
-			data[0][i] *= v.x;
-			data[1][i] *= v.y;
-		}
-		return *this;
-	}*/
+
 	mat2 operator + (const mat2& m0, const mat2& m1)
 	{
 		mat2 res = mat2(0.0f);
@@ -219,12 +212,63 @@ namespace egn {
 		}
 		return res;
 	}
+
+	mat2 operator*(const mat2& m0, const mat2& m1)
+	{
+		mat2 res = mat2();
+
+		res.data[0][0] = m0.data[0][0] * m1.data[0][0] + m0.data[0][1] * m1.data[1][0];
+		res.data[0][1] = m0.data[0][0] * m1.data[0][1] + m0.data[0][1] * m1.data[1][1];
+		res.data[1][0] = m0.data[1][0] * m1.data[0][0] + m0.data[1][1] * m1.data[1][0];
+		res.data[1][1] = m0.data[1][0] * m1.data[0][1] + m0.data[1][1] * m1.data[1][1];
+		
+		return res;
+	}
+
 	std::ostream& operator<<(std::ostream& os, const mat2& m)
 	{
 		os << "[ " << m.data[0][0] << " , " << m.data[0][1] << std::endl
 			<< "  " << m.data[1][0] << " , " << m.data[1][1] << " ]" << std::endl;
 		return os;
 	}
+
+	bool operator == (const mat2& m0, const mat2& m1)
+	{
+		for (int i = 0; i < 2; i++)
+		{
+			for (int j = 0; j < 2; j++)
+			{
+				if (abs(m0.data[i][j] - m1.data[i][j]) > THRESHOLD)
+				{
+					return false;
+				}
+			}
+		}
+
+		return true;
+	}
+	
+	bool operator != (const mat2& m0, const mat2& m1)
+	{
+		for (int i = 0; i < 3; i++)
+		{
+			for (int j = 0; j < 3; j++)
+			{
+				if (abs(m0.data[i][j] - m1.data[i][j]) > THRESHOLD)
+				{
+					return true;
+				}
+			}
+		}
+
+		return false;
+	}
+	mat2 mat2::identityMatrix() {
+		return mat2(1, 0, 0, 1);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 
 	mat3::mat3()
 	{
@@ -279,8 +323,8 @@ namespace egn {
 	float mat3::determinant() const
 	{
 		float det = data[0][0] * (data[1][1] * data[2][2] - data[1][2] * data[2][1])
-				  - data[0][1] * (data[1][0] * data[2][2] - data[1][2] * data[2][0])
-				  + data[0][2] * (data[1][0] * data[2][1] - data[1][1] * data[2][0]);
+				  - data[0][1] * (data[1][0] * data[2][2] - data[1][2] * data[0][2])
+				  + data[0][2] * (data[0][1] * data[2][1] - data[1][1] * data[0][2]);
 		return det;
 	}
 
@@ -379,22 +423,7 @@ namespace egn {
 
 		return *this;
 	}
-	mat3& mat3::operator*=(const vec3& v)
-	{
-		mat3 aux = mat3(*this);
 
-		this->data[0][0] = aux.data[0][0] * v.x + aux.data[0][1] * v.y + aux.data[0][2] * v.z;
-		this->data[0][1] = aux.data[0][0] * v.x + aux.data[0][1] * v.y + aux.data[0][2] * v.z;
-		this->data[0][2] = aux.data[0][0] * v.x + aux.data[0][1] * v.y + aux.data[0][2] * v.z;
-		this->data[1][0] = aux.data[1][0] * v.x + aux.data[1][1] * v.y + aux.data[1][2] * v.z;
-		this->data[1][1] = aux.data[1][0] * v.x + aux.data[1][1] * v.y + aux.data[1][2] * v.z;
-		this->data[1][2] = aux.data[1][0] * v.x + aux.data[1][1] * v.y + aux.data[1][2] * v.z;
-		this->data[2][0] = aux.data[2][0] * v.x + aux.data[2][1] * v.y + aux.data[2][2] * v.z;
-		this->data[2][1] = aux.data[2][0] * v.x + aux.data[2][1] * v.y + aux.data[2][2] * v.z;
-		this->data[2][2] = aux.data[2][0] * v.x + aux.data[2][1] * v.y + aux.data[2][2] * v.z;
-
-		return *this;
-	}
 	mat3& mat3::operator*=(const float k)
 	{
 		mat3 aux = mat3(*this);
@@ -460,7 +489,7 @@ namespace egn {
 			}
 		}
 
-		return inv;
+		return transpose(inv);
 	}
 	mat3 operator+(const mat3& m0, const mat3& m1)
 	{
@@ -660,7 +689,7 @@ namespace egn {
 		{
 			for (int j = 0; j < 3; j++)
 			{
-				if (abs(m0.data[i][j] - m1.data[i][j]) > THRESHOLD)
+				if (m0.data[i][j] != m1.data[i][j])
 				{
 					return false;
 				}
@@ -675,7 +704,7 @@ namespace egn {
 		{
 			for (int j = 0; j < 3; j++)
 			{
-				if (abs(m0.data[i][j] - m1.data[i][j]) > THRESHOLD)
+				if (m0.data[i][j] != m1.data[i][j])
 				{
 					return true;
 				}
@@ -684,6 +713,8 @@ namespace egn {
 
 		return false;
 	}
+
+	///////////////////////////////////////////////////////////////////////
 
 
 	std::ostream& operator<<(std::ostream& os, const mat4& m)

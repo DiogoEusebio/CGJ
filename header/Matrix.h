@@ -33,7 +33,6 @@ namespace egn
 		mat2& operator -= (const vec2 v);
 		mat2& operator *= (const float k);
 		mat2& operator *= (const mat2& m);
-		mat2& operator *= (const vec2& v);
 		friend mat2 operator + (const mat2& m0, const mat2& m1);
 		friend mat2 operator + (float k, const mat2& m);
 		friend mat2 operator + (const mat2& m, float k);
@@ -42,6 +41,12 @@ namespace egn
 		friend mat2 operator - (const mat2& m0, const mat2& m1);
 		friend mat2 operator - (float, const mat2& m);
 		friend mat2 operator - (const mat2& m, float);
+		friend mat2 operator - (const mat2& m, const vec2 v);
+		friend mat2 operator - (const vec2 v, const mat2& m);
+		friend mat2 operator * (const mat2& m0, const mat2& m1);
+		friend bool operator == (const mat2& m0, const mat2& m1);
+		friend bool operator != (const mat2& m0, const mat2& m1);
+		mat2 identityMatrix();
 	};
 
 	struct mat3 {
@@ -64,7 +69,6 @@ namespace egn
 		mat3& operator -= (const vec3& v);
 		mat3& operator -= (const float k);
 		mat3& operator *= (const mat3& m);
-		mat3& operator *= (const vec3& v);
 		mat3& operator *= (const float k);
 		friend mat3 operator + (const mat3& m0, const mat3& m1);
 		friend mat3 operator + (const mat3& m, const float k);

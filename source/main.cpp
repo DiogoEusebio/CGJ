@@ -63,7 +63,8 @@ int main(int argc, char* argv[])
 			//std::cout << "v " << v << " w " << w1 << " u " << u << std::endl;
 		}
 	}
-
+	*/
+	/*
 	egn::mat2 m0 = egn::mat2(4, 2, 7, 6);
 	egn::mat2 m1 = egn::mat2(m0);
 	egn::mat2 m2 = m0;
@@ -111,60 +112,97 @@ int main(int argc, char* argv[])
 	m36 = m30 + m35;
 	std::cout << "6:\n" << m36 << std::endl;
 	m36 = m36 - m35;
-	std::cout << "6 - 5:\n" << m36 << std::endl;*/
-
+	std::cout << "6 - 5:\n" << m36 << std::endl;
+	egn::mat2 m37 = egn::mat2(m0);
+	egn::vec2 v1 = egn::vec2(1, 1);
+	m37 *= */
+	/*
 	egn::mat3 m1 = egn::mat3();
 	egn::mat3 m2 = egn::mat3();
 	egn::mat3 m3 = egn::mat3();
 	egn::mat3 m4 = egn::mat3();
 
-	for (int k = 0; k < 10; k++)
+	for (int k = 0; k < 1; k++)
 	{
-		for (int i = 0; i < 3; i++)
+	for (int i = 0; i < 3; i++)
+	{
+		for (int j = 0; j < 3; j++)
 		{
-			for (int j = 0; j < 3; j++)
-			{
-				m1.data[i][j] = rand() % 100;
-				m2.data[i][j] = rand() % 100;
-				m3.data[i][j] = rand() % 100;
-				m4.data[i][j] = rand() % 100;
-			}
+			m1.data[i][j] = int(((double)rand() / RAND_MAX) * 10);
+			m2.data[i][j] = int(((double)rand() / RAND_MAX) * 10);
+			m3.data[i][j] = int(((double)rand() / RAND_MAX) * 10);
+			m4.data[i][j] = int(((double)rand() / RAND_MAX) * 10);
 		}
-
-		m1.clean();
-		m2.clean();
-		m3.clean();
-		m4.clean();
-
-		std::cout << "A = \n" << m1 << "\nB = \n" << m2 << "\nC = \n" << m3 << "\nD = \n" << m4 << std::endl;
-
-		egn::mat3 ab = egn::mat3();
-		ab = m1 * m2;
-		std::cout << "AB:\n" << ab << std::endl;
-
-		egn::mat3 cd = egn::mat3();
-		cd = m3 * m4;
-		std::cout << "CD:\n" << cd << std::endl;
-
-		egn::mat3 left = egn::mat3();
-		left = transpose(inverse(ab) * inverse(cd));
-		left.clean();
-		std::cout << "inverseAB:\n" << inverse(ab) << "\ninverseCD:\n" << inverse(cd) << std::endl;
-
-		egn::mat3 dc = egn::mat3();
-		dc = inverse(m4) * inverse(m3);
-
-		egn::mat3 ba = egn::mat3();
-		ba = inverse(m2) * inverse(m1);
-
-		egn::mat3 right = egn::mat3();
-		right = transpose(dc) * transpose(ba);
-		right.clean();
-
-		bool test = (left == right);
-		std::cout << "left-hand side matrix:\n" << left << "\nright-hand side matrix:\n" << right << "\ncomparison: " << test << std::endl;
 	}
 
-	/*egn::mat3 m = egn::mat3(1, 2, 3, 0, 4, 5, 1, 0, 6);
-	std::cout << "M:\n" << m << "\ndeterminant: " << m.determinant() << "\ninverse:\n" << inverse(m) << std::endl;*/
+	m1.clean();
+	m2.clean();
+	m3.clean();
+	m4.clean();
+
+	std::cout << "A = \n" << m1 << "\nB = \n" << m2 << "\nC = \n" << m3 << "\nD = \n" << m4 << std::endl;
+	std::cout << 
+	std::cout << (transpose(inverse(m1 * m2) * inverse(m3 * m4)) == transpose(inverse(m4) * inverse(m3)) * transpose(inverse(m2) * inverse(m1))) << std::endl;
+
+	egn::mat3 ab = egn::mat3();
+	ab = m1 * m2;
+
+	egn::mat3 cd = egn::mat3();
+	cd = m3 * m4;
+
+	egn::mat3 left = egn::mat3();
+	left = transpose(inverse(ab) * inverse(cd));
+
+	egn::mat3 dc = egn::mat3();
+	dc = inverse(m4) * inverse(m3);
+
+	egn::mat3 ba = egn::mat3();
+	ba = inverse(m2) * inverse(m1);
+
+	egn::mat3 right = egn::mat3();
+	right = transpose(dc) * transpose(ba);
+
+	std::cout << "left-hand side matrix:\n" << left << "\nright-hand side matrix:\n" << right << "\ncomparison: " << (left == right) << std::endl;
+	*/
+egn::mat2 m1 = egn::mat2();
+egn::mat2 m2 = egn::mat2();
+egn::mat2 m3 = egn::mat2();
+egn::mat2 m4 = egn::mat2();
+
+for (int k = 0; k < 1; k++)
+{
+	for (int i = 0; i < 2; i++)
+	{
+		for (int j = 0; j < 2; j++)
+		{
+			m1.data[i][j] = rand() % 10 + 1;
+			m2.data[i][j] = rand() % 10 + 1;
+			m3.data[i][j] = rand() % 10 + 1;
+			m4.data[i][j] = rand() % 10 + 1;
+		}
+	}
+
+	std::cout << "A = \n" << m1 << m1.determinant() << "\nB = \n" << m2 << m2.determinant() << "\nC = \n" << m3 << m3.determinant() << "\nD = \n" << m4 << m4.determinant() << std::endl;
+	std::cout << (transpose(inverse(m1 * m2) * inverse(m3 * m4)) == transpose(inverse(m4) * inverse(m3)) * transpose(inverse(m2) * inverse(m1))) << std::endl;
+
+	egn::mat2 ab = egn::mat2();
+	ab = m1 * m2;
+
+	egn::mat2 cd = egn::mat2();
+	cd = m3 * m4;
+
+	egn::mat2 left = egn::mat2();
+	left = transpose(inverse(ab) * inverse(cd));
+
+	egn::mat2 dc = egn::mat2();
+	dc = inverse(m4) * inverse(m3);
+
+	egn::mat2 ba = egn::mat2();
+	ba = inverse(m2) * inverse(m1);
+
+	egn::mat2 right = egn::mat2();
+	right = transpose(dc) * transpose(ba);
+
+	std::cout << "left-hand side matrix:\n" << left << "\nright-hand side matrix:\n" << right << "\ncomparison: " << (left == right) << std::endl;
+	}		
 }
