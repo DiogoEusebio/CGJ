@@ -63,7 +63,7 @@ int main(int argc, char* argv[])
 			//std::cout << "v " << v << " w " << w1 << " u " << u << std::endl;
 		}
 	}
-	*/
+
 	egn::mat2 m0 = egn::mat2(4, 2, 7, 6);
 	egn::mat2 m1 = egn::mat2(m0);
 	egn::mat2 m2 = m0;
@@ -111,5 +111,60 @@ int main(int argc, char* argv[])
 	m36 = m30 + m35;
 	std::cout << "6:\n" << m36 << std::endl;
 	m36 = m36 - m35;
-	std::cout << "6 - 5:\n" << m36 << std::endl;
+	std::cout << "6 - 5:\n" << m36 << std::endl;*/
+
+	egn::mat3 m1 = egn::mat3();
+	egn::mat3 m2 = egn::mat3();
+	egn::mat3 m3 = egn::mat3();
+	egn::mat3 m4 = egn::mat3();
+
+	for (int k = 0; k < 10; k++)
+	{
+		for (int i = 0; i < 3; i++)
+		{
+			for (int j = 0; j < 3; j++)
+			{
+				m1.data[i][j] = rand() % 100;
+				m2.data[i][j] = rand() % 100;
+				m3.data[i][j] = rand() % 100;
+				m4.data[i][j] = rand() % 100;
+			}
+		}
+
+		m1.clean();
+		m2.clean();
+		m3.clean();
+		m4.clean();
+
+		std::cout << "A = \n" << m1 << "\nB = \n" << m2 << "\nC = \n" << m3 << "\nD = \n" << m4 << std::endl;
+
+		egn::mat3 ab = egn::mat3();
+		ab = m1 * m2;
+		std::cout << "AB:\n" << ab << std::endl;
+
+		egn::mat3 cd = egn::mat3();
+		cd = m3 * m4;
+		std::cout << "CD:\n" << cd << std::endl;
+
+		egn::mat3 left = egn::mat3();
+		left = transpose(inverse(ab) * inverse(cd));
+		left.clean();
+		std::cout << "inverseAB:\n" << inverse(ab) << "\ninverseCD:\n" << inverse(cd) << std::endl;
+
+		egn::mat3 dc = egn::mat3();
+		dc = inverse(m4) * inverse(m3);
+
+		egn::mat3 ba = egn::mat3();
+		ba = inverse(m2) * inverse(m1);
+
+		egn::mat3 right = egn::mat3();
+		right = transpose(dc) * transpose(ba);
+		right.clean();
+
+		bool test = (left == right);
+		std::cout << "left-hand side matrix:\n" << left << "\nright-hand side matrix:\n" << right << "\ncomparison: " << test << std::endl;
+	}
+
+	/*egn::mat3 m = egn::mat3(1, 2, 3, 0, 4, 5, 1, 0, 6);
+	std::cout << "M:\n" << m << "\ndeterminant: " << m.determinant() << "\ninverse:\n" << inverse(m) << std::endl;*/
 }

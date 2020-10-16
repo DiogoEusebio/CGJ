@@ -279,8 +279,8 @@ namespace egn {
 	float mat3::determinant() const
 	{
 		float det = data[0][0] * (data[1][1] * data[2][2] - data[1][2] * data[2][1])
-				  - data[0][1] * (data[1][0] * data[2][2] - data[1][2] * data[0][2])
-				  + data[0][2] * (data[0][1] * data[2][1] - data[1][1] * data[0][2]);
+				  - data[0][1] * (data[1][0] * data[2][2] - data[1][2] * data[2][0])
+				  + data[0][2] * (data[1][0] * data[2][1] - data[1][1] * data[2][0]);
 		return det;
 	}
 
@@ -460,7 +460,7 @@ namespace egn {
 			}
 		}
 
-		return transpose(inv);
+		return inv;
 	}
 	mat3 operator+(const mat3& m0, const mat3& m1)
 	{
@@ -660,7 +660,7 @@ namespace egn {
 		{
 			for (int j = 0; j < 3; j++)
 			{
-				if (m0.data[i][j] != m1.data[i][j])
+				if (abs(m0.data[i][j] - m1.data[i][j]) > THRESHOLD)
 				{
 					return false;
 				}
@@ -675,7 +675,7 @@ namespace egn {
 		{
 			for (int j = 0; j < 3; j++)
 			{
-				if (m0.data[i][j] != m1.data[i][j])
+				if (abs(m0.data[i][j] - m1.data[i][j]) > THRESHOLD)
 				{
 					return true;
 				}
