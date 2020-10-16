@@ -54,7 +54,6 @@ namespace egn {
 	mat2 inverse(const mat2& m)
 	{	
 		float det = m.determinant();
-		std::cout << det << std::endl;
 		if (det == 0) { std::cout << "cant inverse matrix, det == 0" << std::endl; mat2(0); }
 		return mat2( m.data[1][1] / det, -m.data[0][1] / det, -m.data[1][0] / det, m.data[0][0] / det);
 	}
@@ -84,7 +83,7 @@ namespace egn {
 	{
 		for (int i = 0; i < 2; i++) {
 			for (int j = 0; j < 2; j++)
-				data[i][j] = v.data[i][j];
+				data[i][j] -= v.data[i][j];
 		}
 		return *this;
 	}
@@ -115,7 +114,7 @@ namespace egn {
 	{
 		mat2 res = mat2(*this);
 
-		this->data[0][0] = res.data[0][0] * v.data[0][0] + res.data[1][0] * v.data[0][1];
+		this->data[0][0] = res.data[0][0] * v.data[0][0] + res.data[0][1] * v.data[1][0];
 
 		this->data[0][1] = res.data[0][0] * v.data[0][1] + res.data[0][1] * v.data[1][1];
 
@@ -221,7 +220,41 @@ namespace egn {
 		res.data[0][1] = m0.data[0][0] * m1.data[0][1] + m0.data[0][1] * m1.data[1][1];
 		res.data[1][0] = m0.data[1][0] * m1.data[0][0] + m0.data[1][1] * m1.data[1][0];
 		res.data[1][1] = m0.data[1][0] * m1.data[0][1] + m0.data[1][1] * m1.data[1][1];
-		
+
+		return res;
+	}
+	mat2 operator*(const mat2& m, const float k)
+	{
+		mat2 res = mat2();
+		res.data[0][0] = m.data[0][0] * k;
+		res.data[0][1] = m.data[0][1] * k;
+		res.data[1][0] = m.data[1][0] * k;
+		res.data[1][1] = m.data[1][1] * k;
+
+		return res;
+	}
+	mat2 operator*(const float k, const mat2& m)
+	{
+		mat2 res = mat2();
+		res.data[0][0] = m.data[0][0] * k;
+		res.data[0][1] = m.data[0][1] * k;
+		res.data[1][0] = m.data[1][0] * k;
+		res.data[1][1] = m.data[1][1] * k;
+
+		return res;
+	}
+	vec2 operator*(const mat2& m, const vec2 v)
+	{
+		vec2 res;
+		res.x = m.data[0][0] * v.x + m.data[0][1] * v.y;
+		res.y = m.data[1][0] * v.x + m.data[1][1] * v.y;
+		return res;
+	}
+	vec2 operator*(const vec2 v, const mat2& m)
+	{
+		vec2 res;
+		res.x = v.x * m.data[0][0] + v.y * m.data[1][0];
+		res.x = v.x * m.data[0][1] + v.y * m.data[1][1];
 		return res;
 	}
 
@@ -323,8 +356,8 @@ namespace egn {
 	float mat3::determinant() const
 	{
 		float det = data[0][0] * (data[1][1] * data[2][2] - data[1][2] * data[2][1])
-				  - data[0][1] * (data[1][0] * data[2][2] - data[1][2] * data[0][2])
-				  + data[0][2] * (data[0][1] * data[2][1] - data[1][1] * data[0][2]);
+				  - data[0][1] * (data[1][0] * data[2][2] - data[1][2] * data[2][0])
+				  + data[0][2] * (data[1][0] * data[2][1] - data[1][1] * data[2][0]);
 		return det;
 	}
 
@@ -423,22 +456,25 @@ namespace egn {
 
 		return *this;
 	}
-
 	mat3& mat3::operator*=(const float k)
 	{
-		mat3 aux = mat3(*this);
-
-		this->data[0][0] = aux.data[0][0] * k + aux.data[0][1] * k + aux.data[0][2] * k;
-		this->data[0][1] = aux.data[0][0] * k + aux.data[0][1] * k + aux.data[0][2] * k;
-		this->data[0][2] = aux.data[0][0] * k + aux.data[0][1] * k + aux.data[0][2] * k;
-		this->data[1][0] = aux.data[1][0] * k + aux.data[1][1] * k + aux.data[1][2] * k;
-		this->data[1][1] = aux.data[1][0] * k + aux.data[1][1] * k + aux.data[1][2] * k;
-		this->data[1][2] = aux.data[1][0] * k + aux.data[1][1] * k + aux.data[1][2] * k;
-		this->data[2][0] = aux.data[2][0] * k + aux.data[2][1] * k + aux.data[2][2] * k;
-		this->data[2][1] = aux.data[2][0] * k + aux.data[2][1] * k + aux.data[2][2] * k;
-		this->data[2][2] = aux.data[2][0] * k + aux.data[2][1] * k + aux.data[2][2] * k;
+		for (int i = 0; i < 3; i++)
+		{
+			for (int j = 0; j < 3; j++)
+			{
+				data[i][j] *= k;
+			}
+		}
 
 		return *this;
+	}
+	mat3 mat3::dualMatrix(const vec3& v)
+	{
+		return mat3(0, -v.z, v.y, v.z, 0, -v.x, -v.y, v.x, 0);
+	}
+	mat3 mat3::identityMatrix()
+	{
+		return mat3(1, 0, 0, 0, 1, 0, 0, 0, 1);
 	}
 	std::ostream& operator<<(std::ostream& os, const mat3& m)
 	{
@@ -489,7 +525,7 @@ namespace egn {
 			}
 		}
 
-		return transpose(inv);
+		return inv;
 	}
 	mat3 operator+(const mat3& m0, const mat3& m1)
 	{
@@ -647,15 +683,13 @@ namespace egn {
 	{
 		mat3 res = mat3();
 
-		res.data[0][0] = m.data[0][0] * k + m.data[0][1] * k + m.data[0][2] * k;
-		res.data[0][1] = m.data[0][0] * k + m.data[0][1] * k + m.data[0][2] * k;
-		res.data[0][2] = m.data[0][0] * k + m.data[0][1] * k + m.data[0][2] * k;
-		res.data[1][0] = m.data[1][0] * k + m.data[1][1] * k + m.data[1][2] * k;
-		res.data[1][1] = m.data[1][0] * k + m.data[1][1] * k + m.data[1][2] * k;
-		res.data[1][2] = m.data[1][0] * k + m.data[1][1] * k + m.data[1][2] * k;
-		res.data[2][0] = m.data[2][0] * k + m.data[2][1] * k + m.data[2][2] * k;
-		res.data[2][1] = m.data[2][0] * k + m.data[2][1] * k + m.data[2][2] * k;
-		res.data[2][2] = m.data[2][0] * k + m.data[2][1] * k + m.data[2][2] * k;
+		for (int i = 0; i < 3; i++)
+		{
+			for (int j = 0; j < 3; j++)
+			{
+				res.data[i][j] = m.data[i][j] * k;
+			}
+		}
 
 		return res;
 	}
@@ -663,25 +697,35 @@ namespace egn {
 	{
 		mat3 res = mat3();
 
-		res.data[0][0] = k * m.data[0][0] + k * m.data[1][0] + k * m.data[2][0];
-		res.data[0][1] = k * m.data[0][1] + k * m.data[1][1] + k * m.data[2][1];
-		res.data[0][2] = k * m.data[0][2] + k * m.data[1][2] + k * m.data[2][2];
-		res.data[1][0] = k * m.data[0][0] + k * m.data[1][0] + k * m.data[2][0];
-		res.data[1][1] = k * m.data[0][1] + k * m.data[1][1] + k * m.data[2][1];
-		res.data[1][2] = k * m.data[0][2] + k * m.data[1][2] + k * m.data[2][2];
-		res.data[2][0] = k * m.data[0][0] + k * m.data[1][0] + k * m.data[2][0];
-		res.data[2][1] = k * m.data[0][1] + k * m.data[1][1] + k * m.data[2][1];
-		res.data[2][2] = k * m.data[0][2] + k * m.data[1][2] + k * m.data[2][2];
+		for (int i = 0; i < 3; i++)
+		{
+			for (int j = 0; j < 3; j++)
+			{
+				res.data[i][j] = m.data[i][j] * k;
+			}
+		}
 
 		return res;
 	}
-	mat3 operator*(const mat3& m, const vec3& v)
+	vec3 operator*(const mat3& m, const vec3& v)
 	{
-		return mat3();
+		vec3 vec = vec3();
+
+		vec.x = m.data[0][0] * v.x + m.data[0][1] * v.y + m.data[0][2] * v.z;
+		vec.x = m.data[1][0] * v.x + m.data[1][1] * v.y + m.data[1][2] * v.z;
+		vec.x = m.data[2][0] * v.x + m.data[2][1] * v.y + m.data[2][2] * v.z;
+
+		return vec;
 	}
-	mat3 operator*(const vec3& v, const mat3& m)
+	vec3 operator*(const vec3& v, const mat3& m)
 	{
-		return mat3();
+		vec3 vec = vec3();
+
+		vec.x = v.x * m.data[0][0] + v.y * m.data[1][0] + v.z * m.data[2][0];
+		vec.y = v.x * m.data[0][0] + v.y * m.data[1][1] + v.z * m.data[2][2];
+		vec.z = v.x * m.data[0][0] + v.y * m.data[1][1] + v.z * m.data[2][2];
+
+		return vec;
 	}
 	bool operator==(const mat3& m0, const mat3& m1)
 	{
@@ -689,7 +733,7 @@ namespace egn {
 		{
 			for (int j = 0; j < 3; j++)
 			{
-				if (m0.data[i][j] != m1.data[i][j])
+				if (abs(m0.data[i][j] - m1.data[i][j]) > THRESHOLD)
 				{
 					return false;
 				}
@@ -704,7 +748,7 @@ namespace egn {
 		{
 			for (int j = 0; j < 3; j++)
 			{
-				if (m0.data[i][j] != m1.data[i][j])
+				if (abs(m0.data[i][j] - m1.data[i][j]) > THRESHOLD)
 				{
 					return true;
 				}
@@ -721,7 +765,8 @@ namespace egn {
 	{
 		os << "[ " << m.data[0][0] << " , " << m.data[0][1] << " , " << m.data[0][2] << " , " << m.data[0][3] << std::endl <<
 			"  " << m.data[1][0] << " , " << m.data[1][1] << " , " << m.data[1][2] << " , " << m.data[1][3] << std::endl <<
-			"  " << m.data[2][0] << " , " << m.data[2][1] << " , " << m.data[2][2] << " , " << m.data[2][3] << " ]";
+			"  " << m.data[2][0] << " , " << m.data[2][1] << " , " << m.data[2][2] << " , " << m.data[2][3] << std::endl <<
+			"  " << m.data[3][0] << " , " << m.data[3][1] << " , " << m.data[3][2] << " , " << m.data[3][3] << " ]";
 		return os;
 	}
 	mat4::mat4()
@@ -888,51 +933,43 @@ namespace egn {
 
 		return *this;
 	}
-	mat4& mat4::operator*=(const vec4& v)
-	{
-		mat4 aux = mat4(*this);
-
-		this->data[0][0] = aux.data[0][0] * v.x + aux.data[0][1] * v.y + aux.data[0][2] * v.z + aux.data[0][3] * v.w;
-		this->data[0][1] = aux.data[0][0] * v.x + aux.data[0][1] * v.y + aux.data[0][2] * v.z + aux.data[0][3] * v.w;
-		this->data[0][2] = aux.data[0][0] * v.x + aux.data[0][1] * v.y + aux.data[0][2] * v.z + aux.data[0][3] * v.w;
-		this->data[0][3] = aux.data[0][0] * v.x + aux.data[0][1] * v.y + aux.data[0][2] * v.z + aux.data[0][3] * v.w;
-		this->data[1][0] = aux.data[1][0] * v.x + aux.data[1][1] * v.y + aux.data[1][2] * v.z + aux.data[1][3] * v.w;
-		this->data[1][1] = aux.data[1][0] * v.x + aux.data[1][1] * v.y + aux.data[1][2] * v.z + aux.data[1][3] * v.w;
-		this->data[1][2] = aux.data[1][0] * v.x + aux.data[1][1] * v.y + aux.data[1][2] * v.z + aux.data[1][3] * v.w;
-		this->data[1][3] = aux.data[1][0] * v.x + aux.data[1][1] * v.y + aux.data[1][2] * v.z + aux.data[1][3] * v.w;
-		this->data[2][0] = aux.data[2][0] * v.x + aux.data[2][1] * v.y + aux.data[2][2] * v.z + aux.data[2][3] * v.w;
-		this->data[2][1] = aux.data[2][0] * v.x + aux.data[2][1] * v.y + aux.data[2][2] * v.z + aux.data[2][3] * v.w;
-		this->data[2][2] = aux.data[2][0] * v.x + aux.data[2][1] * v.y + aux.data[2][2] * v.z + aux.data[2][3] * v.w;
-		this->data[2][3] = aux.data[2][0] * v.x + aux.data[2][1] * v.y + aux.data[2][2] * v.z + aux.data[2][3] * v.w;
-		this->data[3][0] = aux.data[3][0] * v.x + aux.data[3][1] * v.y + aux.data[3][2] * v.z + aux.data[3][3] * v.w;
-		this->data[3][1] = aux.data[3][0] * v.x + aux.data[3][1] * v.y + aux.data[3][2] * v.z + aux.data[3][3] * v.w;
-		this->data[3][2] = aux.data[3][0] * v.x + aux.data[3][1] * v.y + aux.data[3][2] * v.z + aux.data[3][3] * v.w;
-		this->data[3][3] = aux.data[3][0] * v.x + aux.data[3][1] * v.y + aux.data[3][2] * v.z + aux.data[3][3] * v.w;
-
-		return *this;
-	}
 	mat4& mat4::operator*=(const float k)
 	{
 		mat4 aux = mat4(*this);
 
-		this->data[0][0] = aux.data[0][0] * k + aux.data[0][1] * k + aux.data[0][2] * k + aux.data[0][3] * k;
-		this->data[0][1] = aux.data[0][0] * k + aux.data[0][1] * k + aux.data[0][2] * k + aux.data[0][3] * k;
-		this->data[0][2] = aux.data[0][0] * k + aux.data[0][1] * k + aux.data[0][2] * k + aux.data[0][3] * k;
-		this->data[0][3] = aux.data[0][0] * k + aux.data[0][1] * k + aux.data[0][2] * k + aux.data[0][3] * k;
-		this->data[1][0] = aux.data[1][0] * k + aux.data[1][1] * k + aux.data[1][2] * k + aux.data[1][3] * k;
-		this->data[1][1] = aux.data[1][0] * k + aux.data[1][1] * k + aux.data[1][2] * k + aux.data[1][3] * k;
-		this->data[1][2] = aux.data[1][0] * k + aux.data[1][1] * k + aux.data[1][2] * k + aux.data[1][3] * k;
-		this->data[1][3] = aux.data[1][0] * k + aux.data[1][1] * k + aux.data[1][2] * k + aux.data[1][3] * k;
-		this->data[2][0] = aux.data[2][0] * k + aux.data[2][1] * k + aux.data[2][2] * k + aux.data[2][3] * k;
-		this->data[2][1] = aux.data[2][0] * k + aux.data[2][1] * k + aux.data[2][2] * k + aux.data[2][3] * k;
-		this->data[2][2] = aux.data[2][0] * k + aux.data[2][1] * k + aux.data[2][2] * k + aux.data[2][3] * k;
-		this->data[2][3] = aux.data[2][0] * k + aux.data[2][1] * k + aux.data[2][2] * k + aux.data[2][3] * k;
-		this->data[3][0] = aux.data[3][0] * k + aux.data[3][1] * k + aux.data[3][2] * k + aux.data[3][3] * k;
-		this->data[3][1] = aux.data[3][0] * k + aux.data[3][1] * k + aux.data[3][2] * k + aux.data[3][3] * k;
-		this->data[3][2] = aux.data[3][0] * k + aux.data[3][1] * k + aux.data[3][2] * k + aux.data[3][3] * k;
-		this->data[3][3] = aux.data[3][0] * k + aux.data[3][1] * k + aux.data[3][2] * k + aux.data[3][3] * k;
+		for (int i = 0; i < 4; i++)
+		{
+			for (int j = 0; j < 4; j++)
+			{
+				data[i][j] *= k;
+			}
+		}
 
 		return *this;
+	}
+	mat4 mat4::scaling(float sx, float sy, float sz, float sw)
+	{
+		return mat4(sx, 0, 0, 0, 0, sy, 0, 0, 0, 0, sz, 0, 0, 0, 0, sw);
+	}
+	mat4 mat4::translation(float tx, float ty, float tz)
+	{
+		return mat4(1, 0, 0, tx, 0, 1, 0, ty, 0, 0, 1, tz, 0, 0, 0, 1);
+	}
+	mat4 mat4::rotationX(float x)
+	{
+		return mat4(1, 0, 0, 0, 0, cos(x), -sin(x), 0, 0, sin(x), cos(x), 0, 0, 0, 0, 1);
+	}
+	mat4 mat4::rotationY(float y)
+	{
+		return mat4(cos(y), 0, sin(y), 0, 0, 1, 0, 0, -sin(y), 0, cos(y), 0, 0, 0, 0, 1);
+	}
+	mat4 mat4::rotationZ(float z)
+	{
+		return mat4(cos(z), -sin(z), 0, 0, sin(z), cos(z), 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
+	}
+	mat4 mat4::identityMatrix()
+	{
+		return mat4(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
 	}
 	mat4 operator+(const mat4& m0, const mat4& m1)
 	{
@@ -1101,22 +1138,13 @@ namespace egn {
 	{
 		mat4 res = mat4();
 
-		res.data[0][0] = m.data[0][0] * k + m.data[0][1] * k + m.data[0][2] * k + m.data[0][3] * k;
-		res.data[0][1] = m.data[0][0] * k + m.data[0][1] * k + m.data[0][2] * k + m.data[0][3] * k;
-		res.data[0][2] = m.data[0][0] * k + m.data[0][1] * k + m.data[0][2] * k + m.data[0][3] * k;
-		res.data[0][3] = m.data[0][0] * k + m.data[0][1] * k + m.data[0][2] * k + m.data[0][3] * k;
-		res.data[1][0] = m.data[1][0] * k + m.data[1][1] * k + m.data[1][2] * k + m.data[1][3] * k;
-		res.data[1][1] = m.data[1][0] * k + m.data[1][1] * k + m.data[1][2] * k + m.data[1][3] * k;
-		res.data[1][2] = m.data[1][0] * k + m.data[1][1] * k + m.data[1][2] * k + m.data[1][3] * k;
-		res.data[1][3] = m.data[1][0] * k + m.data[1][1] * k + m.data[1][2] * k + m.data[1][3] * k;
-		res.data[2][0] = m.data[2][0] * k + m.data[2][1] * k + m.data[2][2] * k + m.data[2][3] * k;
-		res.data[2][1] = m.data[2][0] * k + m.data[2][1] * k + m.data[2][2] * k + m.data[2][3] * k;
-		res.data[2][2] = m.data[2][0] * k + m.data[2][1] * k + m.data[2][2] * k + m.data[2][3] * k;
-		res.data[2][3] = m.data[2][0] * k + m.data[2][1] * k + m.data[2][2] * k + m.data[2][3] * k;
-		res.data[3][0] = m.data[3][0] * k + m.data[3][1] * k + m.data[3][2] * k + m.data[3][3] * k;
-		res.data[3][1] = m.data[3][0] * k + m.data[3][1] * k + m.data[3][2] * k + m.data[3][3] * k;
-		res.data[3][2] = m.data[3][0] * k + m.data[3][1] * k + m.data[3][2] * k + m.data[3][3] * k;
-		res.data[3][3] = m.data[3][0] * k + m.data[3][1] * k + m.data[3][2] * k + m.data[3][3] * k;
+		for (int i = 0; i < 4; i++)
+		{
+			for (int j = 0; j < 4; j++)
+			{
+				res.data[i][j] = m.data[i][j] * k;
+			}
+		}
 
 		return res;
 	}
@@ -1124,32 +1152,37 @@ namespace egn {
 	{
 		mat4 res = mat4();
 
-		res.data[0][0] = k * m.data[0][0] + k * m.data[1][0] + k * m.data[2][0] + k * m.data[3][0];
-		res.data[0][1] = k * m.data[0][1] + k * m.data[1][1] + k * m.data[2][1] + k * m.data[3][1];
-		res.data[0][2] = k * m.data[0][2] + k * m.data[1][2] + k * m.data[2][2] + k * m.data[3][2];
-		res.data[0][3] = k * m.data[0][3] + k * m.data[1][3] + k * m.data[2][3] + k * m.data[3][3];
-		res.data[1][0] = k * m.data[0][0] + k * m.data[1][0] + k * m.data[2][0] + k * m.data[3][0];
-		res.data[1][1] = k * m.data[0][1] + k * m.data[1][1] + k * m.data[2][1] + k * m.data[3][1];
-		res.data[1][2] = k * m.data[0][2] + k * m.data[1][2] + k * m.data[2][2] + k * m.data[3][2];
-		res.data[1][3] = k * m.data[0][3] + k * m.data[1][3] + k * m.data[2][3] + k * m.data[3][3];
-		res.data[2][0] = k * m.data[0][0] + k * m.data[1][0] + k * m.data[2][0] + k * m.data[3][0];
-		res.data[2][1] = k * m.data[0][1] + k * m.data[1][1] + k * m.data[2][1] + k * m.data[3][1];
-		res.data[2][2] = k * m.data[0][2] + k * m.data[1][2] + k * m.data[2][2] + k * m.data[3][2];
-		res.data[2][3] = k * m.data[0][3] + k * m.data[1][3] + k * m.data[2][3] + k * m.data[3][3];
-		res.data[3][0] = k * m.data[0][0] + k * m.data[1][0] + k * m.data[2][0] + k * m.data[3][0];
-		res.data[3][1] = k * m.data[0][1] + k * m.data[1][1] + k * m.data[2][1] + k * m.data[3][1];
-		res.data[3][2] = k * m.data[0][2] + k * m.data[1][2] + k * m.data[2][2] + k * m.data[3][2];
-		res.data[3][3] = k * m.data[0][3] + k * m.data[1][3] + k * m.data[2][3] + k * m.data[3][3];
+		for (int i = 0; i < 4; i++)
+		{
+			for (int j = 0; j < 4; j++)
+			{
+				res.data[i][j] = m.data[i][j] * k;
+			}
+		}
 
 		return res;
 	}
-	mat4 operator*(const mat4& m, const vec4& v)
+	vec4 operator*(const mat4& m, const vec4& v)
 	{
-		return mat4();
+		vec4 vec = vec4();
+
+		vec.x = m.data[0][0] * v.x + m.data[0][1] * v.y + m.data[0][2] * v.z + m.data[0][3] * v.w;
+		vec.y = m.data[0][0] * v.x + m.data[1][1] * v.y + m.data[2][2] * v.z + m.data[3][3] * v.w;
+		vec.z = m.data[0][0] * v.x + m.data[1][1] * v.y + m.data[2][2] * v.z + m.data[3][3] * v.w;
+		vec.w = m.data[0][0] * v.x + m.data[1][1] * v.y + m.data[2][2] * v.z + m.data[3][3] * v.w;
+		
+		return vec;
 	}
-	mat4 operator*(const vec4& v, const mat4& m)
+	vec4 operator*(const vec4& v, const mat4& m)
 	{
-		return mat4();
+		vec4 vec = vec4();
+
+		vec.x = v.x * m.data[0][0] + v.y * m.data[1][0] + v.z * m.data[2][0] + v.w * m.data[3][0];
+		vec.x = v.x * m.data[0][1] + v.y * m.data[1][1] + v.z * m.data[2][1] + v.w * m.data[3][1];
+		vec.x = v.x * m.data[0][2] + v.y * m.data[1][2] + v.z * m.data[2][2] + v.w * m.data[3][2];
+		vec.x = v.x * m.data[0][3] + v.y * m.data[1][3] + v.z * m.data[2][3] + v.w * m.data[3][3];
+
+		return vec;
 	}
 	bool operator==(const mat4& m0, const mat4& m1)
 	{
@@ -1157,7 +1190,7 @@ namespace egn {
 		{
 			for (int j = 0; j < 4; j++)
 			{
-				if (m0.data[i][j] != m1.data[i][j])
+				if (abs(m0.data[i][j] - m1.data[i][j]) > THRESHOLD)
 				{
 					return false;
 				}
@@ -1172,7 +1205,7 @@ namespace egn {
 		{
 			for (int j = 0; j < 4; j++)
 			{
-				if (m0.data[i][j] != m1.data[i][j])
+				if (abs(m0.data[i][j] - m1.data[i][j]) > THRESHOLD)
 				{
 					return true;
 				}

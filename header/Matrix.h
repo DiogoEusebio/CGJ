@@ -44,9 +44,13 @@ namespace egn
 		friend mat2 operator - (const mat2& m, const vec2 v);
 		friend mat2 operator - (const vec2 v, const mat2& m);
 		friend mat2 operator * (const mat2& m0, const mat2& m1);
+		friend mat2 operator * (const mat2& m, const float k);
+		friend mat2 operator * (const float k, const mat2& m);
+		friend vec2 operator * (const mat2& m, const vec2 v);
+		friend vec2 operator * (const vec2 v, const mat2& m1);
 		friend bool operator == (const mat2& m0, const mat2& m1);
 		friend bool operator != (const mat2& m0, const mat2& m1);
-		mat2 identityMatrix();
+		mat2 static identityMatrix();
 	};
 
 	struct mat3 {
@@ -83,10 +87,12 @@ namespace egn
 		friend mat3 operator * (const mat3& m0, const mat3& m1);
 		friend mat3 operator * (const mat3& m, const float k);
 		friend mat3 operator * (const float k, const mat3& m);
-		friend mat3 operator * (const mat3& m, const vec3& v);
-		friend mat3 operator * (const vec3& v, const mat3& m);
+		friend vec3 operator * (const mat3& m, const vec3& v);
+		friend vec3 operator * (const vec3& v, const mat3& m);
 		friend bool operator == (const mat3& m0, const mat3& m1);
 		friend bool operator != (const mat3& m0, const mat3& m1);
+		mat3 static dualMatrix(const vec3& v);
+		mat3 static identityMatrix();
 	};
 
 	struct mat4 {
@@ -106,7 +112,6 @@ namespace egn
 		mat4& operator -= (const vec4& v);
 		mat4& operator -= (const float k);
 		mat4& operator *= (const mat4& m);
-		mat4& operator *= (const vec4& v);
 		mat4& operator *= (const float k);
 		friend mat4 operator + (const mat4& m0, const mat4& m1);
 		friend mat4 operator + (const mat4& m, const float k);
@@ -121,10 +126,16 @@ namespace egn
 		friend mat4 operator * (const mat4& m0, const mat4& m1);
 		friend mat4 operator * (const mat4& m, const float k);
 		friend mat4 operator * (const float k, const mat4& m);
-		friend mat4 operator * (const mat4& m, const vec4& v);
-		friend mat4 operator * (const vec4& v, const mat4& m);
+		friend vec4 operator * (const mat4& m, const vec4& v);
+		friend vec4 operator * (const vec4& v, const mat4& m);
 		friend bool operator == (const mat4& m0, const mat4& m1);
 		friend bool operator != (const mat4& m0, const mat4& m1);
+		mat4 static scaling(float sx, float sy, float sz, float sw);
+		mat4 static translation(float tx, float ty, float tz);
+		mat4 static rotationX(float x);
+		mat4 static rotationY(float y);
+		mat4 static rotationZ(float z);
+		mat4 static identityMatrix();
 	};
 };
 #endif

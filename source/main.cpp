@@ -4,205 +4,174 @@
 
 int main(int argc, char* argv[])
 {
-	/*
-	std::cout << "CGJ vectors | delivery 1" << std::endl;
-	std::cout << "2D Vectors" << std::endl;
-	egn::vec2 v1 = egn::vec2(1);
-	egn::vec2 v2; //0 arguments operator
-	egn::vec2 v3 = egn::vec2(1, 0);
-	egn::vec2 v4 = egn::vec2(1, 1);
-	std::cout << "v1 " << v1 << std::endl << "v2 " << v2 << std::endl << "v3 " << v3 << std::endl << "v4 " << v4 << std::endl;
-	v2 += v3;
-	v2 += 1 + egn::vec2(1);
-	std::cout << v2 << " addition v2 " << std::endl;
-	v2 = egn::vec2(4) - v2;
-	std::cout << v2 << " subtraction v2 " << std::endl;
-	v2 *= 2;
-	std::cout << v2 << " multiplication by scalar v2 " << std::endl;
-	std::cout << (v1 == v4) << (v1 != v2) << (v1 == v2) << (v1 != v4) << std::endl;
-
-	///////////////////////////////////////////////////////////////////////////////////////
-	std::cout << "3D Vectors" << std::endl;
-	egn::vec3 v5 = egn::vec3(1);
-	egn::vec3 v6 = egn::vec3(2, 0, 0);
-	egn::vec3 v7 = egn::vec3();
-	egn::vec3 v8 = egn::vec3();
-	v7 = egn::vec3::normalize(v6);
-	v8 += 1 + egn::vec3(1) + v6;
-	std::cout << "v5 " << v5 << std::endl << "v6 " << v6 << std::endl << "v7 " << v7 << std::endl << "v8 " << v8 << std::endl;
-	std::cout << "v5 * 3 . v6 = " << egn::vec3::dot(v5 * 3, v6) << std::endl;
-	std::cout << "v7 * v8 = " << -egn::vec3::cross(v7, v8) << std::endl;
-	//---------------------
-	egn::vec3 v9 = egn::vec3(0.0000000001f, 0, 0);
-	std::cout << "v9" << v9 << std::endl;
-	v9.clean();
-	std::cout << "v9" << v9 << std::endl;
-
-	///////////////////////////////////////////////////////////////////////////////////////
-	egn::vec3 vector1 = egn::vec3(1, 0, 0);
-	egn::vec3 vector2 = egn::vec3(0, 2, 0);
-	egn::vec3 vector3 = egn::vec3(0, 0, 3);
-
-	egn::vec3 v = egn::vec3();
-	egn::vec3 u = egn::vec3();
-	egn::vec3 w = egn::vec3();
-	egn::vec3 w1 = egn::vec3();
-	egn::vec3 up = egn::vec3();
-
-	egn::vec3 myVecs[3] = { vector1, vector2, vector3 };
-	for (int i = 0; i < 3; i++) {
-		std::cout << i << std::endl << std::endl;
-		v = egn::vec3::normalize(myVecs[i]);
-		for (int j = 0; j < 3; j++) {
-			up = myVecs[j];
-			w = egn::vec3::cross(up, v);
-			w1 = egn::vec3::normalize(w);
-			u = egn::vec3::cross(v, w1);
-			u.clean();
-			std::cout << "up " << up << " view " << myVecs[i] << " v " << v << " w " << w << " w_normalized " << w1 << " u " << u << std::endl;
-			//std::cout << "v " << v << " w " << w1 << " u " << u << std::endl;
-		}
-	}
-	*/
-	/*
-	egn::mat2 m0 = egn::mat2(4, 2, 7, 6);
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// Testes ao Mat2
+	egn::mat2 m0 = egn::mat2();
 	egn::mat2 m1 = egn::mat2(m0);
-	egn::mat2 m2 = m0;
-	egn::mat2 m3;
-	egn::mat2 m4 = egn::mat2(1);
-	m3 += m0;
-	m3 += 2;
-	m3 -= 1;
-	m4 += m4;
-	m0 *= 2;
-	std::cout << m0 << inverse(m1) << transpose(m2) << m3 << m4 << std::endl;
+	egn::mat2 m2 = egn::mat2(4, 7, 2, 6);
+	egn::mat2 m3 = egn::mat2(0.000005);
 
-	egn::vec2 v0 = egn::vec2(1, 2);
-	egn::mat2 m5 = egn::mat2(1);
-	egn::mat2 m6;
-	m5 = 2 + m5 + 1;
-	m5 = 4 - (m5 - 1);
-	m6 = m5 + v0;
-	std::cout << v0 << m5 << m6 << std::endl;
+	std::cout << "construtores mat2" << m0 << '\n' << m1 << '\n' << m2 << '\n' << m3 << '\n' << m2.determinant() << std::endl;
 
-	egn::mat2 m7 = egn::mat2(-2, 1, 0, 4);
-	egn::mat2 m8 = egn::mat2(6, 5, -7, 1);
-	m7 *= m8;
-	std::cout << m7 << std::endl;
-
-
-	egn::mat3 m30 = egn::mat3(1, 1, 1, 2, 2, 2, 3, 3, 3);
-	std::cout << "0:\n" << m30 << std::endl;
-	egn::mat3 m31 = egn::mat3(m30);
-	egn::mat3 m312 = egn::mat3(inverse(m31));
-	m312.clean();
-	std::cout << "1:\n" << m31 << "\n1(inversed):\n" << m312 << std::endl;
-	egn::mat3 m32 = egn::mat3(1, 2, 3, 0, 1, 4, 5, 6, 0);
-	std::cout << "2:\n" << transpose(m32) << std::endl;
-	egn::mat3 m33 = inverse(m32);
-	std::cout << "3:\n" << m33 << std::endl;
-	egn::mat3 m34 = egn::mat3(1);
-	m34 += m30;
-	std::cout << "4:\n" << m34 << std::endl;
-	egn::mat3 m35 = egn::mat3(1, 2, 3, 4, 5, 6, 7, 8, 9);
-	std::cout << "5:\n" << m35 << std::endl;
-	m35 *= m35;
-	std::cout << "5*=5:\n" << m35 << std::endl;
-	egn::mat3 m36 = egn::mat3();
-	m36 = m30 + m35;
-	std::cout << "6:\n" << m36 << std::endl;
-	m36 = m36 - m35;
-	std::cout << "6 - 5:\n" << m36 << std::endl;
-	egn::mat2 m37 = egn::mat2(m0);
-	egn::vec2 v1 = egn::vec2(1, 1);
-	m37 *= */
-	/*
-	egn::mat3 m1 = egn::mat3();
-	egn::mat3 m2 = egn::mat3();
-	egn::mat3 m3 = egn::mat3();
-	egn::mat3 m4 = egn::mat3();
-
-	for (int k = 0; k < 1; k++)
-	{
-	for (int i = 0; i < 3; i++)
-	{
-		for (int j = 0; j < 3; j++)
-		{
-			m1.data[i][j] = int(((double)rand() / RAND_MAX) * 10);
-			m2.data[i][j] = int(((double)rand() / RAND_MAX) * 10);
-			m3.data[i][j] = int(((double)rand() / RAND_MAX) * 10);
-			m4.data[i][j] = int(((double)rand() / RAND_MAX) * 10);
-		}
-	}
-
-	m1.clean();
-	m2.clean();
+	egn::mat2 m4 = egn::mat2();
+	m4 = m3;
 	m3.clean();
-	m4.clean();
+	std::cout << "clean e igual" << m3 << '\n' << m4 << '\n' << transpose(m2) << '\n' << inverse(m2) << std::endl;
+	
+	m0 += egn::mat2(5);
+	egn::vec2 vec2 = egn::vec2(5, 7);
+	m1 += vec2;
+	m3 += 5;
+	std::cout << "+=" << m0 << '\n' << m1 << '\n' << m3 << std::endl;
 
-	std::cout << "A = \n" << m1 << "\nB = \n" << m2 << "\nC = \n" << m3 << "\nD = \n" << m4 << std::endl;
-	std::cout << 
-	std::cout << (transpose(inverse(m1 * m2) * inverse(m3 * m4)) == transpose(inverse(m4) * inverse(m3)) * transpose(inverse(m2) * inverse(m1))) << std::endl;
+	m0 -= egn::mat2(5);
+	m1 -= vec2;
+	m3 -= 5;
+	std::cout << "-=" << m0 << '\n' << m1 << '\n' << m3 << std::endl;
 
-	egn::mat3 ab = egn::mat3();
-	ab = m1 * m2;
+	m1 = m2;
+	m2 *= egn::mat2(10);
+	m1 *= 10;
+	std::cout << "*=" << m2 << '\n' << m1 << std::endl;
 
-	egn::mat3 cd = egn::mat3();
-	cd = m3 * m4;
+	std::cout << "= +" << m1 + m2 << '\n' << m1 + vec2 << '\n' << vec2 + m1 << '\n' << 5 + m1 << '\n' << m1 + 5 << std::endl;
+	std::cout << "= -" << m1 - m2 << '\n' << m1 - vec2 << '\n' << vec2 - m1 << '\n' << 5 - m1 << '\n' << m1 - 5 << std::endl;
+	std::cout << "= *" << m1 * m2 << '\n' << m1 * vec2 << '\n' << vec2 * m1 << '\n' << 5 * m1 << '\n' << m1 * 5 << std::endl;
 
-	egn::mat3 left = egn::mat3();
-	left = transpose(inverse(ab) * inverse(cd));
+	m1 = m2;
+	m3 -= 1;
+	m4 = egn::mat2::identityMatrix();
+	std::cout << "== != Identity\n" << (m1 == m2) << '\n' << (m3 != m2) << '\n' << m4 <<std::endl;
+	
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// Testes ao Mat3
 
-	egn::mat3 dc = egn::mat3();
-	dc = inverse(m4) * inverse(m3);
+	egn::mat3 m5 = egn::mat3();
+	egn::mat3 m6 = egn::mat3(m5);
+	egn::mat3 m7 = egn::mat3(3, 0, 2, 2, 0, -2, 0, 1, 1);
+	egn::mat3 m8 = egn::mat3(0.000005);
 
-	egn::mat3 ba = egn::mat3();
-	ba = inverse(m2) * inverse(m1);
+	std::cout << "construtores mat3" << m5 << '\n' << m6 << '\n' << m7<< '\n' << m8 << '\n' << m7.determinant() << std::endl;
 
-	egn::mat3 right = egn::mat3();
-	right = transpose(dc) * transpose(ba);
+	egn::mat3 m9 = egn::mat3();
+	m9 = m8;
+	m8.clean();
+	std::cout << "clean e igual" << m8 << '\n' << m9 << '\n' << transpose(m7) << '\n' << inverse(m7) << std::endl;
 
-	std::cout << "left-hand side matrix:\n" << left << "\nright-hand side matrix:\n" << right << "\ncomparison: " << (left == right) << std::endl;
-	*/
-egn::mat2 m1 = egn::mat2();
-egn::mat2 m2 = egn::mat2();
-egn::mat2 m3 = egn::mat2();
-egn::mat2 m4 = egn::mat2();
+	m5 += egn::mat3(5);
+	egn::vec3 vec3 = egn::vec3(5, 7, 9);
+	m6 += vec3;
+	m9 += 5;
+	std::cout << "+=" << m5 << '\n' << m6 << '\n' << m9 << std::endl;
 
-for (int k = 0; k < 1; k++)
-{
-	for (int i = 0; i < 2; i++)
+	m5 -= egn::mat3(5);
+	m6 -= vec3;
+	m9 -= 5;
+	std::cout << "-=" << m5 << '\n' << m6 << '\n' << m9 << std::endl;
+
+	m6 = m7;
+	m7 *= egn::mat3(10);
+	m6 *= 10;
+	std::cout << "*=" << m7 << '\n' << m6 << std::endl;
+
+	std::cout << "= +" << m6 + m7 << '\n' << m6 + vec3 << '\n' << vec3 + m6 << '\n' << 5 + m6 << '\n' << m6 + 5 << std::endl;
+	std::cout << "= -" << m6 - m7 << '\n' << m6 - vec3 << '\n' << vec3 - m6 << '\n' << 5 - m6 << '\n' << m6 - 5 << std::endl;
+	std::cout << "= *" << m6 * m7 << '\n' << m6 * vec3 << '\n' << vec3 * m6 << '\n' << 5 * m6 << '\n' << m6 * 5 << std::endl;
+
+	m6 = m7;
+	m8 -= 1;
+	m9 = egn::mat3::identityMatrix();
+	egn::mat3 m10 = egn::mat3::dualMatrix(vec3);
+	std::cout << "== != Identity\n" << (m6 == m7) << '\n' << (m8 != m7) << '\n' << m9 << '\n' << m10 << std::endl;
+
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// Testes ao Mat4
+
+	egn::mat4 m11 = egn::mat4();
+	egn::mat4 m12 = egn::mat4(m11);
+	egn::mat4 m13 = egn::mat4(3, 0, 2, 2, 0, -2, 0, 1, 1, 2, 4, 5, 1, 2, 3, 1);
+	egn::mat4 m14 = egn::mat4(0.000005);
+
+	std::cout << "construtores mat3" << m11 << '\n' << m12 << '\n' << m13 << '\n' << m14 << std::endl;
+
+	egn::mat4 m15 = egn::mat4();
+	m15 = m14;
+	m14.clean();
+	std::cout << "clean e igual" << m14 << '\n' << m15 << std::endl;
+
+	m11 += egn::mat4(5);
+	egn::vec4 vec4 = egn::vec4(3, 5, 7, 9);
+	m12 += vec4;
+	m15 += 5;
+	std::cout << "+=" << m11 << '\n' << m12 << '\n' << m15 << std::endl;
+
+	m11 -= egn::mat4(5);
+	m12 -= vec4;
+	m15 -= 5;
+	std::cout << "-=" << m11 << '\n' << m12 << '\n' << m15 << std::endl;
+
+	m12 = m13;
+	m13 *= egn::mat4(10);
+	m12 *= 10;
+	std::cout << "*=" << m13 << '\n' << m12 << std::endl;
+
+	std::cout << "= +" << m12 + m13 << '\n' << m12 + vec4 << '\n' << vec4 + m12 << '\n' << 5 + m12 << '\n' << m12 + 5 << std::endl;
+	std::cout << "= -" << m12 - m13 << '\n' << m12 - vec4 << '\n' << vec4 - m12 << '\n' << 5 - m12 << '\n' << m12 - 5 << std::endl;
+	std::cout << "= *" << m12 * m13 << '\n' << m12 * vec4 << '\n' << vec4 * m12 << '\n' << 5 * m12 << '\n' << m12 * 5 << std::endl;
+
+	m12 = m13;
+	m14 -= 1;
+	m15 = egn::mat4::identityMatrix();
+	egn::mat4 m16 = egn::mat4::scaling(1, 2, 3, 1);
+	egn::mat4 m17 = egn::mat4::translation(1, 2, 3);
+	egn::mat4 m18 = egn::mat4::rotationX(2);
+	egn::mat4 m19 = egn::mat4::rotationY(2);
+	egn::mat4 m20 = egn::mat4::rotationZ(2);
+	std::cout << "== != Identity\n" << (m12 == m13) << '\n' << (m14 != m13) << '\n' << m15 << '\n' << m16 << '\n' << m17 << '\n' << m18 << '\n' << m19 << '\n' << m20 << std::endl;
+
+	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// Segundo Assignment
+
+
+	egn::mat3 mA = egn::mat3();
+	egn::mat3 mB = egn::mat3();
+	egn::mat3 mC = egn::mat3();
+	egn::mat3 mD = egn::mat3();
+
+	for (int k = 0; k < 10; k++)
 	{
-		for (int j = 0; j < 2; j++)
+		for (int i = 0; i < 3; i++)
 		{
-			m1.data[i][j] = rand() % 10 + 1;
-			m2.data[i][j] = rand() % 10 + 1;
-			m3.data[i][j] = rand() % 10 + 1;
-			m4.data[i][j] = rand() % 10 + 1;
+			for (int j = 0; j < 3; j++)
+			{
+				mA.data[i][j] = rand() % 10 + 1;
+				mB.data[i][j] = rand() % 10 + 1;
+				mC.data[i][j] = rand() % 10 + 1;
+				mD.data[i][j] = rand() % 10 + 1;
+			}
 		}
+
+		std::cout << "A = \n" << mA << "\nB = \n" << mB << "\nC = \n" << mC << "\nD = \n" << mD << std::endl;
+
+		egn::mat3 ab = egn::mat3();
+		ab = mA * mB;
+
+		egn::mat3 cd = egn::mat3();
+		cd = mC * mD;
+
+		egn::mat3 left = egn::mat3();
+		left = transpose(inverse(ab) * inverse(cd));
+
+		egn::mat3 dc = egn::mat3();
+		dc = inverse(mD) * inverse(mC);
+
+		egn::mat3 ba = egn::mat3();
+		ba = inverse(mB) * inverse(mA);
+
+		egn::mat3 right = egn::mat3();
+		right = transpose(dc) * transpose(ba);
+
+		std::cout << "left-hand side matrix:\n" << left << "\nright-hand side matrix:\n" << right << "\ncomparison: " << (left == right) << std::endl;
 	}
 
-	std::cout << "A = \n" << m1 << m1.determinant() << "\nB = \n" << m2 << m2.determinant() << "\nC = \n" << m3 << m3.determinant() << "\nD = \n" << m4 << m4.determinant() << std::endl;
-	std::cout << (transpose(inverse(m1 * m2) * inverse(m3 * m4)) == transpose(inverse(m4) * inverse(m3)) * transpose(inverse(m2) * inverse(m1))) << std::endl;
-
-	egn::mat2 ab = egn::mat2();
-	ab = m1 * m2;
-
-	egn::mat2 cd = egn::mat2();
-	cd = m3 * m4;
-
-	egn::mat2 left = egn::mat2();
-	left = transpose(inverse(ab) * inverse(cd));
-
-	egn::mat2 dc = egn::mat2();
-	dc = inverse(m4) * inverse(m3);
-
-	egn::mat2 ba = egn::mat2();
-	ba = inverse(m2) * inverse(m1);
-
-	egn::mat2 right = egn::mat2();
-	right = transpose(dc) * transpose(ba);
-
-	std::cout << "left-hand side matrix:\n" << left << "\nright-hand side matrix:\n" << right << "\ncomparison: " << (left == right) << std::endl;
-	}		
 }
