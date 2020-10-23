@@ -5,6 +5,8 @@
 #include <math.h>
 #include "Constants.h"
 #include "Vector.h"
+#include <GL/glew.h>
+#include <GLFW/glfw3.h>
 
 namespace egn
 {
@@ -136,6 +138,7 @@ namespace egn
 		mat4 static rotationY(float y);
 		mat4 static rotationZ(float z);
 		mat4 static identityMatrix();
+		GLfloat* convertToGL(GLfloat* gl);
 	};
 };
 #endif

@@ -971,6 +971,18 @@ namespace egn {
 	{
 		return mat4(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
 	}
+	GLfloat* mat4::convertToGL(GLfloat* gl)
+	{
+		for (int i = 0; i < 4; i++)
+		{
+			for (int j = 0; j < 4; j++)
+			{
+				gl[i * 4 + j] = this->data[i][j];
+			}
+		}
+
+		return gl;
+	}
 	mat4 operator+(const mat4& m0, const mat4& m1)
 	{
 		mat4 res = mat4();
