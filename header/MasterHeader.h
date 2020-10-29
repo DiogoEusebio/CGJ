@@ -4,5 +4,5 @@
 #include "../header/Matrix.h"
 #include "../header/Vector.h"
 #include "../header/Constants.h"
-#include "../header/Camera.h"s
+#include "../header/Camera.h"
 #endif
