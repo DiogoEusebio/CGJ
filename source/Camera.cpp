@@ -6,7 +6,7 @@ namespace egn {
 
 	Camera::Camera()
 	{
-		//do something??
+		//do something?
 	}
 
 	void Camera::ViewMatrix(const vec3& eye, const vec3& center, const vec3& up)

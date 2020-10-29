@@ -304,6 +304,9 @@ const Matrix I = {
 	0.0f,  0.0f,  0.0f, 1.0f
 };
 
+GLfloat glViewMatrix[16];
+GLfloat glProjectionMatrix[16];
+
 
 void createSquare(float sidelenght, egn::mat4 transformMatrix, float red, float green, float blue)
 {
@@ -647,6 +650,16 @@ int main(int argc, char* argv[])
 	int gl_major = 4, gl_minor = 3;
 	int is_fullscreen = 0;
 	int is_vsync = 1;
+
+	egn::Camera testcam = egn::Camera::Camera();
+	egn::vec3 eye = egn::vec3(5.0f, 5.0f, 5.0f);
+	egn::vec3 center = egn::vec3(0.0f, 0.0f, 0.0f);
+	egn::vec3 up = egn::vec3(0.0f, 1.0f, 0.0f);
+	testcam.ViewMatrix(eye, center, up);		//maybe this step is done in the camera constructor
+	//testcam.getViewMatrix().convertToGL(glViewMatrix); //conversion is shitty and not working
+	testcam.OrthographicProjectionMatrix(1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f);
+	//testcam.getViewMatrix().convertToGL(glProjectionMatrix); //conversion is shitty and not working
+
 	GLFWwindow* win = setup(gl_major, gl_minor,
 		500, 500, "Hello Modern 2D World", is_fullscreen, is_vsync);
 	run(win);
