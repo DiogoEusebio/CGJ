@@ -19,7 +19,7 @@
 
 GLuint VaoId, VboId[2];
 GLuint VertexShaderId, FragmentShaderId, ProgramId;
-GLint UniformId, ColorID;
+GLint ModelID, ViewID, ProjectionID, ColorID;
 
 #define ERROR_CALLBACK
 #ifdef  ERROR_CALLBACK
@@ -146,11 +146,14 @@ const GLchar* VertexShader =
 	"in vec4 in_Color;\n"
 	"out vec4 ex_Color;\n"
 
-	"uniform mat4 Matrix;\n"
+	"uniform mat4 ModelMatrix;\n"
+
+	"uniform mat4 ViewMatrix;\n"
+	"uniform mat4 ProjectionMatrix;\n"
 
 	"void main(void)\n"
 	"{\n"
-	"	gl_Position = Matrix * in_Position;\n"
+	"	gl_Position = ProjectionMatrix * ViewMatrix * ModelMatrix * in_Position;\n"
 	"	ex_Color = in_Color;\n"
 	"}\n"
 };
@@ -188,7 +191,9 @@ void createShaderProgram()
 	glBindAttribLocation(ProgramId, COLORS, "in_Color");
 
 	glLinkProgram(ProgramId);
-	UniformId = glGetUniformLocation(ProgramId, "Matrix");
+	ModelID = glGetUniformLocation(ProgramId, "ModelMatrix");
+	ViewID = glGetUniformLocation(ProgramId, "ViewMatrix");
+	ProjectionID = glGetUniformLocation(ProgramId, "ProjectionMatrix");
 	ColorID = glGetUniformLocation(ProgramId, "Color");
 
 	glDetachShader(ProgramId, VertexShaderId);
@@ -299,11 +304,12 @@ const Matrix I = {
 	0.0f,  0.0f,  0.0f, 1.0f
 };
 
+
 void createSquare(float sidelenght, egn::mat4 transformMatrix, float red, float green, float blue)
 {
 	GLfloat vec[16];
 	transformMatrix.convertToGL(vec);
-	glUniformMatrix4fv(UniformId, 1, GL_TRUE, vec);
+	glUniformMatrix4fv(ModelID, 1, GL_TRUE, vec);
 	glUniform4f(ColorID, red, green, blue, 0);
 	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_BYTE, (GLvoid*)0);
 
@@ -434,6 +440,10 @@ void drawScene()
 
 	glBindVertexArray(VaoId);
 	glUseProgram(ProgramId);
+	glUniformMatrix4fv(ProjectionID, 1, GL_FALSE, I);
+	glUniformMatrix4fv(ViewID, 1, GL_FALSE, I);
+
+
 	float sidelenght = 0.25;
 	egn::mat4 rotation = egn::mat4(cos(45 * PI / 180), -sin(45 * PI / 180), 0.0f, -0.25f,
 		sin(45 * PI / 180), cos(45 * PI / 180), 0.0f, 0.25f,
