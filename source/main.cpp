@@ -232,7 +232,7 @@ Vertex Vertices[] =
 	{{ 0.25f, 0.25f, 0.0f, 1.0f }, { 0.4, 0.498, 0.960 }},
 	{{ 0.0f, 0.0f, 0.0f, 1.0f }, { 0.4, 0.498, 0.960 }},
 	{{ 0.25f, 0.25f, 0.0f, 1.0f }, { 0.4, 0.498, 0.960 }},
-	{{ 0.0f, 0.25f, 0.0f, 1.0f }, { 0.4, 0.498, 0.960 }}
+	{{ 0.0f, 0.25f, 0.0f, 1.0f }, { 0.4, 0.498, 0.960 }},
 };
 
 /*
@@ -245,7 +245,7 @@ const Vertex Vertices[] =
 
 const GLubyte Indices[] =
 {
-	0,1,2,3,4,5
+	0,1,2,3,4,5,0,2,1,3,5,4
 };
 
 void createBufferObjects()
@@ -315,8 +315,11 @@ void createSquare(float sidelenght, egn::mat4 transformMatrix, float red, float 
 	glUniformMatrix4fv(ModelID, 1, GL_TRUE, vec);
 	glUniform4f(ColorID, red, green, blue, 0);
 	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_BYTE, (GLvoid*)0);
+	glUniform4f(ColorID, red*0.5, green*0.5, blue*0.5, 0);
+	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_BYTE, (GLvoid*)(sizeof(GLubyte) * 6));
 
 }
+
 
 void drawTetraminoLine(float sidelenght, egn::mat4 transformMatrix)
 {
@@ -444,8 +447,8 @@ void drawScene()
 	glBindVertexArray(VaoId);
 	glUseProgram(ProgramId);
 	glUniformMatrix4fv(ProjectionID, 1, GL_FALSE, glProjectionMatrix);
-	//glUniformMatrix4fv(ViewID, 1, GL_FALSE, glViewMatrix);
-	glUniformMatrix4fv(ViewID, 1, GL_FALSE, I);
+	glUniformMatrix4fv(ViewID, 1, GL_FALSE, glViewMatrix);
+	//glUniformMatrix4fv(ViewID, 1, GL_FALSE, I);
 
 	float sidelenght = 0.25;
 	egn::mat4 rotation = egn::mat4(cos(45 * PI / 180), -sin(45 * PI / 180), 0.0f, -0.25f,
@@ -629,7 +632,7 @@ void run(GLFWwindow* win)
 		double time = glfwGetTime();
 		double elapsed_time = time - last_time;
 		last_time = time;
-
+		
 		// Double Buffers
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		display(win, elapsed_time);
@@ -642,6 +645,7 @@ void run(GLFWwindow* win)
 	glfwDestroyWindow(win);
 	glfwTerminate();
 }
+
 void printGLMatrix(GLfloat* matrix) {
 	for (int i = 0; i < 16; i++) {
 		std::cout << matrix[i] << " ";
@@ -651,21 +655,23 @@ void printGLMatrix(GLfloat* matrix) {
 }
 ////////////////////////////////////////////////////////////////////////// MAIN
 
+egn::Camera testcam = egn::Camera::Camera();
+
 int main(int argc, char* argv[])
 {
 	int gl_major = 4, gl_minor = 3;
 	int is_fullscreen = 0;
 	int is_vsync = 1;
 
-	egn::Camera testcam = egn::Camera::Camera();
-	egn::vec3 eye = egn::vec3(0.0f, 0.0f, 5.0f);
+
+	egn::vec3 eye = egn::vec3(-5.0f, 5.0f, -5.0f);
 	egn::vec3 center = egn::vec3(0.0f, 0.0f, 0.0f);
 	egn::vec3 up = egn::vec3(0.0f, 1.0f, 0.0f);
 	testcam.ViewMatrix(eye, center, up);		//maybe this step is done in the camera constructor
 	testcam.getViewMatrix().convertToGL(glViewMatrix); //conversion is shitty and not working
-	testcam.OrthographicProjectionMatrix(1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f);
+	testcam.OrthographicProjectionMatrix(-1.0f, 1.0f, -1.0f, 1.0f, -1.0f, 1.0f);
 	testcam.getOrthographicMatrix().convertToGL(glProjectionMatrix); //conversion is shitty and not working
-	//testcam.PerspectiveProjectionMatrix(30, 1.33333, 1, 10);
+	testcam.PerspectiveProjectionMatrix(30, 1.33333, 1, 10);
 	//testcam.getPerspectiveMatrix().convertToGL(glProjectionMatrix);
 	printGLMatrix(glViewMatrix);
 

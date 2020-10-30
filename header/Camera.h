@@ -6,7 +6,7 @@ namespace egn {
 	class Camera
 	{
 	public:
-		mat4 viewMatrix, orthographicMatrix, perspectiveMatrix;
+		mat4 viewMatrix, projectionMatrix, orthographicMatrix, perspectiveMatrix;
 		vec3 eye, center, up;
 
 	public:
@@ -17,5 +17,6 @@ namespace egn {
 		mat4& getViewMatrix();
 		mat4& getOrthographicMatrix();
 		mat4& getPerspectiveMatrix();
+		bool getChangeProjectionType();
 	};
 }
