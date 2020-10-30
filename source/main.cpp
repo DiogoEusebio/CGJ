@@ -20,10 +20,20 @@
 GLuint VaoId, VboId[2];
 GLuint VertexShaderId, FragmentShaderId, ProgramId;
 GLint ModelID, ViewID, ProjectionID, ColorID;
+egn::Camera camera = egn::Camera::Camera();
 
 #define ERROR_CALLBACK
 #ifdef  ERROR_CALLBACK
 
+void printGLMatrix(GLfloat* matrix) {
+	for (int i = 0; i < 16; i++) {
+		for (int j = 0; j < 4; j++) {
+			std::cout << matrix[i*4 + j] << " ";
+		}
+		std::cout << std::endl;
+	}
+	std::cout << std::endl;
+}
 ////////////////////////////////////////////////// ERROR CALLBACK (OpenGL 4.3+)
 
 static const std::string errorSource(GLenum source)
@@ -153,7 +163,7 @@ const GLchar* VertexShader =
 
 	"void main(void)\n"
 	"{\n"
-	"	gl_Position = ProjectionMatrix * ViewMatrix * ModelMatrix * in_Position;\n"
+	"	gl_Position = ProjectionMatrix * (ViewMatrix * (ModelMatrix * in_Position));\n"
 	"	ex_Color = in_Color;\n"
 	"}\n"
 };
@@ -448,8 +458,6 @@ void drawScene()
 	glUseProgram(ProgramId);
 	glUniformMatrix4fv(ProjectionID, 1, GL_FALSE, glProjectionMatrix);
 	glUniformMatrix4fv(ViewID, 1, GL_FALSE, glViewMatrix);
-	//glUniformMatrix4fv(ViewID, 1, GL_FALSE, I);
-
 	float sidelenght = 0.25;
 	egn::mat4 rotation = egn::mat4(cos(45 * PI / 180), -sin(45 * PI / 180), 0.0f, -0.25f,
 		sin(45 * PI / 180), cos(45 * PI / 180), 0.0f, 0.25f,
@@ -515,6 +523,28 @@ void glfw_error_callback(int error, const char* description)
 	std::cerr << "GLFW Error: " << description << std::endl;
 }
 
+void key_callback(GLFWwindow* win, int key, int scancode, int action, int mods)
+{
+	std::cout << "key: " << key << " " << scancode << " " << action << " " << mods << std::endl;
+	if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
+	{
+		glfwSetWindowShouldClose(win, GLFW_TRUE);
+		window_close_callback(win);
+	}
+	if (key == GLFW_KEY_P && action == 1) {
+		camera.switchProjectionMatrix();
+		camera.getProjectionMatrix().convertToGL(glProjectionMatrix);
+	}
+	/*
+	//RESET CAMERA
+	if (key == GLFW_KEY_T) {
+		camera = new egn::Camera::Camera();
+	}
+	*/
+	
+}
+
+
 ///////////////////////////////////////////////////////////////////////// SETUP
 
 GLFWwindow* setupWindow(int winx, int winy, const char* title,
@@ -534,6 +564,7 @@ GLFWwindow* setupWindow(int winx, int winy, const char* title,
 
 void setupCallbacks(GLFWwindow* win)
 {
+	glfwSetKeyCallback(win, key_callback);
 	glfwSetWindowCloseCallback(win, window_close_callback);
 	glfwSetWindowSizeCallback(win, window_size_callback);
 }
@@ -646,16 +677,7 @@ void run(GLFWwindow* win)
 	glfwTerminate();
 }
 
-void printGLMatrix(GLfloat* matrix) {
-	for (int i = 0; i < 16; i++) {
-		std::cout << matrix[i] << " ";
-	}
-	std::cout << std::endl;
-
-}
 ////////////////////////////////////////////////////////////////////////// MAIN
-
-egn::Camera testcam = egn::Camera::Camera();
 
 int main(int argc, char* argv[])
 {
@@ -664,16 +686,18 @@ int main(int argc, char* argv[])
 	int is_vsync = 1;
 
 
-	egn::vec3 eye = egn::vec3(-5.0f, 5.0f, -5.0f);
-	egn::vec3 center = egn::vec3(0.0f, 0.0f, 0.0f);
+	egn::vec3 eye = egn::vec3(0.0f, 0.0f, 10.0f);
+	egn::vec3 center = egn::vec3(1.0f, 1.0f, -1.0f);
 	egn::vec3 up = egn::vec3(0.0f, 1.0f, 0.0f);
-	testcam.ViewMatrix(eye, center, up);		//maybe this step is done in the camera constructor
-	testcam.getViewMatrix().convertToGL(glViewMatrix); //conversion is shitty and not working
-	testcam.OrthographicProjectionMatrix(-1.0f, 1.0f, -1.0f, 1.0f, -1.0f, 1.0f);
-	testcam.getOrthographicMatrix().convertToGL(glProjectionMatrix); //conversion is shitty and not working
-	testcam.PerspectiveProjectionMatrix(30, 1.33333, 1, 10);
-	//testcam.getPerspectiveMatrix().convertToGL(glProjectionMatrix);
+
+	camera.ViewMatrix(eye, center, up);
+	camera.OrthographicProjectionMatrix(-1.5f, 1.5f, -1.5f, 1.5f, -1.5f, 1.5f);
+	camera.PerspectiveProjectionMatrix(30.0f, 640.0f / 480.0f, 1.0f, 10.0f);
+
+	camera.getViewMatrix().convertToGL(glViewMatrix); 
+	camera.getProjectionMatrix().convertToGL(glProjectionMatrix);
 	printGLMatrix(glViewMatrix);
+	printGLMatrix(glProjectionMatrix);
 
 	GLFWwindow* win = setup(gl_major, gl_minor,
 		500, 500, "3D assignment", is_fullscreen, is_vsync);

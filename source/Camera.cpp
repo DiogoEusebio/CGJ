@@ -24,6 +24,7 @@ namespace egn {
 			0.0f, 0.0f, 1.0f, -eye.z,
 			0.0f, 0.0f, 0.0f, 1.0f);
 		mat4 M = R * T;
+		std::cout << M << std::endl;
 		viewMatrix = M;
 	}
 
@@ -34,6 +35,9 @@ namespace egn {
 					0, 2 / (top - bot), 0, (bot + top) / (bot - top),
 					0, 0, 2 / (near - far), (near + far) / (near - far),
 					0, 0, 0, 1);
+
+		type = ORTHOGRAPHIC;
+		projectionMatrix = orthographicMatrix;
 	}
 
 	void Camera::PerspectiveProjectionMatrix(float fovy, float aspect, float nearZ, float farZ)
@@ -45,6 +49,8 @@ namespace egn {
 							0, d, 0, 0,
 							0, 0, (nearZ + farZ) / (nearZ - farZ), 2 * farZ * nearZ / (nearZ - farZ),
 							0, 0, -1.0f, 0);
+		type = PERSPECTIVE;
+		projectionMatrix = perspectiveMatrix;
 	}
 
 	mat4& Camera::getViewMatrix()
@@ -61,6 +67,21 @@ namespace egn {
 	{
 		return perspectiveMatrix;
 	}
+	mat4& Camera::getProjectionMatrix()
+	{
+		return projectionMatrix;
+	}
 
+	void Camera::switchProjectionMatrix()
+	{
+		if (type == PERSPECTIVE) {
+			type = ORTHOGRAPHIC;
+			projectionMatrix = orthographicMatrix;
+		}
+		else if (type == ORTHOGRAPHIC) {
+			type = PERSPECTIVE;
+			projectionMatrix = perspectiveMatrix;
+		}
+	}
 }
 

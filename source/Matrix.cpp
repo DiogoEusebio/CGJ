@@ -977,7 +977,7 @@ namespace egn {
 		{
 			for (int j = 0; j < 4; j++)
 			{
-				gl[i * 4 + j] = this->data[i][j];
+				gl[i *4 + j] = this->data[i][j];
 			}
 		}
 
