@@ -443,9 +443,9 @@ void drawScene()
 
 	glBindVertexArray(VaoId);
 	glUseProgram(ProgramId);
-	glUniformMatrix4fv(ProjectionID, 1, GL_FALSE, I);
+	glUniformMatrix4fv(ProjectionID, 1, GL_FALSE, glProjectionMatrix);
+	//glUniformMatrix4fv(ViewID, 1, GL_FALSE, glViewMatrix);
 	glUniformMatrix4fv(ViewID, 1, GL_FALSE, I);
-
 
 	float sidelenght = 0.25;
 	egn::mat4 rotation = egn::mat4(cos(45 * PI / 180), -sin(45 * PI / 180), 0.0f, -0.25f,
@@ -642,7 +642,13 @@ void run(GLFWwindow* win)
 	glfwDestroyWindow(win);
 	glfwTerminate();
 }
+void printGLMatrix(GLfloat* matrix) {
+	for (int i = 0; i < 16; i++) {
+		std::cout << matrix[i] << " ";
+	}
+	std::cout << std::endl;
 
+}
 ////////////////////////////////////////////////////////////////////////// MAIN
 
 int main(int argc, char* argv[])
@@ -652,18 +658,22 @@ int main(int argc, char* argv[])
 	int is_vsync = 1;
 
 	egn::Camera testcam = egn::Camera::Camera();
-	egn::vec3 eye = egn::vec3(5.0f, 5.0f, 5.0f);
+	egn::vec3 eye = egn::vec3(0.0f, 0.0f, 5.0f);
 	egn::vec3 center = egn::vec3(0.0f, 0.0f, 0.0f);
 	egn::vec3 up = egn::vec3(0.0f, 1.0f, 0.0f);
 	testcam.ViewMatrix(eye, center, up);		//maybe this step is done in the camera constructor
-	//testcam.getViewMatrix().convertToGL(glViewMatrix); //conversion is shitty and not working
+	testcam.getViewMatrix().convertToGL(glViewMatrix); //conversion is shitty and not working
 	testcam.OrthographicProjectionMatrix(1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f);
-	//testcam.getViewMatrix().convertToGL(glProjectionMatrix); //conversion is shitty and not working
+	testcam.getOrthographicMatrix().convertToGL(glProjectionMatrix); //conversion is shitty and not working
+	//testcam.PerspectiveProjectionMatrix(30, 1.33333, 1, 10);
+	//testcam.getPerspectiveMatrix().convertToGL(glProjectionMatrix);
+	printGLMatrix(glViewMatrix);
 
 	GLFWwindow* win = setup(gl_major, gl_minor,
-		500, 500, "Hello Modern 2D World", is_fullscreen, is_vsync);
+		500, 500, "3D assignment", is_fullscreen, is_vsync);
 	run(win);
 	exit(EXIT_SUCCESS);
 }
+
 
 /////////////////////////////////////////////////////////////////////////// END

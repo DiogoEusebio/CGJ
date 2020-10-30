@@ -14,8 +14,8 @@ namespace egn {
 		void ViewMatrix(const vec3& eye, const vec3& center, const vec3& up);
 		void OrthographicProjectionMatrix(float left, float right, float bot, float top, float near, float far);
 		void PerspectiveProjectionMatrix(float fovy, float aspect, float nearZ, float farZ);
-		const mat4& getViewMatrix();
-		const mat4& getOrthographicMatrix();
-		const mat4& getPerspectiveMatrix();
+		mat4& getViewMatrix();
+		mat4& getOrthographicMatrix();
+		mat4& getPerspectiveMatrix();
 	};
 }

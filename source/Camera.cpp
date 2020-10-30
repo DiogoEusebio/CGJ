@@ -48,17 +48,17 @@ namespace egn {
 							0, 0, -1.0f, 0);
 	}
 
-	const mat4& Camera::getViewMatrix()
+	mat4& Camera::getViewMatrix()
 	{
 		return viewMatrix;
 	}
 
-	const mat4& Camera::getOrthographicMatrix()
+	mat4& Camera::getOrthographicMatrix()
 	{
 		return orthographicMatrix;
 	}
 
-	const mat4& Camera::getPerspectiveMatrix()
+	mat4& Camera::getPerspectiveMatrix()
 	{
 		return perspectiveMatrix;
 	}
