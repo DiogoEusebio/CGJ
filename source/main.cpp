@@ -685,7 +685,6 @@ int main(int argc, char* argv[])
 	int is_fullscreen = 0;
 	int is_vsync = 1;
 
-
 	egn::vec3 eye = egn::vec3(0.0f, 0.0f, 10.0f);
 	egn::vec3 center = egn::vec3(1.0f, 1.0f, -1.0f);
 	egn::vec3 up = egn::vec3(0.0f, 1.0f, 0.0f);
