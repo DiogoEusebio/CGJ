@@ -483,6 +483,20 @@ namespace egn {
 			"  " << m.data[2][0] << " , " << m.data[2][1] << " , " << m.data[2][2] << " ]";
 		return os;
 	}
+
+	mat3 mat3::rotationMatrix(const float angle, vec3 axis) {
+		mat3 A = mat3::dualMatrix(axis);
+		mat3 I = mat3::identityMatrix();
+		mat3 rotation = I + sin(angle * PI / 180.0f) * A + (1 - cos(angle * PI / 180.0f)) * (A * A);
+		float cosine = cos(angle * PI / 180.0f);
+		float sine = sin(angle * PI / 180.0f);
+		/*mat3 m = mat3::mat3(cosine + axis.x * axis.x * (1 - cosine), axis.x * axis.y * (1 - cosine) - axis.z * sine, axis.x * axis.z * (1 - cosine) + axis.y * sine,
+			axis.y * axis.x * (1 - cosine) + axis.z * sine, cosine + axis.y * axis.y * (1 - cosine), axis.y * axis.z * (1 - cosine) - axis.x * sine,
+			axis.z * axis.x * (1 - cosine) - axis.y * sine, axis.z * axis.y * (1 - cosine) + axis.x * sine, cosine + axis.z * axis.z * (1 - cosine));
+			*/
+		return rotation;
+	}
+
 	mat3 transpose(const mat3& m)
 	{
 		return mat3(m.data[0][0], m.data[1][0], m.data[2][0], m.data[0][1], m.data[1][1], m.data[2][1], m.data[0][2], m.data[1][2], m.data[2][2]);
@@ -818,6 +832,13 @@ namespace egn {
 			}
 		}
 	}
+	mat4::mat4(const mat3& m) 
+	{
+		data[0][0] = m.data[0][0]; data[0][1] = m.data[0][0]; data[0][2] = m.data[0][0]; data[0][3] = 0;
+		data[1][0] = m.data[0][0]; data[1][1] = m.data[0][0]; data[1][2] = m.data[0][0]; data[1][3] = 0;
+		data[2][0] = m.data[0][0]; data[2][1] = m.data[0][0]; data[2][2] = m.data[0][0]; data[2][3] = 0;
+		data[3][0] = 0;			   data[3][1] = 0;			  data[3][2] = 0;	         data[3][3] = 1;
+	}
 	void mat4::clean()
 	{
 		for (int i = 0; i < 4; i++)
@@ -966,6 +987,10 @@ namespace egn {
 	mat4 mat4::rotationZ(float z)
 	{
 		return mat4(cos(z), -sin(z), 0, 0, sin(z), cos(z), 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
+	}
+	mat4 mat4::rotationMatrix(float angle, vec3 axis)
+	{
+		return mat4(mat3::rotationMatrix(angle, axis));
 	}
 	mat4 mat4::identityMatrix()
 	{

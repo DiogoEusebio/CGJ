@@ -6,25 +6,26 @@ namespace egn {
 
 	Camera::Camera()
 	{
+		firstMouseMovement = true;
 	}
 
 	void Camera::ViewMatrix(const vec3& eye, const vec3& center, const vec3& up)
 	{
 		vec3 view = center - eye;
 		vec3 v = vec3::normalize(view);
+		std::cout << "v = " << v << std::endl;
 		vec3 side = vec3::cross(v, up);
 		vec3 s = vec3::normalize(side);
 		vec3 u = vec3::cross(s, v);
-		mat4 R = mat4(s.x, s.y, s.z, 0.0f,
+		R = mat4(s.x, s.y, s.z, 0.0f,
 			u.x, u.y, u.z, 0.0f,
 			-v.x, -v.y, -v.z, 0.0f,
 			0.0f, 0.0f, 0.0f, 1.0f);
-		mat4 T = mat4(1.0f, 0.0f, 0.0f, -eye.x,
+		T = mat4(1.0f, 0.0f, 0.0f, -eye.x,
 			0.0f, 1.0f, 0.0f, -eye.y,
 			0.0f, 0.0f, 1.0f, -eye.z,
 			0.0f, 0.0f, 0.0f, 1.0f);
 		mat4 M = R * T;
-		std::cout << M << std::endl;
 		viewMatrix = M;
 	}
 
@@ -71,6 +72,9 @@ namespace egn {
 	{
 		return projectionMatrix;
 	}
+	void Camera::setFirstMouseMovement(bool b) {
+		firstMouseMovement = b;
+	}
 
 	void Camera::switchProjectionMatrix()
 	{
@@ -82,6 +86,32 @@ namespace egn {
 			type = PERSPECTIVE;
 			projectionMatrix = perspectiveMatrix;
 		}
+	}
+
+	void egn::Camera::mouseCallBack(float xpos, float ypos)
+	{
+		if (firstMouseMovement)
+		{
+			lastX = xpos;
+			lastY = ypos;
+			firstMouseMovement = false;
+		}
+
+		float xoffset = xpos - lastX;
+		float yoffset = ypos - lastY;
+		lastX = xpos;
+		lastY = ypos;
+		
+		xoffset *= 0.2;
+		yoffset *= 0.2;
+		
+		mat4 rx = mat4::rotationMatrix(xoffset, vec3(0.0f, 1.0f, 0.0f));
+		mat4 ry = mat4::rotationMatrix(yoffset, vec3(1.0f, 0.0f, 0.0f));
+		std::cout << ry << std::endl;
+		R = R * (rx * ry);
+		//std::cout << R << std::endl;
+		viewMatrix = T * R;
+		//std::cout << viewMatrix << std::endl;
 	}
 }
 

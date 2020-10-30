@@ -95,6 +95,7 @@ namespace egn
 		friend bool operator != (const mat3& m0, const mat3& m1);
 		mat3 static dualMatrix(const vec3& v);
 		mat3 static identityMatrix();
+		mat3 static rotationMatrix(const float angle, vec3 axis);
 	};
 
 	struct mat4 {
@@ -104,6 +105,7 @@ namespace egn
 		mat4(const float k);
 		mat4(const float k1, const float k2, const float k3, const float k4, const float k5, const float k6, const float k7, const float k8, const float k9, const float k10, const float k11, const float k12, const float k13, const float k14, const float k15, const float k16);
 		mat4(const mat4& m);
+		mat4(const mat3& m);
 		friend std::ostream& operator<<(std::ostream& os, const mat4& m);
 		void clean();
 		mat4& operator = (const mat4& m);
@@ -137,6 +139,7 @@ namespace egn
 		mat4 static rotationX(float x);
 		mat4 static rotationY(float y);
 		mat4 static rotationZ(float z);
+		mat4 static rotationMatrix(float anlge, vec3 axis);
 		mat4 static identityMatrix();
 		GLfloat* convertToGL(GLfloat* gl);
 	};

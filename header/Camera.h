@@ -9,6 +9,9 @@ namespace egn {
 		mat4 viewMatrix, projectionMatrix, orthographicMatrix, perspectiveMatrix;
 		enum TYPE { PERSPECTIVE, ORTHOGRAPHIC };
 		TYPE type;
+		bool firstMouseMovement;
+		float lastX, lastY;
+		mat4 T, R;
 	public:
 		vec3 eye, center, up;
 
@@ -21,6 +24,8 @@ namespace egn {
 		mat4& getOrthographicMatrix();
 		mat4& getPerspectiveMatrix();
 		mat4& getProjectionMatrix();
+		void setFirstMouseMovement(bool b);
 		void switchProjectionMatrix();
+		void mouseCallBack(float xpos, float ypos);
 	};
 }

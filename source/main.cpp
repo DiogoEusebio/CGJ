@@ -21,12 +21,15 @@ GLuint VaoId, VboId[2];
 GLuint VertexShaderId, FragmentShaderId, ProgramId;
 GLint ModelID, ViewID, ProjectionID, ColorID;
 egn::Camera camera = egn::Camera::Camera();
+egn::vec3 eye = egn::vec3(0.0f, 0.0f, 1.0f);
+egn::vec3 center = egn::vec3(0.0f, 0.0f, -1.0f);
+egn::vec3 up = egn::vec3(0.0f, 1.0f, 0.0f);
 
 #define ERROR_CALLBACK
 #ifdef  ERROR_CALLBACK
 
 void printGLMatrix(GLfloat* matrix) {
-	for (int i = 0; i < 16; i++) {
+	for (int i = 0; i < 4; i++) {
 		for (int j = 0; j < 4; j++) {
 			std::cout << matrix[i*4 + j] << " ";
 		}
@@ -314,8 +317,10 @@ const Matrix I = {
 	0.0f,  0.0f,  0.0f, 1.0f
 };
 
+
 GLfloat glViewMatrix[16];
 GLfloat glProjectionMatrix[16];
+GLfloat glDebugMatrix[16];
 
 
 void createSquare(float sidelenght, egn::mat4 transformMatrix, float red, float green, float blue)
@@ -461,7 +466,7 @@ void drawScene()
 	float sidelenght = 0.25;
 	egn::mat4 rotation = egn::mat4(cos(45 * PI / 180), -sin(45 * PI / 180), 0.0f, -0.25f,
 		sin(45 * PI / 180), cos(45 * PI / 180), 0.0f, 0.25f,
-		0.0f, 0.0f, 1.0f, 0.0f,
+		0.0f, 0.0f, 1.0f, -2.0f,
 		0.0f, 0.0f, 0.0f, 1.0f);
 
 	egn::mat4 LRight = egn::mat4(cos(PI), -sin(PI), 0.0f, -(sidelenght + 0.05),
@@ -535,14 +540,37 @@ void key_callback(GLFWwindow* win, int key, int scancode, int action, int mods)
 		camera.switchProjectionMatrix();
 		camera.getProjectionMatrix().convertToGL(glProjectionMatrix);
 	}
-	/*
+	
 	//RESET CAMERA
 	if (key == GLFW_KEY_T) {
-		camera = new egn::Camera::Camera();
+		camera = egn::Camera::Camera();
+		camera.ViewMatrix(eye, center, up);
+		camera.OrthographicProjectionMatrix(-1.0f, 1.0f, -1.0f, 1.0f, -1.0f, 1.0f);
+		camera.PerspectiveProjectionMatrix(30.0f, 640.0f / 480.0f, 1.0f, 10.0f);
+		camera.getProjectionMatrix().convertToGL(glProjectionMatrix);
+		camera.getViewMatrix().convertToGL(glViewMatrix);
 	}
-	*/
+	
 	
 }
+
+void mouse_callback(GLFWwindow* win, double xpos, double ypos)
+{
+	//std::cout << "mouse: " << xpos << " " << ypos << std::endl;
+	int state = glfwGetMouseButton(win, GLFW_MOUSE_BUTTON_LEFT);
+	if (state == GLFW_PRESS) {
+		camera.mouseCallBack((float)xpos, (float)ypos);
+		camera.getViewMatrix().convertToGL(glViewMatrix);
+	}
+	else
+		camera.setFirstMouseMovement(true);
+}
+
+void mouse_button_callback(GLFWwindow* win, int button, int action, int mods)
+{
+	std::cout << "button: " << button << " " << action << " " << mods << std::endl;
+}
+
 
 
 ///////////////////////////////////////////////////////////////////////// SETUP
@@ -567,6 +595,8 @@ void setupCallbacks(GLFWwindow* win)
 	glfwSetKeyCallback(win, key_callback);
 	glfwSetWindowCloseCallback(win, window_close_callback);
 	glfwSetWindowSizeCallback(win, window_size_callback);
+	glfwSetCursorPosCallback(win, mouse_callback);
+	glfwSetMouseButtonCallback(win, mouse_button_callback);
 }
 
 GLFWwindow* setupGLFW(int gl_major, int gl_minor,
@@ -685,18 +715,15 @@ int main(int argc, char* argv[])
 	int is_fullscreen = 0;
 	int is_vsync = 1;
 
-	egn::vec3 eye = egn::vec3(0.0f, 0.0f, 10.0f);
-	egn::vec3 center = egn::vec3(1.0f, 1.0f, -1.0f);
-	egn::vec3 up = egn::vec3(0.0f, 1.0f, 0.0f);
-
 	camera.ViewMatrix(eye, center, up);
-	camera.OrthographicProjectionMatrix(-1.5f, 1.5f, -1.5f, 1.5f, -1.5f, 1.5f);
+	camera.OrthographicProjectionMatrix(-1.0f, 1.0f, -1.0f, 1.0f, -1.0f, 1.0f);
 	camera.PerspectiveProjectionMatrix(30.0f, 640.0f / 480.0f, 1.0f, 10.0f);
 
 	camera.getViewMatrix().convertToGL(glViewMatrix); 
 	camera.getProjectionMatrix().convertToGL(glProjectionMatrix);
 	printGLMatrix(glViewMatrix);
 	printGLMatrix(glProjectionMatrix);
+	printGLMatrix((camera.getProjectionMatrix() * camera.getViewMatrix()).convertToGL(glDebugMatrix));
 
 	GLFWwindow* win = setup(gl_major, gl_minor,
 		500, 500, "3D assignment", is_fullscreen, is_vsync);
