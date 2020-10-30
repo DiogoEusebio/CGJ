@@ -113,5 +113,15 @@ namespace egn {
 		viewMatrix = T * R;
 		//std::cout << viewMatrix << std::endl;
 	}
+
+	void Camera::shift(const vec3& vec)
+	{
+		T = mat4(1.0f, 0.0f, 0.0f, vec.x,
+			0.0f, 1.0f, 0.0f, vec.y,
+			0.0f, 0.0f, 1.0f, vec.z,
+			0.0f, 0.0f, 0.0f, 1.0f);
+
+		projectionMatrix *= T;
+	}
 }
 

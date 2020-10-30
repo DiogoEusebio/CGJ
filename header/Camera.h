@@ -27,5 +27,6 @@ namespace egn {
 		void setFirstMouseMovement(bool b);
 		void switchProjectionMatrix();
 		void mouseCallBack(float xpos, float ypos);
+		void shift(const vec3& vec);
 	};
 }

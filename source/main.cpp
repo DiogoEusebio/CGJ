@@ -540,6 +540,28 @@ void key_callback(GLFWwindow* win, int key, int scancode, int action, int mods)
 		camera.switchProjectionMatrix();
 		camera.getProjectionMatrix().convertToGL(glProjectionMatrix);
 	}
+
+	if (key == GLFW_KEY_A && action == GLFW_PRESS)
+	{
+		center.x += 0.1f;
+		eye.x -= 0.1f;
+		camera.ViewMatrix(eye, center, up);
+		camera.shift(egn::vec3(-0.1f, 0.0f, 0.0f));
+
+		camera.getViewMatrix().convertToGL(glViewMatrix);
+		camera.getProjectionMatrix().convertToGL(glProjectionMatrix);
+	}
+
+	if (key == GLFW_KEY_D && action == GLFW_PRESS)
+	{
+		center.x -= 0.1f;
+		eye.x += 0.1f;
+		camera.ViewMatrix(eye, center, up);
+		camera.shift(egn::vec3(0.1f, 0.0f, 0.0f));
+
+		camera.getViewMatrix().convertToGL(glViewMatrix);
+		camera.getProjectionMatrix().convertToGL(glProjectionMatrix);
+	}
 	
 	//RESET CAMERA
 	if (key == GLFW_KEY_T) {
