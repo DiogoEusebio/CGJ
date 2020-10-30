@@ -21,7 +21,7 @@ GLuint VaoId, VboId[2];
 GLuint VertexShaderId, FragmentShaderId, ProgramId;
 GLint ModelID, ViewID, ProjectionID, ColorID;
 egn::Camera camera = egn::Camera::Camera();
-egn::vec3 eye = egn::vec3(0.0f, 0.0f, 1.0f);
+egn::vec3 eye = egn::vec3(0.0f, 0.0f, 2.0f);
 egn::vec3 center = egn::vec3(0.0f, 0.0f, -1.0f);
 egn::vec3 up = egn::vec3(0.0f, 1.0f, 0.0f);
 
@@ -31,7 +31,7 @@ egn::vec3 up = egn::vec3(0.0f, 1.0f, 0.0f);
 void printGLMatrix(GLfloat* matrix) {
 	for (int i = 0; i < 4; i++) {
 		for (int j = 0; j < 4; j++) {
-			std::cout << matrix[i*4 + j] << " ";
+			std::cout << matrix[i + j * 4] << " ";
 		}
 		std::cout << std::endl;
 	}
@@ -327,10 +327,10 @@ void createSquare(float sidelenght, egn::mat4 transformMatrix, float red, float 
 {
 	GLfloat vec[16];
 	transformMatrix.convertToGL(vec);
-	glUniformMatrix4fv(ModelID, 1, GL_TRUE, vec);
+	glUniformMatrix4fv(ModelID, 1, GL_FALSE, vec);
 	glUniform4f(ColorID, red, green, blue, 0);
 	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_BYTE, (GLvoid*)0);
-	glUniform4f(ColorID, red*0.5, green*0.5, blue*0.5, 0);
+	glUniform4f(ColorID, red * 0.5, green * 0.5, blue * 0.5, 0);
 	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_BYTE, (GLvoid*)(sizeof(GLubyte) * 6));
 
 }
@@ -466,7 +466,7 @@ void drawScene()
 	float sidelenght = 0.25;
 	egn::mat4 rotation = egn::mat4(cos(45 * PI / 180), -sin(45 * PI / 180), 0.0f, -0.25f,
 		sin(45 * PI / 180), cos(45 * PI / 180), 0.0f, 0.25f,
-		0.0f, 0.0f, 1.0f, -2.0f,
+		0.0f, 0.0f, 1.0f, 0.0f,
 		0.0f, 0.0f, 0.0f, 1.0f);
 
 	egn::mat4 LRight = egn::mat4(cos(PI), -sin(PI), 0.0f, -(sidelenght + 0.05),
@@ -541,28 +541,29 @@ void key_callback(GLFWwindow* win, int key, int scancode, int action, int mods)
 		camera.getProjectionMatrix().convertToGL(glProjectionMatrix);
 	}
 
-	if (key == GLFW_KEY_A && action == GLFW_PRESS)
+	if (key == GLFW_KEY_A && (action == GLFW_REPEAT || action == GLFW_PRESS))
 	{
-		center.x += 0.1f;
-		eye.x -= 0.1f;
-		camera.ViewMatrix(eye, center, up);
-		camera.shift(egn::vec3(-0.1f, 0.0f, 0.0f));
-
+		camera.shift(egn::vec3(-0.5f, 0.0f, 0.0f));
 		camera.getViewMatrix().convertToGL(glViewMatrix);
-		camera.getProjectionMatrix().convertToGL(glProjectionMatrix);
 	}
 
-	if (key == GLFW_KEY_D && action == GLFW_PRESS)
+	if (key == GLFW_KEY_D && (action == GLFW_REPEAT || action == GLFW_PRESS))
 	{
-		center.x -= 0.1f;
-		eye.x += 0.1f;
-		camera.ViewMatrix(eye, center, up);
-		camera.shift(egn::vec3(0.1f, 0.0f, 0.0f));
-
+		camera.shift(egn::vec3(0.5f, 0.0f, 0.0f));
 		camera.getViewMatrix().convertToGL(glViewMatrix);
-		camera.getProjectionMatrix().convertToGL(glProjectionMatrix);
 	}
-	
+	if (key == GLFW_KEY_W && (action == GLFW_REPEAT || action == GLFW_PRESS))
+	{
+		camera.shift(egn::vec3(0.0f, 0.0f, -0.1f));
+		camera.getViewMatrix().convertToGL(glViewMatrix);
+	}
+
+	if (key == GLFW_KEY_S && (action == GLFW_REPEAT || action == GLFW_PRESS))
+	{
+		camera.shift(egn::vec3(0.0f, 0.0f, 0.1f));
+		camera.getViewMatrix().convertToGL(glViewMatrix);
+	}
+
 	//RESET CAMERA
 	if (key == GLFW_KEY_T) {
 		camera = egn::Camera::Camera();
@@ -572,8 +573,8 @@ void key_callback(GLFWwindow* win, int key, int scancode, int action, int mods)
 		camera.getProjectionMatrix().convertToGL(glProjectionMatrix);
 		camera.getViewMatrix().convertToGL(glViewMatrix);
 	}
-	
-	
+
+
 }
 
 void mouse_callback(GLFWwindow* win, double xpos, double ypos)
@@ -715,7 +716,7 @@ void run(GLFWwindow* win)
 		double time = glfwGetTime();
 		double elapsed_time = time - last_time;
 		last_time = time;
-		
+
 		// Double Buffers
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		display(win, elapsed_time);
@@ -738,14 +739,14 @@ int main(int argc, char* argv[])
 	int is_vsync = 1;
 
 	camera.ViewMatrix(eye, center, up);
-	camera.OrthographicProjectionMatrix(-1.0f, 1.0f, -1.0f, 1.0f, -1.0f, 1.0f);
+	camera.OrthographicProjectionMatrix(-2.0f, 2.0f, -2.0f, 2.0f, 1.0f, 10.0f);
 	camera.PerspectiveProjectionMatrix(30.0f, 640.0f / 480.0f, 1.0f, 10.0f);
 
-	camera.getViewMatrix().convertToGL(glViewMatrix); 
+	camera.getViewMatrix().convertToGL(glViewMatrix);
 	camera.getProjectionMatrix().convertToGL(glProjectionMatrix);
 	printGLMatrix(glViewMatrix);
 	printGLMatrix(glProjectionMatrix);
-	printGLMatrix((camera.getProjectionMatrix() * camera.getViewMatrix()).convertToGL(glDebugMatrix));
+	//printGLMatrix((camera.getProjectionMatrix() * camera.getViewMatrix()).convertToGL(glDebugMatrix));
 
 	GLFWwindow* win = setup(gl_major, gl_minor,
 		500, 500, "3D assignment", is_fullscreen, is_vsync);

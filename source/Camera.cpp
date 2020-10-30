@@ -13,7 +13,7 @@ namespace egn {
 	{
 		vec3 view = center - eye;
 		vec3 v = vec3::normalize(view);
-		std::cout << "v = " << v << std::endl;
+		//std::cout << "v = " << v << std::endl;
 		vec3 side = vec3::cross(v, up);
 		vec3 s = vec3::normalize(side);
 		vec3 u = vec3::cross(s, v);
@@ -104,24 +104,30 @@ namespace egn {
 		
 		xoffset *= 0.2;
 		yoffset *= 0.2;
-		
-		mat4 rx = mat4::rotationMatrix(xoffset, vec3(0.0f, 1.0f, 0.0f));
-		mat4 ry = mat4::rotationMatrix(yoffset, vec3(1.0f, 0.0f, 0.0f));
-		std::cout << ry << std::endl;
-		R = R * (rx * ry);
-		//std::cout << R << std::endl;
-		viewMatrix = T * R;
+		egn::mat4 aux = R;
+		if (xoffset > 0) {
+			aux = R * mat4::rotationX(1);
+		}
+		else {
+			aux = R * mat4::rotationX(-1);
+		}
+		//mat4 rx = mat4::rotationMatrix(xoffset, vec3(0.0f, 1.0f, 0.0f));
+		//mat4 ry = mat4::rotationMatrix(yoffset, vec3(1.0f, 0.0f, 0.0f));
+		//std::cout << rx << std::endl;
+		//R = R * rx;
+		std::cout << R << std::endl;
+		viewMatrix = T * aux;
 		//std::cout << viewMatrix << std::endl;
 	}
 
 	void Camera::shift(const vec3& vec)
 	{
-		T = mat4(1.0f, 0.0f, 0.0f, vec.x,
-			0.0f, 1.0f, 0.0f, vec.y,
-			0.0f, 0.0f, 1.0f, vec.z,
-			0.0f, 0.0f, 0.0f, 1.0f);
+		T.data[0][3] += vec.x;
+		T.data[1][3] += vec.y;
+		T.data[2][3] += vec.z;
 
-		projectionMatrix *= T;
+		viewMatrix = T * R;
+		std::cout << viewMatrix << std::endl;
 	}
 }
 
