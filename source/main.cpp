@@ -21,7 +21,7 @@ GLuint VaoId, VboId[2];
 GLuint VertexShaderId, FragmentShaderId, ProgramId;
 GLint ModelID, ViewID, ProjectionID, ColorID;
 egn::Camera camera = egn::Camera::Camera();
-egn::vec3 eye = egn::vec3(0.0f, 0.0f, 2.0f);
+egn::vec3 eye = egn::vec3(0.0f, 0.0f, 5.0f);
 egn::vec3 center = egn::vec3(0.0f, 0.0f, -1.0f);
 egn::vec3 up = egn::vec3(0.0f, 1.0f, 0.0f);
 
@@ -587,6 +587,9 @@ void key_callback(GLFWwindow* win, int key, int scancode, int action, int mods)
 	//RESET CAMERA
 	if (key == GLFW_KEY_T) {
 		camera = egn::Camera::Camera();
+		eye = egn::vec3(0.0f, 0.0f, 5.0f);
+		center = egn::vec3(0.0f, 0.0f, -1.0f);
+		up = egn::vec3(0.0f, 1.0f, 0.0f);
 		camera.ViewMatrix(eye, center, up);
 		camera.OrthographicProjectionMatrix(-1.0f, 1.0f, -1.0f, 1.0f, -1.0f, 1.0f);
 		camera.PerspectiveProjectionMatrix(30.0f, 640.0f / 480.0f, 1.0f, 10.0f);
@@ -604,6 +607,9 @@ void mouse_callback(GLFWwindow* win, double xpos, double ypos)
 	if (state == GLFW_PRESS) {
 		camera.mouseCallBack((float)xpos, (float)ypos);
 		camera.getViewMatrix().convertToGL(glViewMatrix);
+		//eye = camera.getEye();
+		//center = camera.getCenter();
+
 	}
 	else
 		camera.setFirstMouseMovement(true);

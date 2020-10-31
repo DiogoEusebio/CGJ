@@ -24,6 +24,8 @@ namespace egn {
 		mat4& getOrthographicMatrix();
 		mat4& getPerspectiveMatrix();
 		mat4& getProjectionMatrix();
+		vec3& getCenter();
+		vec3& getEye();
 		void setFirstMouseMovement(bool b);
 		void switchProjectionMatrix();
 		void mouseCallBack(float xpos, float ypos);

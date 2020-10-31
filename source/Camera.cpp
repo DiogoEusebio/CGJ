@@ -72,6 +72,14 @@ namespace egn {
 	{
 		return projectionMatrix;
 	}
+	vec3& Camera::getEye()
+	{
+		return eye;
+	}
+	vec3& Camera::getCenter()
+	{
+		return center;
+	}
 	void Camera::setFirstMouseMovement(bool b) {
 		firstMouseMovement = b;
 	}
@@ -95,6 +103,7 @@ namespace egn {
 			lastX = xpos;
 			lastY = ypos;
 			firstMouseMovement = false;
+			std::cout << "I'm here once" << std::endl;
 		}
 
 		float xoffset = xpos - lastX;
@@ -102,21 +111,15 @@ namespace egn {
 		lastX = xpos;
 		lastY = ypos;
 		
-		xoffset *= 0.2;
-		yoffset *= 0.2;
-		egn::mat4 aux = R;
-		if (xoffset > 0) {
-			aux = R * mat4::rotationX(1);
-		}
-		else {
-			aux = R * mat4::rotationX(-1);
-		}
-		//mat4 rx = mat4::rotationMatrix(xoffset, vec3(0.0f, 1.0f, 0.0f));
-		//mat4 ry = mat4::rotationMatrix(yoffset, vec3(1.0f, 0.0f, 0.0f));
-		//std::cout << rx << std::endl;
-		//R = R * rx;
+		xoffset *= 0.02;
+		yoffset *= -0.02;
+
+		R = R * mat4::rotationY(xoffset) * mat4::rotationX(yoffset);
+		//eye = eye * mat4::rotationY(xoffset) * mat4::rotationX(yoffset);
+		//center = center * mat4::rotationY(xoffset) * mat4::rotationX(yoffset);
+
 		std::cout << R << std::endl;
-		viewMatrix = T * aux;
+		viewMatrix = T * R;
 		//std::cout << viewMatrix << std::endl;
 	}
 }
