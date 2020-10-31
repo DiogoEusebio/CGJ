@@ -26,6 +26,7 @@ namespace egn {
 		mat4& getProjectionMatrix();
 		vec3& getCenter();
 		vec3& getEye();
+		void addTranslation(vec3 v);
 		void setFirstMouseMovement(bool b);
 		void switchProjectionMatrix();
 		void mouseCallBack(float xpos, float ypos);

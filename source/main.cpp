@@ -542,7 +542,10 @@ void key_callback(GLFWwindow* win, int key, int scancode, int action, int mods)
 	}
 
 	if (key == GLFW_KEY_A && (action == GLFW_REPEAT || action == GLFW_PRESS))
-	{
+	{	
+		camera.addTranslation(egn::vec3(0.1f, 0.0f, 0.0f));
+		camera.getViewMatrix().convertToGL(glViewMatrix);
+		/*
 		egn::vec3 view = egn::vec3(center);
 		view -= eye;
 		egn::vec3 v = egn::vec3::normalize(view);
@@ -550,10 +553,14 @@ void key_callback(GLFWwindow* win, int key, int scancode, int action, int mods)
 		center += (egn::vec3(v.z, 0, -v.x) * 0.2);
 		camera.ViewMatrix(eye, center, up);
 		camera.getViewMatrix().convertToGL(glViewMatrix);
+		*/
 	}
 
 	if (key == GLFW_KEY_D && (action == GLFW_REPEAT || action == GLFW_PRESS))
-	{
+	{	
+		camera.addTranslation(egn::vec3(-0.1f, 0.0f, 0.0f));
+		camera.getViewMatrix().convertToGL(glViewMatrix);
+		/*
 		egn::vec3 view = egn::vec3(center);
 		view -= eye;
 		egn::vec3 v = egn::vec3::normalize(view);
@@ -561,9 +568,14 @@ void key_callback(GLFWwindow* win, int key, int scancode, int action, int mods)
 		center -= (egn::vec3(v.z, 0, -v.x) * 0.2);
 		camera.ViewMatrix(eye, center, up);
 		camera.getViewMatrix().convertToGL(glViewMatrix);
+		*/
 	}
 	if (key == GLFW_KEY_W && (action == GLFW_REPEAT || action == GLFW_PRESS))
 	{
+		camera.addTranslation(egn::vec3(0.0f, 0.0f, 0.1f));
+
+		camera.getViewMatrix().convertToGL(glViewMatrix);
+		/*/
 		egn::vec3 view = egn::vec3(center);
 		view -= eye;
 		egn::vec3 v = egn::vec3::normalize(view);
@@ -571,10 +583,14 @@ void key_callback(GLFWwindow* win, int key, int scancode, int action, int mods)
 		center += (v * 0.2);
 		camera.ViewMatrix(eye, center, up);
 		camera.getViewMatrix().convertToGL(glViewMatrix);
-	}
+		*/
+		}
 
 	if (key == GLFW_KEY_S && (action == GLFW_REPEAT || action == GLFW_PRESS))
-	{
+	{	
+		camera.addTranslation(egn::vec3(0.0f, 0.0f, -0.1f));
+		camera.getViewMatrix().convertToGL(glViewMatrix);
+		/*
 		egn::vec3 view = egn::vec3(center);
 		view -= eye;
 		egn::vec3 v = egn::vec3::normalize(view);
@@ -582,6 +598,7 @@ void key_callback(GLFWwindow* win, int key, int scancode, int action, int mods)
 		center -= (v * 0.2);
 		camera.ViewMatrix(eye, center, up);
 		camera.getViewMatrix().convertToGL(glViewMatrix);
+		*/
 	}
 
 	//RESET CAMERA
@@ -611,7 +628,7 @@ void mouse_callback(GLFWwindow* win, double xpos, double ypos)
 		camera.mouseCallBack((float)xpos, (float)ypos);
 		camera.getViewMatrix().convertToGL(glViewMatrix);
 		//eye = camera.getEye();
-		//center = camera.getCenter();
+		center = camera.getCenter();
 
 	}
 	else

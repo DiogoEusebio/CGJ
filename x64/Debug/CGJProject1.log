@@ -1,1 +1,60 @@
-﻿
+﻿  main.cpp
+C:\Users\USER\Documents\GitHub\CGJ\source\main.cpp(18,1): warning C4005: 'PI': macro redefinition
+C:\Users\USER\Documents\GitHub\CGJ\header\Constants.h(4): message : see previous definition of 'PI'
+C:\Users\USER\Documents\GitHub\CGJ\source\main.cpp(249,1): warning C4305: 'initializing': truncation from 'double' to 'GLfloat'
+C:\Users\USER\Documents\GitHub\CGJ\source\main.cpp(333,52): warning C4244: 'argument': conversion from 'double' to 'GLfloat', possible loss of data
+C:\Users\USER\Documents\GitHub\CGJ\source\main.cpp(333,40): warning C4244: 'argument': conversion from 'double' to 'GLfloat', possible loss of data
+C:\Users\USER\Documents\GitHub\CGJ\source\main.cpp(333,27): warning C4244: 'argument': conversion from 'double' to 'GLfloat', possible loss of data
+C:\Users\USER\Documents\GitHub\CGJ\source\main.cpp(344,47): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
+C:\Users\USER\Documents\GitHub\CGJ\source\main.cpp(357,47): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
+C:\Users\USER\Documents\GitHub\CGJ\source\main.cpp(365,47): warning C4244: '-=': conversion from 'double' to 'float', possible loss of data
+C:\Users\USER\Documents\GitHub\CGJ\source\main.cpp(366,47): warning C4244: '-=': conversion from 'double' to 'float', possible loss of data
+C:\Users\USER\Documents\GitHub\CGJ\source\main.cpp(374,47): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
+C:\Users\USER\Documents\GitHub\CGJ\source\main.cpp(382,47): warning C4244: '-=': conversion from 'double' to 'float', possible loss of data
+C:\Users\USER\Documents\GitHub\CGJ\source\main.cpp(383,47): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
+C:\Users\USER\Documents\GitHub\CGJ\source\main.cpp(391,47): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
+C:\Users\USER\Documents\GitHub\CGJ\source\main.cpp(398,53): warning C4244: '-=': conversion from 'double' to 'float', possible loss of data
+C:\Users\USER\Documents\GitHub\CGJ\source\main.cpp(399,47): warning C4244: '-=': conversion from 'double' to 'float', possible loss of data
+C:\Users\USER\Documents\GitHub\CGJ\source\main.cpp(408,40): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\USER\Documents\GitHub\CGJ\source\main.cpp(413,29): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\USER\Documents\GitHub\CGJ\source\main.cpp(414,47): warning C4244: '-=': conversion from 'double' to 'float', possible loss of data
+C:\Users\USER\Documents\GitHub\CGJ\source\main.cpp(418,40): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\USER\Documents\GitHub\CGJ\source\main.cpp(426,40): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\USER\Documents\GitHub\CGJ\source\main.cpp(431,41): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\USER\Documents\GitHub\CGJ\source\main.cpp(432,47): warning C4244: '-=': conversion from 'double' to 'float', possible loss of data
+C:\Users\USER\Documents\GitHub\CGJ\source\main.cpp(443,40): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\USER\Documents\GitHub\CGJ\source\main.cpp(449,47): warning C4244: '-=': conversion from 'double' to 'float', possible loss of data
+C:\Users\USER\Documents\GitHub\CGJ\source\main.cpp(453,40): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\USER\Documents\GitHub\CGJ\source\main.cpp(468,26): warning C4244: 'argument': conversion from 'double' to 'const float', possible loss of data
+C:\Users\USER\Documents\GitHub\CGJ\source\main.cpp(468,6): warning C4244: 'argument': conversion from 'double' to 'const float', possible loss of data
+C:\Users\USER\Documents\GitHub\CGJ\source\main.cpp(467,53): warning C4244: 'argument': conversion from 'double' to 'const float', possible loss of data
+C:\Users\USER\Documents\GitHub\CGJ\source\main.cpp(467,36): warning C4244: 'argument': conversion from 'double' to 'const float', possible loss of data
+C:\Users\USER\Documents\GitHub\CGJ\source\main.cpp(473,15): warning C4244: 'argument': conversion from 'double' to 'const float', possible loss of data
+C:\Users\USER\Documents\GitHub\CGJ\source\main.cpp(473,6): warning C4244: 'argument': conversion from 'double' to 'const float', possible loss of data
+C:\Users\USER\Documents\GitHub\CGJ\source\main.cpp(472,56): warning C4244: 'argument': conversion from 'double' to 'const float', possible loss of data
+C:\Users\USER\Documents\GitHub\CGJ\source\main.cpp(472,40): warning C4244: 'argument': conversion from 'double' to 'const float', possible loss of data
+C:\Users\USER\Documents\GitHub\CGJ\source\main.cpp(472,34): warning C4244: 'argument': conversion from 'double' to 'const float', possible loss of data
+C:\Users\USER\Documents\GitHub\CGJ\source\main.cpp(478,39): warning C4244: 'argument': conversion from 'double' to 'const float', possible loss of data
+C:\Users\USER\Documents\GitHub\CGJ\source\main.cpp(478,15): warning C4244: 'argument': conversion from 'double' to 'const float', possible loss of data
+C:\Users\USER\Documents\GitHub\CGJ\source\main.cpp(478,6): warning C4244: 'argument': conversion from 'double' to 'const float', possible loss of data
+C:\Users\USER\Documents\GitHub\CGJ\source\main.cpp(477,60): warning C4244: 'argument': conversion from 'double' to 'const float', possible loss of data
+C:\Users\USER\Documents\GitHub\CGJ\source\main.cpp(477,44): warning C4244: 'argument': conversion from 'double' to 'const float', possible loss of data
+C:\Users\USER\Documents\GitHub\CGJ\source\main.cpp(477,38): warning C4244: 'argument': conversion from 'double' to 'const float', possible loss of data
+C:\Users\USER\Documents\GitHub\CGJ\source\main.cpp(483,63): warning C4244: 'argument': conversion from 'double' to 'const float', possible loss of data
+C:\Users\USER\Documents\GitHub\CGJ\source\main.cpp(483,27): warning C4244: 'argument': conversion from 'double' to 'const float', possible loss of data
+C:\Users\USER\Documents\GitHub\CGJ\source\main.cpp(483,6): warning C4244: 'argument': conversion from 'double' to 'const float', possible loss of data
+C:\Users\USER\Documents\GitHub\CGJ\source\main.cpp(482,107): warning C4244: 'argument': conversion from 'double' to 'const float', possible loss of data
+C:\Users\USER\Documents\GitHub\CGJ\source\main.cpp(482,51): warning C4244: 'argument': conversion from 'double' to 'const float', possible loss of data
+C:\Users\USER\Documents\GitHub\CGJ\source\main.cpp(482,33): warning C4244: 'argument': conversion from 'double' to 'const float', possible loss of data
+C:\Users\USER\Documents\GitHub\CGJ\source\main.cpp(488,39): warning C4244: 'argument': conversion from 'double' to 'const float', possible loss of data
+C:\Users\USER\Documents\GitHub\CGJ\source\main.cpp(488,15): warning C4244: 'argument': conversion from 'double' to 'const float', possible loss of data
+C:\Users\USER\Documents\GitHub\CGJ\source\main.cpp(488,6): warning C4244: 'argument': conversion from 'double' to 'const float', possible loss of data
+C:\Users\USER\Documents\GitHub\CGJ\source\main.cpp(487,56): warning C4244: 'argument': conversion from 'double' to 'const float', possible loss of data
+C:\Users\USER\Documents\GitHub\CGJ\source\main.cpp(487,38): warning C4244: 'argument': conversion from 'double' to 'const float', possible loss of data
+C:\Users\USER\Documents\GitHub\CGJ\source\main.cpp(487,32): warning C4244: 'argument': conversion from 'double' to 'const float', possible loss of data
+C:\Users\USER\Documents\GitHub\CGJ\source\main.cpp(493,65): warning C4244: 'argument': conversion from 'double' to 'const float', possible loss of data
+C:\Users\USER\Documents\GitHub\CGJ\source\main.cpp(493,26): warning C4244: 'argument': conversion from 'double' to 'const float', possible loss of data
+C:\Users\USER\Documents\GitHub\CGJ\source\main.cpp(493,6): warning C4244: 'argument': conversion from 'double' to 'const float', possible loss of data
+C:\Users\USER\Documents\GitHub\CGJ\source\main.cpp(492,46): warning C4244: 'argument': conversion from 'double' to 'const float', possible loss of data
+C:\Users\USER\Documents\GitHub\CGJ\source\main.cpp(492,29): warning C4244: 'argument': conversion from 'double' to 'const float', possible loss of data
+  CGJProject1.vcxproj -> C:\Users\USER\Documents\GitHub\CGJ\x64\Debug\CGJProject1.exe

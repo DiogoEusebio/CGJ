@@ -10,7 +10,10 @@ namespace egn {
 	}
 
 	void Camera::ViewMatrix(const vec3& eye, const vec3& center, const vec3& up)
-	{
+	{	
+		this->center = center;
+		this->eye = eye;
+		this->up = up;
 		vec3 view = center - eye;
 		vec3 v = vec3::normalize(view);
 		//std::cout << "v = " << v << std::endl;
@@ -96,6 +99,16 @@ namespace egn {
 		}
 	}
 
+	void egn::Camera::addTranslation(vec3 v) {
+
+		T.data[0][3] += v.x;
+		T.data[1][3] += v.y;
+		T.data[2][3] += v.z;
+		std::cout << T << std::endl << R << std::endl;
+		mat4 M = R * T;
+		viewMatrix = M;
+
+	}
 	void egn::Camera::mouseCallBack(float xpos, float ypos)
 	{
 		if (firstMouseMovement)
@@ -111,16 +124,43 @@ namespace egn {
 		lastX = xpos;
 		lastY = ypos;
 		
-		xoffset *= 0.02;
-		yoffset *= -0.02;
+		xoffset *= 0.005;
+		yoffset *= -0.005;
 
 		R = R * mat4::rotationY(xoffset) * mat4::rotationX(yoffset);
-		//eye = eye * mat4::rotationY(xoffset) * mat4::rotationX(yoffset);
-		//center = center * mat4::rotationY(xoffset) * mat4::rotationX(yoffset);
+		/*
+		vec3 view = vec3(center);
+		view -= eye;
+		vec3 v = vec3::normalize(view);
+		//std::cout << "v = " << v << std::endl;
+		vec3 side = vec3::cross(v, up);
+		vec3 s = vec3::normalize(side);
+		vec3 u = vec3::cross(s, v);
+		s.clean(); u.clean();
+		std::cout << "s = " << s << "     u = " << u <<std::endl;
+		center = center * mat3::rotationMatrix(yoffset,s) * mat3::rotationMatrix(xoffset,u);
+		up = vec3(0, -center.x, center.y);
 
-		std::cout << R << std::endl;
-		viewMatrix = T * R;
-		//std::cout << viewMatrix << std::endl;
+		view = vec3(center);
+		view -= eye;
+		v = vec3::normalize(view);
+		//std::cout << "v = " << v << std::endl;
+		side = vec3::cross(v, up);
+		s = vec3::normalize(side);
+		u = vec3::cross(s, v);
+		R = mat4(s.x, s.y, s.z, 0.0f,
+			u.x, u.y, u.z, 0.0f,
+			-v.x, -v.y, -v.z, 0.0f,
+			0.0f, 0.0f, 0.0f, 1.0f);
+		T = mat4(1.0f, 0.0f, 0.0f, -eye.x,
+			0.0f, 1.0f, 0.0f, -eye.y,
+			0.0f, 0.0f, 1.0f, -eye.z,
+			0.0f, 0.0f, 0.0f, 1.0f);
+		*/
+		mat4 M = R * T;
+		viewMatrix = M;
+
+		//std::cout << R << std::endl;
 	}
 }
 

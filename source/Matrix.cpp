@@ -490,11 +490,11 @@ namespace egn {
 		mat3 rotation = I + sin(angle * PI / 180.0f) * A + (1 - cos(angle * PI / 180.0f)) * (A * A);
 		float cosine = cos(angle * PI / 180.0f);
 		float sine = sin(angle * PI / 180.0f);
-		/*mat3 m = mat3::mat3(cosine + axis.x * axis.x * (1 - cosine), axis.x * axis.y * (1 - cosine) - axis.z * sine, axis.x * axis.z * (1 - cosine) + axis.y * sine,
+		mat3 m = mat3::mat3(cosine + axis.x * axis.x * (1 - cosine), axis.x * axis.y * (1 - cosine) - axis.z * sine, axis.x * axis.z * (1 - cosine) + axis.y * sine,
 			axis.y * axis.x * (1 - cosine) + axis.z * sine, cosine + axis.y * axis.y * (1 - cosine), axis.y * axis.z * (1 - cosine) - axis.x * sine,
 			axis.z * axis.x * (1 - cosine) - axis.y * sine, axis.z * axis.y * (1 - cosine) + axis.x * sine, cosine + axis.z * axis.z * (1 - cosine));
-			*/
-		return rotation;
+			
+		return m;
 	}
 
 	mat3 transpose(const mat3& m)
