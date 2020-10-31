@@ -133,11 +133,11 @@ namespace egn {
 		mat4 matPitch = mat4::rotationY(xoffset);
 		mat4 matYaw = mat4::rotationX(yoffset);
 		//Matrix4 matRoll = MatrixFactory::rotate(roll, Vector3(0,0,1));
-		mat4 rotate = /*matRoll * */matPitch * matYaw;
+		R = R * matPitch * matYaw;
 		T.data[0][3] = position.x;
 		T.data[1][3] = position.y;
 		T.data[2][3] = position.z;
-		viewMatrix = rotate * T; //* MatrixFactory::scale(Vector3(1.0f,1.0f,1.0f));
+		viewMatrix = R * T; //* MatrixFactory::scale(Vector3(1.0f,1.0f,1.0f));
 		front = vec3::normalize(-vec3(viewMatrix.data[2][0], viewMatrix.data[2][1], viewMatrix.data[2][2]));
 		right = vec3::normalize(vec3(viewMatrix.data[0][0], viewMatrix.data[0][1], viewMatrix.data[0][2]));
 		up = vec3::cross(right,front);

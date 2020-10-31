@@ -555,13 +555,13 @@ void key_callback(GLFWwindow* win, int key, int scancode, int action, int mods)
 	}
 	if (key == GLFW_KEY_W && (action == GLFW_REPEAT || action == GLFW_PRESS))
 	{
-		camera.addTranslation(egn::vec3(0.0f, 0.0f, 0.01f));
+		camera.addTranslation(egn::vec3(0.0f, 0.0f, 0.1f));
 		camera.getViewMatrix().convertToGL(glViewMatrix);
 		}
 
 	if (key == GLFW_KEY_S && (action == GLFW_REPEAT || action == GLFW_PRESS))
 	{	
-		camera.addTranslation(egn::vec3(0.0f, 0.0f, -0.01f));
+		camera.addTranslation(egn::vec3(0.0f, 0.0f, -0.1f));
 		camera.getViewMatrix().convertToGL(glViewMatrix);
 	}
 
