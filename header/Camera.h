@@ -13,14 +13,14 @@ namespace egn {
 		float lastX, lastY;
 		mat4 T, R;
 	public:
-		vec3 eye, center, up;
+		vec3 position, front, up, right;
 
 	public:
-		Camera();
-		void ViewMatrix(const vec3& eye, const vec3& center, const vec3& up);
+		Camera(vec3& eye, vec3& center, vec3& upvec);
 		void OrthographicProjectionMatrix(float left, float right, float bot, float top, float near, float far);
 		void PerspectiveProjectionMatrix(float fovy, float aspect, float nearZ, float farZ);
 		mat4& getViewMatrix();
+		mat4& lookAt(const vec3& eye, const vec3& center, const vec3& upvec);
 		mat4& getOrthographicMatrix();
 		mat4& getPerspectiveMatrix();
 		mat4& getProjectionMatrix();

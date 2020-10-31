@@ -4,22 +4,30 @@
 
 namespace egn {
 
-	Camera::Camera()
+	Camera::Camera(vec3& eye, vec3& center, vec3& upvec)
 	{
 		firstMouseMovement = true;
+		position = eye;
+		front = vec3(center) - position;
+		up = upvec;
 	}
 
-	void Camera::ViewMatrix(const vec3& eye, const vec3& center, const vec3& up)
+	mat4& Camera::getViewMatrix()
+	{
+		vec3 aux = vec3(position);
+		aux += front;
+		return lookAt(position, aux, up);
+	}
+	mat4& Camera::lookAt(const vec3& eye, const vec3& center, const vec3& upvec)
 	{	
-		this->center = center;
-		this->eye = eye;
-		this->up = up;
+
 		vec3 view = center - eye;
 		vec3 v = vec3::normalize(view);
-		//std::cout << "v = " << v << std::endl;
+
 		vec3 side = vec3::cross(v, up);
 		vec3 s = vec3::normalize(side);
 		vec3 u = vec3::cross(s, v);
+
 		R = mat4(s.x, s.y, s.z, 0.0f,
 			u.x, u.y, u.z, 0.0f,
 			-v.x, -v.y, -v.z, 0.0f,
@@ -28,8 +36,10 @@ namespace egn {
 			0.0f, 1.0f, 0.0f, -eye.y,
 			0.0f, 0.0f, 1.0f, -eye.z,
 			0.0f, 0.0f, 0.0f, 1.0f);
+
 		mat4 M = R * T;
 		viewMatrix = M;
+		return viewMatrix;
 	}
 
 	void Camera::OrthographicProjectionMatrix(float left, float right, float bot, float top, float near, float far)
@@ -57,11 +67,6 @@ namespace egn {
 		projectionMatrix = perspectiveMatrix;
 	}
 
-	mat4& Camera::getViewMatrix()
-	{
-		return viewMatrix;
-	}
-
 	mat4& Camera::getOrthographicMatrix()
 	{
 		return orthographicMatrix;
@@ -75,14 +80,7 @@ namespace egn {
 	{
 		return projectionMatrix;
 	}
-	vec3& Camera::getEye()
-	{
-		return eye;
-	}
-	vec3& Camera::getCenter()
-	{
-		return center;
-	}
+
 	void Camera::setFirstMouseMovement(bool b) {
 		firstMouseMovement = b;
 	}
@@ -99,18 +97,33 @@ namespace egn {
 		}
 	}
 
-	void egn::Camera::addTranslation(vec3 v) {
-
+	void egn::Camera::addTranslation(vec3 v)
+	{	
+		if (direction == FORWARD)
+			this->position += front * 0.05;
+		if (direction == BACKWARD)
+			this->position -= front * 0.05;
+		if (direction == LEFT)
+			this->position -= right * 0.05;
+		if (direction == RIGHT)
+			this->position += right * 0.05;
+		/*
 		T.data[0][3] += v.x;
 		T.data[1][3] += v.y;
 		T.data[2][3] += v.z;
 		std::cout << T << std::endl << R << std::endl;
 		mat4 M = R * T;
 		viewMatrix = M;
-
+		*/
 	}
+
 	void egn::Camera::mouseCallBack(float xpos, float ypos)
-	{
+	{	
+		
+		
+		
+		
+		/*
 		if (firstMouseMovement)
 		{
 			lastX = xpos;
@@ -127,8 +140,8 @@ namespace egn {
 		xoffset *= 0.005;
 		yoffset *= -0.005;
 
-		R = R * mat4::rotationY(xoffset) * mat4::rotationX(yoffset);
-		/*
+		//R = R * mat4::rotationY(xoffset) * mat4::rotationX(yoffset);
+		
 		vec3 view = vec3(center);
 		view -= eye;
 		vec3 v = vec3::normalize(view);
@@ -139,7 +152,6 @@ namespace egn {
 		s.clean(); u.clean();
 		std::cout << "s = " << s << "     u = " << u <<std::endl;
 		center = center * mat3::rotationMatrix(yoffset,s) * mat3::rotationMatrix(xoffset,u);
-		up = vec3(0, -center.x, center.y);
 
 		view = vec3(center);
 		view -= eye;
@@ -156,11 +168,12 @@ namespace egn {
 			0.0f, 1.0f, 0.0f, -eye.y,
 			0.0f, 0.0f, 1.0f, -eye.z,
 			0.0f, 0.0f, 0.0f, 1.0f);
-		*/
+		
 		mat4 M = R * T;
 		viewMatrix = M;
 
 		//std::cout << R << std::endl;
+		*/
 	}
 }
 
