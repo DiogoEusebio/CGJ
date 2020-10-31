@@ -591,10 +591,13 @@ void key_callback(GLFWwindow* win, int key, int scancode, int action, int mods)
 		center = egn::vec3(0.0f, 0.0f, -1.0f);
 		up = egn::vec3(0.0f, 1.0f, 0.0f);
 		camera.ViewMatrix(eye, center, up);
-		camera.OrthographicProjectionMatrix(-1.0f, 1.0f, -1.0f, 1.0f, -1.0f, 1.0f);
+		camera.OrthographicProjectionMatrix(-2.0f, 2.0f, -2.0f, 2.0f, 1.0f, 10.0f);
 		camera.PerspectiveProjectionMatrix(30.0f, 640.0f / 480.0f, 1.0f, 10.0f);
-		camera.getProjectionMatrix().convertToGL(glProjectionMatrix);
+
 		camera.getViewMatrix().convertToGL(glViewMatrix);
+		camera.getProjectionMatrix().convertToGL(glProjectionMatrix);
+		printGLMatrix(glViewMatrix);
+		printGLMatrix(glProjectionMatrix);
 	}
 
 
