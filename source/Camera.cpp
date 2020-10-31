@@ -119,15 +119,5 @@ namespace egn {
 		viewMatrix = T * aux;
 		//std::cout << viewMatrix << std::endl;
 	}
-
-	void Camera::shift(const vec3& vec)
-	{
-		T.data[0][3] += vec.x;
-		T.data[1][3] += vec.y;
-		T.data[2][3] += vec.z;
-
-		viewMatrix = T * R;
-		std::cout << viewMatrix << std::endl;
-	}
 }
 

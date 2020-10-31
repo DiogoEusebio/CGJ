@@ -543,24 +543,44 @@ void key_callback(GLFWwindow* win, int key, int scancode, int action, int mods)
 
 	if (key == GLFW_KEY_A && (action == GLFW_REPEAT || action == GLFW_PRESS))
 	{
-		camera.shift(egn::vec3(-0.5f, 0.0f, 0.0f));
+		egn::vec3 view = egn::vec3(center);
+		view -= eye;
+		egn::vec3 v = egn::vec3::normalize(view);
+		eye += (egn::vec3(v.z, 0, -v.x) * 0.2);
+		center += (egn::vec3(v.z, 0, -v.x) * 0.2);
+		camera.ViewMatrix(eye, center, up);
 		camera.getViewMatrix().convertToGL(glViewMatrix);
 	}
 
 	if (key == GLFW_KEY_D && (action == GLFW_REPEAT || action == GLFW_PRESS))
 	{
-		camera.shift(egn::vec3(0.5f, 0.0f, 0.0f));
+		egn::vec3 view = egn::vec3(center);
+		view -= eye;
+		egn::vec3 v = egn::vec3::normalize(view);
+		eye -= (egn::vec3(v.z, 0, -v.x) * 0.2);
+		center -= (egn::vec3(v.z, 0, -v.x) * 0.2);
+		camera.ViewMatrix(eye, center, up);
 		camera.getViewMatrix().convertToGL(glViewMatrix);
 	}
 	if (key == GLFW_KEY_W && (action == GLFW_REPEAT || action == GLFW_PRESS))
 	{
-		camera.shift(egn::vec3(0.0f, 0.0f, -0.1f));
+		egn::vec3 view = egn::vec3(center);
+		view -= eye;
+		egn::vec3 v = egn::vec3::normalize(view);
+		eye += (v * 0.2);
+		center += (v * 0.2);
+		camera.ViewMatrix(eye, center, up);
 		camera.getViewMatrix().convertToGL(glViewMatrix);
 	}
 
 	if (key == GLFW_KEY_S && (action == GLFW_REPEAT || action == GLFW_PRESS))
 	{
-		camera.shift(egn::vec3(0.0f, 0.0f, 0.1f));
+		egn::vec3 view = egn::vec3(center);
+		view -= eye;
+		egn::vec3 v = egn::vec3::normalize(view);
+		eye -= (v * 0.2);
+		center -= (v * 0.2);
+		camera.ViewMatrix(eye, center, up);
 		camera.getViewMatrix().convertToGL(glViewMatrix);
 	}
 
