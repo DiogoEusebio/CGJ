@@ -114,10 +114,6 @@ namespace egn {
 	void egn::Camera::mouseCallBack(float xpos, float ypos)
 	{	
 		
-		
-		
-		
-		/*
 		if (firstMouseMovement)
 		{
 			lastX = xpos;
@@ -134,8 +130,23 @@ namespace egn {
 		xoffset *= 0.005;
 		yoffset *= -0.005;
 
-		//R = R * mat4::rotationY(xoffset) * mat4::rotationX(yoffset);
-		
+		mat4 matPitch = mat4::rotationY(xoffset);
+		mat4 matYaw = mat4::rotationX(yoffset);
+		//Matrix4 matRoll = MatrixFactory::rotate(roll, Vector3(0,0,1));
+		mat4 rotate = /*matRoll * */matPitch * matYaw;
+		T.data[0][3] = position.x;
+		T.data[1][3] = position.y;
+		T.data[2][3] = position.z;
+		viewMatrix = rotate * T; //* MatrixFactory::scale(Vector3(1.0f,1.0f,1.0f));
+		front = vec3::normalize(-vec3(viewMatrix.data[2][0], viewMatrix.data[2][1], viewMatrix.data[2][2]));
+		right = vec3::normalize(vec3(viewMatrix.data[0][0], viewMatrix.data[0][1], viewMatrix.data[0][2]));
+		up = vec3::cross(right,front);
+
+
+
+		/*
+
+		R = R * mat4::rotationY(xoffset) * mat4::rotationX(yoffset);
 		vec3 view = vec3(center);
 		view -= eye;
 		vec3 v = vec3::normalize(view);
@@ -162,12 +173,13 @@ namespace egn {
 			0.0f, 1.0f, 0.0f, -eye.y,
 			0.0f, 0.0f, 1.0f, -eye.z,
 			0.0f, 0.0f, 0.0f, 1.0f);
-		
+
 		mat4 M = R * T;
 		viewMatrix = M;
+		*/
 
 		//std::cout << R << std::endl;
-		*/
+		
 	}
 }
 
