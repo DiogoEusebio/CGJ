@@ -9,6 +9,7 @@ namespace egn {
 		firstMouseMovement = true;
 		position = eye;
 		front = vec3(center) - position;
+		right = vec3::cross(front, upvec);
 		up = upvec;
 	}
 
@@ -99,22 +100,15 @@ namespace egn {
 
 	void egn::Camera::addTranslation(vec3 v)
 	{	
-		if (direction == FORWARD)
-			this->position += front * 0.05;
-		if (direction == BACKWARD)
-			this->position -= front * 0.05;
-		if (direction == LEFT)
-			this->position -= right * 0.05;
-		if (direction == RIGHT)
-			this->position += right * 0.05;
-		/*
-		T.data[0][3] += v.x;
-		T.data[1][3] += v.y;
-		T.data[2][3] += v.z;
-		std::cout << T << std::endl << R << std::endl;
-		mat4 M = R * T;
-		viewMatrix = M;
-		*/
+		vec3 vec = vec3::normalize(v);
+		if (vec.z != 0)
+		{
+			this->position += front * v.z;
+		}
+		if (vec.x != 0)
+		{
+			this->position += right * v.x;
+		}
 	}
 
 	void egn::Camera::mouseCallBack(float xpos, float ypos)
