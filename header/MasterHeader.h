@@ -5,4 +5,5 @@
 #include "../header/Vector.h"
 #include "../header/Constants.h"
 #include "../header/Camera.h"
+#include "../header/Shader.h"
 #endif

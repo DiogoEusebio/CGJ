@@ -17,13 +17,17 @@
 #define COLORS 1
 #define PI 3.14159265
 
+using namespace egn;
+
 GLuint VaoId, VboId[2];
 GLuint VertexShaderId, FragmentShaderId, ProgramId;
 GLint ModelID, ViewID, ProjectionID, ColorID;
-egn::vec3 eye = egn::vec3(0.0f, 0.0f, 5.0f);
-egn::vec3 center = egn::vec3(0.0f, 0.0f, -1.0f);
-egn::vec3 up = egn::vec3(0.0f, 1.0f, 0.0f);
-egn::Camera camera = egn::Camera::Camera(eye, center, up);
+Shader* shader;
+
+vec3 eye = vec3(0.0f, 0.0f, 5.0f);
+vec3 center = vec3(0.0f, 0.0f, -1.0f);
+vec3 up = vec3(0.0f, 1.0f, 0.0f);
+Camera camera = Camera::Camera(eye, center, up);
 
 #define ERROR_CALLBACK
 #ifdef  ERROR_CALLBACK
@@ -151,6 +155,7 @@ static void checkOpenGLError(std::string error)
 
 /////////////////////////////////////////////////////////////////////// SHADERs
 
+/*
 const GLchar* VertexShader =
 {
 	"#version 330 core\n"
@@ -217,7 +222,7 @@ void createShaderProgram()
 #ifndef ERROR_CALLBACK
 	checkOpenGLError("ERROR: Could not create shaders.");
 #endif
-}
+} 
 
 void destroyShaderProgram()
 {
@@ -228,6 +233,8 @@ void destroyShaderProgram()
 	checkOpenGLError("ERROR: Could not destroy shaders.");
 #endif
 }
+
+*/
 
 /////////////////////////////////////////////////////////////////////// VAOs & VBOs
 
@@ -323,23 +330,25 @@ GLfloat glProjectionMatrix[16];
 GLfloat glDebugMatrix[16];
 
 
-void createSquare(float sidelenght, egn::mat4 transformMatrix, float red, float green, float blue)
+void createSquare(float sidelenght, mat4 transformMatrix, float red, float green, float blue)
 {
 	GLfloat vec[16];
+	GLfloat color[4] = { red, green, blue, 1 };
 	transformMatrix.convertToGL(vec);
-	glUniformMatrix4fv(ModelID, 1, GL_FALSE, vec);
-	glUniform4f(ColorID, red, green, blue, 0);
+	glUniformMatrix4fv(shader->ModelMatrix_UID, 1, GL_FALSE, vec);
+	glUniform4fv(shader->Color_UID, 1, color);
 	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_BYTE, (GLvoid*)0);
-	glUniform4f(ColorID, red * 0.5, green * 0.5, blue * 0.5, 0);
+	GLfloat backColor[4] = { red * 0.5, green * 0.5, blue * 0.5, 1 };
+	glUniform4fv(shader->Color_UID, 1, backColor);
 	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_BYTE, (GLvoid*)(sizeof(GLubyte) * 6));
 
 }
 
 
-void drawTetraminoLine(float sidelenght, egn::mat4 transformMatrix)
+void drawTetraminoLine(float sidelenght, mat4 transformMatrix)
 {
-	egn::mat4 myTransform = transformMatrix;
-	egn::mat4 nextTransform = egn::mat4::identityMatrix();
+	mat4 myTransform = transformMatrix;
+	mat4 nextTransform = mat4::identityMatrix();
 
 	nextTransform.data[1][3] += sidelenght + 0.05;
 
@@ -350,10 +359,10 @@ void drawTetraminoLine(float sidelenght, egn::mat4 transformMatrix)
 	}
 }
 
-void drawTetraminoeRightL(float sidelenght, egn::mat4 transformMatrix)
+void drawTetraminoeRightL(float sidelenght, mat4 transformMatrix)
 {
-	egn::mat4 myTransform = transformMatrix;
-	egn::mat4 nextTransform = egn::mat4::identityMatrix();
+	mat4 myTransform = transformMatrix;
+	mat4 nextTransform = mat4::identityMatrix();
 	nextTransform.data[1][3] += sidelenght + 0.05; //change y
 
 	createSquare(0.25, myTransform, 0.349f, 0.839f, 0.0f);
@@ -367,10 +376,10 @@ void drawTetraminoeRightL(float sidelenght, egn::mat4 transformMatrix)
 	myTransform *= nextTransform;
 	createSquare(0.25, myTransform, 0.349f, 0.839f, 0.0f);
 }
-void drawTetraminoeLeftL(float sidelenght, egn::mat4 transformMatrix)
+void drawTetraminoeLeftL(float sidelenght, mat4 transformMatrix)
 {
-	egn::mat4 myTransform = transformMatrix;
-	egn::mat4 nextTransform = egn::mat4::identityMatrix();
+	mat4 myTransform = transformMatrix;
+	mat4 nextTransform = mat4::identityMatrix();
 	nextTransform.data[1][3] += sidelenght + 0.05; //change y
 
 	createSquare(0.25, myTransform, 0.901f, 0.239f, 0.850f);
@@ -384,10 +393,10 @@ void drawTetraminoeLeftL(float sidelenght, egn::mat4 transformMatrix)
 	myTransform *= nextTransform;
 	createSquare(0.25, myTransform, 0.901f, 0.239f, 0.850f);
 }
-void drawTetraminoeT(float sidelenght, egn::mat4 transformMatrix)
+void drawTetraminoeT(float sidelenght, mat4 transformMatrix)
 {
-	egn::mat4 myTransform = transformMatrix;
-	egn::mat4 nextTransform = egn::mat4::identityMatrix();
+	mat4 myTransform = transformMatrix;
+	mat4 nextTransform = mat4::identityMatrix();
 	nextTransform.data[0][3] += sidelenght + 0.05;
 
 	createSquare(0.25, myTransform, 0.8f, 0.0f, 0.0f);
@@ -401,10 +410,10 @@ void drawTetraminoeT(float sidelenght, egn::mat4 transformMatrix)
 	myTransform *= nextTransform;
 	createSquare(0.25, myTransform, 0.0f, 0.0f, 0.0f);
 }
-void drawTetraminoeCube(float sidelenght, egn::mat4 transformMatrix)
+void drawTetraminoeCube(float sidelenght, mat4 transformMatrix)
 {
-	egn::mat4 myTransform = transformMatrix;
-	egn::mat4 nextTransform = egn::mat4::identityMatrix();
+	mat4 myTransform = transformMatrix;
+	mat4 nextTransform = mat4::identityMatrix();
 	nextTransform.data[0][3] = sidelenght + 0.05;
 
 	createSquare(0.25, myTransform, 0.980f, 0.988f, 0.309f);
@@ -419,10 +428,10 @@ void drawTetraminoeCube(float sidelenght, egn::mat4 transformMatrix)
 	myTransform *= nextTransform;
 	createSquare(0.25, myTransform, 0.980f, 0.988f, 0.309f);
 }
-void drawTetraminoeS(float sidelenght, egn::mat4 transformMatrix)
+void drawTetraminoeS(float sidelenght, mat4 transformMatrix)
 {
-	egn::mat4 myTransform = transformMatrix;
-	egn::mat4 nextTransform = egn::mat4::identityMatrix();
+	mat4 myTransform = transformMatrix;
+	mat4 nextTransform = mat4::identityMatrix();
 	nextTransform.data[0][3] = sidelenght + 0.05;
 
 	createSquare(0.25, myTransform, 0.309f, 0.988f, 0.878f);
@@ -436,10 +445,10 @@ void drawTetraminoeS(float sidelenght, egn::mat4 transformMatrix)
 	myTransform *= nextTransform;
 	createSquare(0.25, myTransform, 0.309f, 0.988f, 0.878f);
 }
-void drawTetraminoeSinverted(float sidelenght, egn::mat4 transformMatrix)
+void drawTetraminoeSinverted(float sidelenght, mat4 transformMatrix)
 {
-	egn::mat4 myTransform = transformMatrix;
-	egn::mat4 nextTransform = egn::mat4::identityMatrix();
+	mat4 myTransform = transformMatrix;
+	mat4 nextTransform = mat4::identityMatrix();
 	nextTransform.data[0][3] = sidelenght + 0.05;
 
 	createSquare(0.25, myTransform, 0.678f, 0.0f, 0.878f);
@@ -460,36 +469,36 @@ void drawScene()
 	// Drawing directly in clip space
 
 	glBindVertexArray(VaoId);
-	glUseProgram(ProgramId);
-	glUniformMatrix4fv(ProjectionID, 1, GL_FALSE, glProjectionMatrix);
-	glUniformMatrix4fv(ViewID, 1, GL_FALSE, glViewMatrix);
+	glUseProgram(shader->ProgramID);
+	glUniformMatrix4fv(shader->ProjectionMatrix_UID, 1, GL_FALSE, glProjectionMatrix);
+	glUniformMatrix4fv(shader->ViewMatrix_UID, 1, GL_FALSE, glViewMatrix);
 	float sidelenght = 0.25;
-	egn::mat4 rotation = egn::mat4(cos(45 * PI / 180), -sin(45 * PI / 180), 0.0f, -0.25f,
+	mat4 rotation = mat4(cos(45 * PI / 180), -sin(45 * PI / 180), 0.0f, -0.25f,
 		sin(45 * PI / 180), cos(45 * PI / 180), 0.0f, 0.25f,
 		0.0f, 0.0f, 1.0f, 0.0f,
 		0.0f, 0.0f, 0.0f, 1.0f);
 
-	egn::mat4 LRight = egn::mat4(cos(PI), -sin(PI), 0.0f, -(sidelenght + 0.05),
+	mat4 LRight = mat4(cos(PI), -sin(PI), 0.0f, -(sidelenght + 0.05),
 		sin(PI), cos(PI), 0.0f, 0.0f,
 		0.0f, 0.0f, 1.0f, 0.0f,
 		0.0f, 0.0f, 0.0f, 1.0f);
 
-	egn::mat4 LLeftnorot = egn::mat4(cos(PI), -sin(PI), 0.0f, -(sidelenght + 0.05),
+	mat4 LLeftnorot = mat4(cos(PI), -sin(PI), 0.0f, -(sidelenght + 0.05),
 		sin(PI), cos(PI), 0.0f, (sidelenght + 0.05),
 		0.0f, 0.0f, 1.0f, 0.0f,
 		0.0f, 0.0f, 0.0f, 1.0f);
 
-	egn::mat4 LLeft = egn::mat4(cos(270 * PI / 180), -sin(270 * PI / 180), 0.0f, -1.65 * (sidelenght + 0.05) - 0.05,
+	mat4 LLeft = mat4(cos(270 * PI / 180), -sin(270 * PI / 180), 0.0f, -1.65 * (sidelenght + 0.05) - 0.05,
 		sin(270 * PI / 180), cos(270 * PI / 180), 0.0f, (sidelenght + 0.05),
 		0.0f, 0.0f, 1.0f, 0.0f,
 		0.0f, 0.0f, 0.0f, 1.0f);
 
-	egn::mat4 Line = egn::mat4(cos(PI), -sin(PI), 0.0f, 2 * (sidelenght + 0.05),
+	mat4 Line = mat4(cos(PI), -sin(PI), 0.0f, 2 * (sidelenght + 0.05),
 		sin(PI), cos(PI), 0.0f, (sidelenght + 0.05),
 		0.0f, 0.0f, 1.0f, 0.0f,
 		0.0f, 0.0f, 0.0f, 1.0f);
 
-	egn::mat4 S = egn::mat4(cos(90 * PI / 180), -sin(90 * PI / 180), 0.0f, 0.0f,
+	mat4 S = mat4(cos(90 * PI / 180), -sin(90 * PI / 180), 0.0f, 0.0f,
 		sin(90 * PI / 180), cos(90 * PI / 180), 0.0f, -2 * sidelenght - 0.05,
 		0.0f, 0.0f, 1.0f, 0.0f,
 		0.0f, 0.0f, 0.0f, 1.0f);
@@ -514,7 +523,7 @@ void drawScene()
 
 void window_close_callback(GLFWwindow* win)
 {
-	destroyShaderProgram();
+	shader->destroyShaderProgram();
 	destroyBufferObjects();
 }
 
@@ -544,33 +553,33 @@ void key_callback(GLFWwindow* win, int key, int scancode, int action, int mods)
 	// CAMERA MOVEMENT
 	if (key == GLFW_KEY_A && (action == GLFW_REPEAT || action == GLFW_PRESS))
 	{	
-		camera.addTranslation(egn::vec3(-0.01f, 0.0f, 0.0f));
+		camera.addTranslation(vec3(-0.01f, 0.0f, 0.0f));
 		camera.getViewMatrix().convertToGL(glViewMatrix);
 	}
 
 	if (key == GLFW_KEY_D && (action == GLFW_REPEAT || action == GLFW_PRESS))
 	{	
-		camera.addTranslation(egn::vec3(0.01f, 0.0f, 0.0f));
+		camera.addTranslation(vec3(0.01f, 0.0f, 0.0f));
 		camera.getViewMatrix().convertToGL(glViewMatrix);
 	}
 	if (key == GLFW_KEY_W && (action == GLFW_REPEAT || action == GLFW_PRESS))
 	{
-		camera.addTranslation(egn::vec3(0.0f, 0.0f, 0.1f));
+		camera.addTranslation(vec3(0.0f, 0.0f, 0.1f));
 		camera.getViewMatrix().convertToGL(glViewMatrix);
 		}
 
 	if (key == GLFW_KEY_S && (action == GLFW_REPEAT || action == GLFW_PRESS))
 	{	
-		camera.addTranslation(egn::vec3(0.0f, 0.0f, -0.1f));
+		camera.addTranslation(vec3(0.0f, 0.0f, -0.1f));
 		camera.getViewMatrix().convertToGL(glViewMatrix);
 	}
 
 	//RESET CAMERA
 	if (key == GLFW_KEY_T) {
-		eye = egn::vec3(0.0f, 0.0f, 5.0f);
-		center = egn::vec3(0.0f, 0.0f, -1.0f);
-		up = egn::vec3(0.0f, 1.0f, 0.0f);
-		camera = egn::Camera::Camera(eye, center, up);
+		eye = vec3(0.0f, 0.0f, 5.0f);
+		center = vec3(0.0f, 0.0f, -1.0f);
+		up = vec3(0.0f, 1.0f, 0.0f);
+		camera = Camera::Camera(eye, center, up);
 
 		camera.OrthographicProjectionMatrix(-2.0f, 2.0f, -2.0f, 2.0f, 1.0f, 10.0f);
 		camera.PerspectiveProjectionMatrix(30.0f, 640.0f / 480.0f, 1.0f, 10.0f);
@@ -704,7 +713,8 @@ GLFWwindow* setup(int major, int minor,
 #ifdef ERROR_CALLBACK
 	setupErrorCallback();
 #endif
-	createShaderProgram();
+	shader = new Shader();
+	shader->createShaderProgram("shaders/vertex.shader", "shaders/fragment.shader");
 	createBufferObjects();
 	return win;
 }

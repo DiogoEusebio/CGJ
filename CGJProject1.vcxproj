@@ -148,6 +148,8 @@
     <ClCompile Include="source\Camera.cpp" />
     <ClCompile Include="source\main.cpp" />
     <ClCompile Include="source\Matrix.cpp" />
+    <ClCompile Include="source\Quaternion.cpp" />
+    <ClCompile Include="source\Shader.cpp" />
     <ClCompile Include="source\Vector.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -155,7 +157,13 @@
     <ClInclude Include="header\Constants.h" />
     <ClInclude Include="header\MasterHeader.h" />
     <ClInclude Include="header\Matrix.h" />
+    <ClInclude Include="header\Quaternion.h" />
+    <ClInclude Include="header\Shader.h" />
     <ClInclude Include="header\Vector.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="shaders\fragment.shader" />
+    <None Include="shaders\vertex.shader" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
