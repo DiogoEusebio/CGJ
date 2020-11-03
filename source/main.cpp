@@ -1,12 +1,3 @@
-///////////////////////////////////////////////////////////////////////////////
-//
-// Drawing two instances of a triangle in Clip Space.
-// A "Hello 2D World" of Modern OpenGL.
-//
-// (c)2013-20 by Carlos Martinho
-//
-///////////////////////////////////////////////////////////////////////////////
-
 #include <iostream>
 #include <math.h> 
 #include <GL/glew.h>
@@ -24,10 +15,10 @@ GLuint VertexShaderId, FragmentShaderId, ProgramId;
 GLint ModelID, ViewID, ProjectionID, ColorID;
 Shader* shader;
 
-vec3 eye = vec3(0.0f, 0.0f, 5.0f);
-vec3 center = vec3(0.0f, 0.0f, -1.0f);
-vec3 up = vec3(0.0f, 1.0f, 0.0f);
-Camera camera = Camera::Camera(eye, center, up);
+vec3 eye;
+vec3 center;
+vec3 up;
+Camera camera;
 
 #define ERROR_CALLBACK
 #ifdef  ERROR_CALLBACK
@@ -155,87 +146,6 @@ static void checkOpenGLError(std::string error)
 
 /////////////////////////////////////////////////////////////////////// SHADERs
 
-/*
-const GLchar* VertexShader =
-{
-	"#version 330 core\n"
-
-	"in vec4 in_Position;\n"
-	"in vec4 in_Color;\n"
-	"out vec4 ex_Color;\n"
-
-	"uniform mat4 ModelMatrix;\n"
-
-	"uniform mat4 ViewMatrix;\n"
-	"uniform mat4 ProjectionMatrix;\n"
-
-	"void main(void)\n"
-	"{\n"
-	"	gl_Position = ProjectionMatrix * (ViewMatrix * (ModelMatrix * in_Position));\n"
-	"	ex_Color = in_Color;\n"
-	"}\n"
-};
-
-const GLchar* FragmentShader =
-{
-	"#version 330 core\n"
-
-	"in vec4 ex_Color;\n"
-	"out vec4 out_Color;\n"
-
-	"uniform vec4 Color;\n"
-
-	"void main(void)\n"
-	"{\n"
-	"	out_Color = Color;\n"
-	"}\n"
-};
-
-void createShaderProgram()
-{
-	VertexShaderId = glCreateShader(GL_VERTEX_SHADER);
-	glShaderSource(VertexShaderId, 1, &VertexShader, 0);
-	glCompileShader(VertexShaderId);
-
-	FragmentShaderId = glCreateShader(GL_FRAGMENT_SHADER);
-	glShaderSource(FragmentShaderId, 1, &FragmentShader, 0);
-	glCompileShader(FragmentShaderId);
-
-	ProgramId = glCreateProgram();
-	glAttachShader(ProgramId, VertexShaderId);
-	glAttachShader(ProgramId, FragmentShaderId);
-
-	glBindAttribLocation(ProgramId, VERTICES, "in_Position");
-	glBindAttribLocation(ProgramId, COLORS, "in_Color");
-
-	glLinkProgram(ProgramId);
-	ModelID = glGetUniformLocation(ProgramId, "ModelMatrix");
-	ViewID = glGetUniformLocation(ProgramId, "ViewMatrix");
-	ProjectionID = glGetUniformLocation(ProgramId, "ProjectionMatrix");
-	ColorID = glGetUniformLocation(ProgramId, "Color");
-
-	glDetachShader(ProgramId, VertexShaderId);
-	glDeleteShader(VertexShaderId);
-	glDetachShader(ProgramId, FragmentShaderId);
-	glDeleteShader(FragmentShaderId);
-
-#ifndef ERROR_CALLBACK
-	checkOpenGLError("ERROR: Could not create shaders.");
-#endif
-} 
-
-void destroyShaderProgram()
-{
-	glUseProgram(0);
-	glDeleteProgram(ProgramId);
-
-#ifndef ERROR_CALLBACK
-	checkOpenGLError("ERROR: Could not destroy shaders.");
-#endif
-}
-
-*/
-
 /////////////////////////////////////////////////////////////////////// VAOs & VBOs
 
 typedef struct
@@ -254,14 +164,6 @@ Vertex Vertices[] =
 	{{ 0.25f, 0.25f, 0.0f, 1.0f }, { 0.4, 0.498, 0.960 }},
 	{{ 0.0f, 0.25f, 0.0f, 1.0f }, { 0.4, 0.498, 0.960 }},
 };
-
-/*
-const Vertex Vertices[] =
-{
-	{{ 0.25f, 0.25f, 0.0f, 1.0f }, { 1.0f, 0.0f, 0.0f, 1.0f }},
-	{{ 0.75f, 0.25f, 0.0f, 1.0f }, { 0.0f, 1.0f, 0.0f, 1.0f }},
-	{{ 0.50f, 0.75f, 0.0f, 1.0f }, { 0.0f, 0.0f, 1.0f, 1.0f }}
-};*/
 
 const GLubyte Indices[] =
 {
@@ -464,6 +366,12 @@ void drawTetraminoeSinverted(float sidelenght, mat4 transformMatrix)
 	createSquare(0.25, myTransform, 0.678f, 0.0f, 0.878f);
 }
 
+void drawCamera(egn::Camera camera)
+{
+	camera.getViewMatrix().convertToGL(glViewMatrix);
+	camera.getProjectionMatrix().convertToGL(glProjectionMatrix);
+}
+
 void drawScene()
 {
 	// Drawing directly in clip space
@@ -510,6 +418,8 @@ void drawScene()
 	//drawTetraminoeCube(sidelenght, InitialTransform);
 	drawTetraminoeS(sidelenght, rotation * S);
 	//drawTetraminoeSinverted(sidelenght, InvertedS);
+
+	drawCamera(camera);
 
 	glUseProgram(0);
 	glBindVertexArray(0);
@@ -576,18 +486,10 @@ void key_callback(GLFWwindow* win, int key, int scancode, int action, int mods)
 
 	//RESET CAMERA
 	if (key == GLFW_KEY_T) {
-		eye = vec3(0.0f, 0.0f, 5.0f);
-		center = vec3(0.0f, 0.0f, -1.0f);
-		up = vec3(0.0f, 1.0f, 0.0f);
-		camera = Camera::Camera(eye, center, up);
-
-		camera.OrthographicProjectionMatrix(-2.0f, 2.0f, -2.0f, 2.0f, 1.0f, 10.0f);
-		camera.PerspectiveProjectionMatrix(30.0f, 640.0f / 480.0f, 1.0f, 10.0f);
-
-		camera.getViewMatrix().convertToGL(glViewMatrix);
-		camera.getProjectionMatrix().convertToGL(glProjectionMatrix);
-		printGLMatrix(glViewMatrix);
-		printGLMatrix(glProjectionMatrix);
+		eye = egn::vec3(0.0f, 0.0f, 5.0f);
+		center = egn::vec3(0.0f, 0.0f, -1.0f);
+		up = egn::vec3(0.0f, 1.0f, 0.0f);
+		camera.resetCamera(eye, center, up);
 	}
 
 
@@ -595,7 +497,6 @@ void key_callback(GLFWwindow* win, int key, int scancode, int action, int mods)
 
 void mouse_callback(GLFWwindow* win, double xpos, double ypos)
 {
-	//std::cout << "mouse: " << xpos << " " << ypos << std::endl;
 	int state = glfwGetMouseButton(win, GLFW_MOUSE_BUTTON_LEFT);
 	if (state == GLFW_PRESS) {
 		camera.mouseCallBack((float)xpos, (float)ypos);
@@ -614,6 +515,20 @@ void mouse_button_callback(GLFWwindow* win, int button, int action, int mods)
 
 
 ///////////////////////////////////////////////////////////////////////// SETUP
+
+void setupCamera()
+{
+	eye = egn::vec3(0.0f, 0.0f, 5.0f);
+	center = egn::vec3(0.0f, 0.0f, -1.0f);
+	up = egn::vec3(0.0f, 1.0f, 0.0f);
+	camera = egn::Camera::Camera(eye, center, up);
+
+	camera.OrthographicProjectionMatrix(-2.0f, 2.0f, -2.0f, 2.0f, 1.0f, 10.0f);
+	camera.PerspectiveProjectionMatrix(30.0f, 640.0f / 480.0f, 1.0f, 10.0f);
+
+	camera.getViewMatrix().convertToGL(glViewMatrix);
+	camera.getProjectionMatrix().convertToGL(glProjectionMatrix);
+}
 
 GLFWwindow* setupWindow(int winx, int winy, const char* title,
 	int is_fullscreen, int is_vsync)
@@ -715,6 +630,7 @@ GLFWwindow* setup(int major, int minor,
 #endif
 	shader = new Shader();
 	shader->createShaderProgram("shaders/vertex.shader", "shaders/fragment.shader");
+	setupCamera();
 	createBufferObjects();
 	return win;
 }
@@ -755,15 +671,6 @@ int main(int argc, char* argv[])
 	int gl_major = 4, gl_minor = 3;
 	int is_fullscreen = 0;
 	int is_vsync = 1;
-
-	camera.OrthographicProjectionMatrix(-2.0f, 2.0f, -2.0f, 2.0f, 1.0f, 10.0f);
-	camera.PerspectiveProjectionMatrix(30.0f, 640.0f / 480.0f, 1.0f, 10.0f);
-
-	camera.getViewMatrix().convertToGL(glViewMatrix);
-	camera.getProjectionMatrix().convertToGL(glProjectionMatrix);
-	printGLMatrix(glViewMatrix);
-	printGLMatrix(glProjectionMatrix);
-	//printGLMatrix((camera.getProjectionMatrix() * camera.getViewMatrix()).convertToGL(glDebugMatrix));
 
 	GLFWwindow* win = setup(gl_major, gl_minor,
 		500, 500, "3D assignment", is_fullscreen, is_vsync);

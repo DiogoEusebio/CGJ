@@ -4,7 +4,25 @@
 
 namespace egn {
 
+	Camera::Camera()
+	{
+		firstMouseMovement = true;
+		position = vec3(0);
+		front = vec3(0);
+		right = vec3(0);
+		up = vec3(0);
+	}
+
 	Camera::Camera(vec3& eye, vec3& center, vec3& upvec)
+	{
+		firstMouseMovement = true;
+		position = eye;
+		front = vec3(center) - position;
+		right = vec3::cross(front, upvec);
+		up = upvec;
+	}
+	
+	void Camera::resetCamera(vec3& eye, vec3& center, vec3& upvec)
 	{
 		firstMouseMovement = true;
 		position = eye;
@@ -119,7 +137,6 @@ namespace egn {
 			lastX = xpos;
 			lastY = ypos;
 			firstMouseMovement = false;
-			std::cout << "I'm here once" << std::endl;
 		}
 
 		float xoffset = xpos - lastX;
@@ -132,54 +149,14 @@ namespace egn {
 
 		mat4 matPitch = mat4::rotationY(xoffset);
 		mat4 matYaw = mat4::rotationX(yoffset);
-		//Matrix4 matRoll = MatrixFactory::rotate(roll, Vector3(0,0,1));
 		R = R * matPitch * matYaw;
 		T.data[0][3] = position.x;
 		T.data[1][3] = position.y;
 		T.data[2][3] = position.z;
-		viewMatrix = R * T; //* MatrixFactory::scale(Vector3(1.0f,1.0f,1.0f));
+		viewMatrix = R * T;
 		front = vec3::normalize(-vec3(viewMatrix.data[2][0], viewMatrix.data[2][1], viewMatrix.data[2][2]));
 		right = vec3::normalize(vec3(viewMatrix.data[0][0], viewMatrix.data[0][1], viewMatrix.data[0][2]));
-		up = vec3::cross(right,front);
-
-
-
-		/*
-
-		R = R * mat4::rotationY(xoffset) * mat4::rotationX(yoffset);
-		vec3 view = vec3(center);
-		view -= eye;
-		vec3 v = vec3::normalize(view);
-		//std::cout << "v = " << v << std::endl;
-		vec3 side = vec3::cross(v, up);
-		vec3 s = vec3::normalize(side);
-		vec3 u = vec3::cross(s, v);
-		s.clean(); u.clean();
-		std::cout << "s = " << s << "     u = " << u <<std::endl;
-		center = center * mat3::rotationMatrix(yoffset,s) * mat3::rotationMatrix(xoffset,u);
-
-		view = vec3(center);
-		view -= eye;
-		v = vec3::normalize(view);
-		//std::cout << "v = " << v << std::endl;
-		side = vec3::cross(v, up);
-		s = vec3::normalize(side);
-		u = vec3::cross(s, v);
-		R = mat4(s.x, s.y, s.z, 0.0f,
-			u.x, u.y, u.z, 0.0f,
-			-v.x, -v.y, -v.z, 0.0f,
-			0.0f, 0.0f, 0.0f, 1.0f);
-		T = mat4(1.0f, 0.0f, 0.0f, -eye.x,
-			0.0f, 1.0f, 0.0f, -eye.y,
-			0.0f, 0.0f, 1.0f, -eye.z,
-			0.0f, 0.0f, 0.0f, 1.0f);
-
-		mat4 M = R * T;
-		viewMatrix = M;
-		*/
-
-		//std::cout << R << std::endl;
-		
+		up = vec3::cross(right,front);		
 	}
 }
 

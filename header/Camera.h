@@ -16,7 +16,9 @@ namespace egn {
 		vec3 position, front, up, right;
 
 	public:
+		Camera();
 		Camera(vec3& eye, vec3& center, vec3& upvec);
+		void resetCamera(vec3& eye, vec3& center, vec3& upvec);
 		void OrthographicProjectionMatrix(float left, float right, float bot, float top, float near, float far);
 		void PerspectiveProjectionMatrix(float fovy, float aspect, float nearZ, float farZ);
 		mat4& getViewMatrix();

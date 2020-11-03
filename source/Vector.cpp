@@ -1,32 +1,4 @@
-//Vector3
 #include "../header/Vector.h"
-/*TO DO LIST aka implement
-	constructor
-	assignment
-	comparison
-	input/output
-	sum +
-		sum scalar
-		sum vector
-		sum scalar with +=
-		sum vector with +=
-	subtract -
-		subtract scalar
-		subtract vector
-		subtract scalar with -=
-		subtract vector with -=
-	multiply *
-		multiply scalar
-		multiply scaler *=
-	divide /
-		divide scalar
-		divide scalar /=
-	dot
-	cross
-	convert
-		convert into 2D
-		convert into 3D
-*/
 
 namespace egn {
 
