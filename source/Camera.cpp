@@ -30,6 +30,15 @@ namespace egn {
 		right = vec3::cross(front, upvec);
 		up = upvec;
 	}
+	void Camera::init(GLuint vbo, GLsizeiptr datasize, GLuint UBO_id)
+	{
+		glBindBuffer(GL_UNIFORM_BUFFER, vbo);
+		{
+			glBufferData(GL_UNIFORM_BUFFER, datasize * 2, 0, GL_STREAM_DRAW);
+			glBindBufferBase(GL_UNIFORM_BUFFER, UBO_id, vbo);
+		}
+		glBindBuffer(GL_UNIFORM_BUFFER, 0);
+	}
 
 	mat4& Camera::getViewMatrix()
 	{

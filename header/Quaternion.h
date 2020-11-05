@@ -1,25 +1,29 @@
 #pragma once
+#include "Vector.h"
+#include "Matrix.h"
+#include "Constants.h"
 
-
-typedef struct {
-	float t, x, y, z;
-} qtrn;
-
-const float qThreshold = (float)1.0e-5;
-
-qtrn qFromAngleAxis(float theta, vec4 axis);
-void qToAngleAxis(const qtrn& q, float& theta, vec4& axis);
-void qClean(qtrn& q);
-float qQuadrance(const qtrn& q);
-float qNorm(const qtrn& q);
-qtrn qNormalize(const qtrn& q);
-qtrn qConjugate(const qtrn& q);
-qtrn qInverse(const qtrn& q);
-qtrn qMultiply(const qtrn& q, const float s);
-qtrn qMultiply(const qtrn& q0, const qtrn& q1);
-void qGLRotationMatrix(const qtrn& q, mat4 matrix);
-qtrn qLerp(const qtrn& q0, const qtrn& q1, float k);
-qtrn qSlerp(const qtrn& q0, const qtrn& q1, float k);
-bool qEqual(const qtrn& q0, const qtrn& q1);
-void qPrint(const std::string& s, const qtrn& q);
-void qPrintAngleAxis(const std::string& s, const qtrn& q);
+namespace egn {
+	struct qtrn {
+		float t, x, y, z;
+		qtrn();
+		qtrn(const float t, const float x, const float y, const float z);
+		static const qtrn qFromAngleAxis(const float theta, vec4 axis);
+		static const void qToAngleAxis(const qtrn& q, float& theta, vec4& axis);
+		friend const void qClean(qtrn& q);
+		friend const float qQuadrance(const qtrn& q);
+		friend const float qNorm(const qtrn& q);
+		friend const qtrn qNormalize(const qtrn& q);
+		friend const qtrn qConjugate(const qtrn& q);
+		friend const qtrn qInverse(const qtrn& q);
+		friend const qtrn operator + (const qtrn& q0, const qtrn& q1);
+		friend const qtrn operator * (const qtrn& q, const float s);
+		friend const qtrn operator * (const qtrn& q0, const qtrn& q1);
+		qtrn& operator = (const qtrn& q);
+		friend const qtrn qLerp(const qtrn& q0, const qtrn& q1, float k);
+		friend const qtrn qSlerp(const qtrn& q0, const qtrn& q1, float k);
+		friend const bool qEqual(const qtrn& q0, const qtrn& q1);
+		friend const void qPrint(const std::string& s, const qtrn& q);
+		friend const void qPrintAngleAxis(const std::string& s, const qtrn& q);
+	};
+}

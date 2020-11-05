@@ -13,6 +13,8 @@ using namespace egn;
 GLuint VaoId, VboId[2];
 GLuint VertexShaderId, FragmentShaderId, ProgramId;
 GLint ModelID, ViewID, ProjectionID, ColorID;
+const GLuint UBO_BP = 0;
+
 Shader* shader;
 
 vec3 eye;
@@ -171,7 +173,7 @@ const GLubyte Indices[] =
 };
 
 void createBufferObjects()
-{
+{	
 	glGenVertexArrays(1, &VaoId);
 	glBindVertexArray(VaoId);
 	{
@@ -193,6 +195,26 @@ void createBufferObjects()
 	glBindVertexArray(0);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+	/*
+	glGenVertexArrays(1, &VaoId);
+	glBindVertexArray(VaoId);
+	{
+		glGenBuffers(2, VboId);
+
+		glBindBuffer(GL_ARRAY_BUFFER, VboId[0]);
+		{
+			glBufferData(GL_ARRAY_BUFFER, sizeof(Vertices), Vertices, GL_STATIC_DRAW);
+			glEnableVertexAttribArray(VERTICES);
+			glVertexAttribPointer(VERTICES, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), 0);
+			glEnableVertexAttribArray(COLORS);
+			glVertexAttribPointer(COLORS, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid*)sizeof(Vertices[0].XYZW));
+		}
+	}
+	glBindVertexArray(0);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	
+	camera.init(VboId[1], sizeof(Indices), UBO_BP);
+	*/
 
 #ifndef ERROR_CALLBACK
 	checkOpenGLError("ERROR: Could not create VAOs and VBOs.");
