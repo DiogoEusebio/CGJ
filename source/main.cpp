@@ -506,6 +506,12 @@ void key_callback(GLFWwindow* win, int key, int scancode, int action, int mods)
 		camera.getViewMatrix().convertToGL(glViewMatrix);
 	}
 
+
+	if (key == GLFW_KEY_G && action == GLFW_PRESS)
+	{
+		camera.changeRotationType();
+	}
+
 	//RESET CAMERA
 	if (key == GLFW_KEY_T) {
 		eye = egn::vec3(0.0f, 0.0f, 5.0f);
@@ -696,6 +702,9 @@ int main(int argc, char* argv[])
 
 	GLFWwindow* win = setup(gl_major, gl_minor,
 		500, 500, "3D assignment", is_fullscreen, is_vsync);
+
+	std::cout << mat4::rotationX(45) << std::endl << qRotationMatrix(qtrn().qFromAngleAxis(45, vec4(1, 0, 0, 0))) << std::endl;
+
 	run(win);
 	exit(EXIT_SUCCESS);
 }

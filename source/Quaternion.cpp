@@ -165,4 +165,44 @@ namespace egn {
 		std::cout << "  axis" << axis_f << std::endl;
 		std::cout << "]" << std::endl;
 	}
+
+	mat4& qRotationMatrix(const qtrn& q)
+	{
+		qtrn qn = qNormalize(q);
+
+		float xx = qn.x * qn.x;
+		float xy = qn.x * qn.y;
+		float xz = qn.x * qn.z;
+		float xt = qn.x * qn.t;
+		float yy = qn.y * qn.y;
+		float yz = qn.y * qn.z;
+		float yt = qn.y * qn.t;
+		float zz = qn.z * qn.z;
+		float zt = qn.z * qn.t;
+
+		mat4 matrix = mat4();
+		matrix.data[0][0] = 1.0f - 2.0f * (yy + zz);
+		matrix.data[0][1] = 2.0f * (xy + zt);
+		matrix.data[0][2] = 2.0f * (xz - yt);
+		matrix.data[0][3] = 0.0f;
+
+		matrix.data[1][0] = 2.0f * (xy - zt);
+		matrix.data[1][1] = 1.0f - 2.0f * (xx + zz);
+		matrix.data[1][2] = 2.0f * (yz + xt);
+		matrix.data[1][3] = 0.0f;
+
+		matrix.data[2][0] = 2.0f * (xz + yt);
+		matrix.data[2][1] = 2.0f * (yz - xt);
+		matrix.data[2][2] = 1.0f - 2.0f * (xx + yy);
+		matrix.data[2][3] = 0.0f;
+
+		matrix.data[3][0] = 0.0f;
+		matrix.data[3][1] = 0.0f;
+		matrix.data[3][2] = 0.0f;
+		matrix.data[3][3] = 1.0f;
+
+		matrix.clean();
+
+		return matrix;
+	}
 }

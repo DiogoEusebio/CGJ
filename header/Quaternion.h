@@ -25,5 +25,6 @@ namespace egn {
 		friend const bool qEqual(const qtrn& q0, const qtrn& q1);
 		friend const void qPrint(const std::string& s, const qtrn& q);
 		friend const void qPrintAngleAxis(const std::string& s, const qtrn& q);
+		friend mat4& qRotationMatrix(const qtrn& q);
 	};
 }

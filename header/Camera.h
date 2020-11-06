@@ -1,6 +1,7 @@
 #pragma once
 #include "Vector.h"
 #include "Matrix.h"
+#include "Quaternion.h"
 
 namespace egn {
 	class Camera
@@ -8,7 +9,9 @@ namespace egn {
 	protected:
 		mat4 viewMatrix, projectionMatrix, orthographicMatrix, perspectiveMatrix;
 		enum TYPE { PERSPECTIVE, ORTHOGRAPHIC };
+		enum ROTATION_TYPE {EULER, QUATERNION};
 		TYPE type;
+		ROTATION_TYPE rotation_type;
 		bool firstMouseMovement;
 		float lastX, lastY;
 		mat4 T, R;
@@ -33,5 +36,6 @@ namespace egn {
 		void setFirstMouseMovement(bool b);
 		void switchProjectionMatrix();
 		void mouseCallBack(float xpos, float ypos);
+		void changeRotationType();
 	};
 }

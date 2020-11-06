@@ -1,5 +1,4 @@
 #include "../header/Camera.h"
-
 #include "../header/Constants.h"
 
 namespace egn {
@@ -11,6 +10,7 @@ namespace egn {
 		front = vec3(0);
 		right = vec3(0);
 		up = vec3(0);
+		rotation_type = EULER;
 	}
 
 	Camera::Camera(vec3& eye, vec3& center, vec3& upvec)
@@ -20,6 +20,7 @@ namespace egn {
 		front = vec3(center) - position;
 		right = vec3::cross(front, upvec);
 		up = upvec;
+		rotation_type = EULER;
 	}
 	
 	void Camera::resetCamera(vec3& eye, vec3& center, vec3& upvec)
@@ -139,8 +140,8 @@ namespace egn {
 	}
 
 	void egn::Camera::mouseCallBack(float xpos, float ypos)
-	{	
-		
+	{
+
 		if (firstMouseMovement)
 		{
 			lastX = xpos;
@@ -152,13 +153,27 @@ namespace egn {
 		float yoffset = ypos - lastY;
 		lastX = xpos;
 		lastY = ypos;
-		
+
 		xoffset *= 0.005;
 		yoffset *= -0.005;
 
-		mat4 matPitch = mat4::rotationY(xoffset);
-		mat4 matYaw = mat4::rotationX(yoffset);
-		R = R * matPitch * matYaw;
+		if (rotation_type == EULER)
+		{
+			mat4 matPitch = mat4::rotationY(xoffset);
+			mat4 matYaw = mat4::rotationX(yoffset);
+			R = matPitch * matYaw * R;
+		}
+		else if (rotation_type == QUATERNION)
+		{
+			qtrn quartY = qtrn();
+			quartY.qFromAngleAxis(xoffset, vec4(0, 1, 0, 0));
+			qtrn quartX = qtrn();
+			quartX.qFromAngleAxis(yoffset, vec4(1, 0, 0, 0));
+			qtrn rotation = quartY * quartX;
+			mat4 matRot = qRotationMatrix(rotation);
+			R = matRot * R;
+		}
+
 		T.data[0][3] = position.x;
 		T.data[1][3] = position.y;
 		T.data[2][3] = position.z;
@@ -166,6 +181,18 @@ namespace egn {
 		front = vec3::normalize(-vec3(viewMatrix.data[2][0], viewMatrix.data[2][1], viewMatrix.data[2][2]));
 		right = vec3::normalize(vec3(viewMatrix.data[0][0], viewMatrix.data[0][1], viewMatrix.data[0][2]));
 		up = vec3::cross(right,front);		
+	}
+
+	void Camera::changeRotationType()
+	{
+		if (rotation_type == EULER)
+		{
+			rotation_type = QUATERNION;
+		}
+		else if (rotation_type == QUATERNION)
+		{
+			rotation_type = EULER;
+		}
 	}
 }
 
