@@ -976,6 +976,15 @@ namespace egn {
 	{
 		return mat4(1, 0, 0, tx, 0, 1, 0, ty, 0, 0, 1, tz, 0, 0, 0, 1);
 	}
+	mat4 mat4::transpose(const mat4& m)
+	{
+		mat4 res = mat4();
+		for (int i = 0; i < 4; i++)
+			for (int j = 0; j < 4; j++) {
+				res.data[j][i] = m.data[i][j];
+			}
+		return res;
+	}
 	mat4 mat4::rotationX(float x)
 	{
 		return mat4(1, 0, 0, 0, 0, cos(x), -sin(x), 0, 0, sin(x), cos(x), 0, 0, 0, 0, 1);

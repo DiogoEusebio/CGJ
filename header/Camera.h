@@ -15,6 +15,7 @@ namespace egn {
 		bool firstMouseMovement;
 		float lastX, lastY;
 		mat4 T, R;
+		qtrn q;
 	public:
 		vec3 position, front, up, right;
 

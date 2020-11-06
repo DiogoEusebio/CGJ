@@ -20,6 +20,7 @@ namespace egn {
 		front = vec3(center) - position;
 		right = vec3::cross(front, upvec);
 		up = upvec;
+		q = qtrn();
 		rotation_type = EULER;
 	}
 	
@@ -30,6 +31,7 @@ namespace egn {
 		front = vec3(center) - position;
 		right = vec3::cross(front, upvec);
 		up = upvec;
+		q = qtrn();
 	}
 	void Camera::init(GLuint vbo, GLsizeiptr datasize, GLuint UBO_id)
 	{
@@ -154,30 +156,33 @@ namespace egn {
 		lastX = xpos;
 		lastY = ypos;
 
-		xoffset *= 0.005;
-		yoffset *= -0.005;
+		
 
 		if (rotation_type == EULER)
 		{
+			xoffset *= 0.003f;
+			yoffset *= -0.003f;
 			mat4 matPitch = mat4::rotationY(xoffset);
 			mat4 matYaw = mat4::rotationX(yoffset);
 			R = matPitch * matYaw * R;
 		}
 		else if (rotation_type == QUATERNION)
 		{
-			qtrn quartY = qtrn();
-			quartY.qFromAngleAxis(xoffset, vec4(0, 1, 0, 0));
-			qtrn quartX = qtrn();
-			quartX.qFromAngleAxis(yoffset, vec4(1, 0, 0, 0));
-			qtrn rotation = quartY * quartX;
-			mat4 matRot = qRotationMatrix(rotation);
-			R = matRot * R;
+			xoffset *= 0.3f;
+			yoffset *= -0.3f;
+			qtrn qx = qtrn();
+			qtrn qy = qtrn();
+			qx = qx.qFromAngleAxis(xoffset, vec4(0.0f, 1.0f, 0.0f, 1.0f));
+			qy = qy.qFromAngleAxis(yoffset, vec4(1.0f, 0.0f, 0.0f, 1.0f));
+			q = q * qx * qy;
+			mat4 matRot = qRotationMatrix(q);
+			R = matRot;
 		}
 
 		T.data[0][3] = position.x;
 		T.data[1][3] = position.y;
 		T.data[2][3] = position.z;
-		viewMatrix = R * T;
+		viewMatrix = T * R;
 		front = vec3::normalize(-vec3(viewMatrix.data[2][0], viewMatrix.data[2][1], viewMatrix.data[2][2]));
 		right = vec3::normalize(vec3(viewMatrix.data[0][0], viewMatrix.data[0][1], viewMatrix.data[0][2]));
 		up = vec3::cross(right,front);		

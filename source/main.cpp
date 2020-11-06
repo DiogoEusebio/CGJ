@@ -703,8 +703,6 @@ int main(int argc, char* argv[])
 	GLFWwindow* win = setup(gl_major, gl_minor,
 		500, 500, "3D assignment", is_fullscreen, is_vsync);
 
-	std::cout << mat4::rotationX(45) << std::endl << qRotationMatrix(qtrn().qFromAngleAxis(45, vec4(1, 0, 0, 0))) << std::endl;
-
 	run(win);
 	exit(EXIT_SUCCESS);
 }
