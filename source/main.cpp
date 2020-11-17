@@ -527,7 +527,8 @@ void mouse_callback(GLFWwindow* win, double xpos, double ypos)
 {
 	int state = glfwGetMouseButton(win, GLFW_MOUSE_BUTTON_LEFT);
 	if (state == GLFW_PRESS) {
-		camera.mouseCallBack((float)xpos, (float)ypos);
+		//camera.mouseCallBack((float)xpos, (float)ypos);
+		camera.sphericalRot((float)xpos, (float)ypos);
 		camera.getViewMatrix().convertToGL(glViewMatrix);
 
 	}

@@ -37,6 +37,7 @@ namespace egn {
 		void setFirstMouseMovement(bool b);
 		void switchProjectionMatrix();
 		void mouseCallBack(float xpos, float ypos);
+		void sphericalRot(float xpos, float ypos);
 		void changeRotationType();
 	};
 }

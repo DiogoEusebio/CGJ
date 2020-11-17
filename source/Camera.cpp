@@ -141,6 +141,51 @@ namespace egn {
 		}
 	}
 
+	void egn::Camera::sphericalRot(float xpos, float ypos) {
+		//lookAt fixed on origin
+		//translate position to spherical coordinates
+
+		//radius needs to be established outside based on distance from eye to origin
+		float radius = 5;
+		if (firstMouseMovement)
+		{
+			lastX = xpos;
+			lastY = ypos;
+			firstMouseMovement = false;
+		}
+
+		float xoffset = xpos - lastX;
+		float yoffset = ypos - lastY;
+		lastX = xpos;
+		lastY = ypos;
+
+		xoffset *= 0.005f;
+		yoffset *= -0.005f;
+		float xCos = cos(xoffset);
+		float xSin = sin(xoffset);
+		float yCos = cos(yoffset);
+		float ySin = sin(yoffset);
+		// horizontal rotation
+		position.z =  position.z * xCos + position.x * xSin;
+		position.x = -position.z * xSin + position.x * xCos;
+
+		//vertical rotation
+		position.z =  position.z * yCos + position.y * ySin;
+		position.y = -position.z * ySin + position.y * yCos;
+
+		//adjust to radius (prevent rounding errors)
+		if (abs(position.x) + abs(position.y) + abs(position.z) != radius) {
+			position.x = position.x * radius / (abs(position.x) + abs(position.y) + abs(position.z));
+			position.y = position.y * radius / (abs(position.x) + abs(position.y) + abs(position.z));
+			position.z = position.z * radius / (abs(position.x) + abs(position.y) + abs(position.z));
+		}
+		std::cout << "x " << position.x << "   z " << position.z << std::endl;
+		
+		
+		front = -vec3::normalize(position);
+		
+	}
+
 	void egn::Camera::mouseCallBack(float xpos, float ypos)
 	{
 
@@ -178,11 +223,14 @@ namespace egn {
 			mat4 matRot = qRotationMatrix(q);
 			R = matRot;
 		}
-
+		/* THIS SHIT DOES NOTHING????!
 		T.data[0][3] = position.x;
 		T.data[1][3] = position.y;
-		T.data[2][3] = position.z;
+		T.data[2][3] = position.z;*/
 		viewMatrix = T * R;
+
+
+		std::cout << T << viewMatrix << std::endl;
 		front = vec3::normalize(-vec3(viewMatrix.data[2][0], viewMatrix.data[2][1], viewMatrix.data[2][2]));
 		right = vec3::normalize(vec3(viewMatrix.data[0][0], viewMatrix.data[0][1], viewMatrix.data[0][2]));
 		up = vec3::cross(right,front);		

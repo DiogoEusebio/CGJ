@@ -15,23 +15,7 @@ namespace egn {
 		y = y_;
 		z = z_;
 	}
-	/*
-	const qtrn qtrn::qFromAngleAxis(const float theta, vec4 axis)
-	{
-		vec4 axisn = normalize(axis);
-		std::cout << axisn << std::endl;
 
-		qtrn q;
-		float a = theta * (float)DEGREES_TO_RADIANS;
-		q.t = cos(a / 2.0f);
-		float s = sin(a / 2.0f);
-		q.x = axisn.x * s;
-		q.y = axisn.y * s;
-		q.z = axisn.z * s;
-
-		qClean(q);
-		return qNormalize(q);
-	}*/
 	const qtrn qtrn::qFromAngleAxis(float theta, vec4 axis)
 	{
 		vec4 axisn = normalize(axis);
