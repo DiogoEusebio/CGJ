@@ -267,7 +267,39 @@ void createSquare(float sidelenght, mat4 transformMatrix, float red, float green
 	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_BYTE, (GLvoid*)(sizeof(GLubyte) * 6));
 
 }
+void createCube(float sidelenght, mat4 transformMatrix, float red, float green, float blue) {
 
+	mat4 transposeOnXMatrix = mat4(1, 0, 0, sidelenght,
+								   0, 1, 0, 0,
+								   0, 0, 1, 0,
+								   0, 0, 0, 1);
+	mat4 transposeOnYMatrix = mat4(1, 0, 0, 0,
+								   0, 1, 0, sidelenght,
+		                           0, 0, 1, 0,
+		                           0, 0, 0, 1);
+	mat4 transposeOnZMatrix = mat4(1, 0, 0, 0,
+								   0, 1, 0, 0,
+								   0, 0, 1, -sidelenght,
+								   0, 0, 0, 1);
+
+	mat4 flipOnYMatrix = mat4::rotationY(PI);
+	mat4 rotationMatrix = mat4::rotationY(PI / 2);
+	flipOnYMatrix = flipOnYMatrix * mat4(1, 0, 0, -sidelenght,
+		0, 1, 0, 0,
+		0, 0, 1, 0,
+		0, 0, 0, 1);
+	createSquare(sidelenght, transformMatrix, red, green, blue);
+	createSquare(sidelenght, transformMatrix * transposeOnZMatrix * flipOnYMatrix, red*0.5, green*0.5, blue*0.5);
+
+	createSquare(sidelenght, transformMatrix * transposeOnXMatrix * rotationMatrix, red*0.66, green*0.66, blue*0.66);
+	createSquare(sidelenght, transformMatrix * rotationMatrix * flipOnYMatrix, red * 0.66, green * 0.66, blue * 0.66);
+
+	rotationMatrix = mat4::rotationX(PI / 2);
+	createSquare(sidelenght, transformMatrix * transposeOnZMatrix * rotationMatrix, red*0.83, green*0.83, blue*0.83);
+	createSquare(sidelenght, transformMatrix * transposeOnYMatrix * transposeOnZMatrix * rotationMatrix * flipOnYMatrix, red * 0.83, green * 0.83, blue * 0.83);
+
+
+}
 
 void drawTetraminoLine(float sidelenght, mat4 transformMatrix)
 {
@@ -278,7 +310,7 @@ void drawTetraminoLine(float sidelenght, mat4 transformMatrix)
 
 	for (int i = 0; i < 4; i++)
 	{
-		createSquare(0.25f, myTransform, 1.0f, 0.454f, 0.121f);
+		createCube(0.25f, myTransform, 1.0f, 0.454f, 0.121f);
 		myTransform *= nextTransform;
 	}
 }
@@ -289,16 +321,16 @@ void drawTetraminoeRightL(float sidelenght, mat4 transformMatrix)
 	mat4 nextTransform = mat4::identityMatrix();
 	nextTransform.data[1][3] += sidelenght + 0.05; //change y
 
-	createSquare(0.25, myTransform, 0.349f, 0.839f, 0.0f);
+	createCube(0.25, myTransform, 0.349f, 0.839f, 0.0f);
 	myTransform *= nextTransform;
-	createSquare(0.25, myTransform, 0.349f, 0.839f, 0.0f);
+	createCube(0.25, myTransform, 0.349f, 0.839f, 0.0f);
 	myTransform *= nextTransform;
-	createSquare(0.25, myTransform, 0.349f, 0.839f, 0.0f);
+	createCube(0.25, myTransform, 0.349f, 0.839f, 0.0f);
 
 	nextTransform.data[1][3] -= sidelenght + 0.05; //change y
 	nextTransform.data[0][3] -= sidelenght + 0.05; //change x
 	myTransform *= nextTransform;
-	createSquare(0.25, myTransform, 0.349f, 0.839f, 0.0f);
+	createCube(0.25, myTransform, 0.349f, 0.839f, 0.0f);
 }
 void drawTetraminoeLeftL(float sidelenght, mat4 transformMatrix)
 {
@@ -306,16 +338,16 @@ void drawTetraminoeLeftL(float sidelenght, mat4 transformMatrix)
 	mat4 nextTransform = mat4::identityMatrix();
 	nextTransform.data[1][3] += sidelenght + 0.05; //change y
 
-	createSquare(0.25, myTransform, 0.901f, 0.239f, 0.850f);
+	createCube(0.25, myTransform, 0.901f, 0.239f, 0.850f);
 	myTransform *= nextTransform;
-	createSquare(0.25, myTransform, 0.901f, 0.239f, 0.850f);
+	createCube(0.25, myTransform, 0.901f, 0.239f, 0.850f);
 	myTransform *= nextTransform;
-	createSquare(0.25, myTransform, 0.901f, 0.239f, 0.850f);
+	createCube(0.25, myTransform, 0.901f, 0.239f, 0.850f);
 
 	nextTransform.data[1][3] -= sidelenght + 0.05; //change y
 	nextTransform.data[0][3] += sidelenght + 0.05; //change x
 	myTransform *= nextTransform;
-	createSquare(0.25, myTransform, 0.901f, 0.239f, 0.850f);
+	createCube(0.25, myTransform, 0.901f, 0.239f, 0.850f);
 }
 void drawTetraminoeT(float sidelenght, mat4 transformMatrix)
 {
@@ -323,16 +355,16 @@ void drawTetraminoeT(float sidelenght, mat4 transformMatrix)
 	mat4 nextTransform = mat4::identityMatrix();
 	nextTransform.data[0][3] += sidelenght + 0.05;
 
-	createSquare(0.25, myTransform, 0.8f, 0.0f, 0.0f);
+	createCube(0.25, myTransform, 0.8f, 0.0f, 0.0f);
 	myTransform *= nextTransform;
-	createSquare(0.25, myTransform, 0.8f, 0.0f, 0.0f);
+	createCube(0.25, myTransform, 0.8f, 0.0f, 0.0f);
 	myTransform *= nextTransform;
-	createSquare(0.25, myTransform, 0.8f, 0.0f, 0.0f);
+	createCube(0.25, myTransform, 0.8f, 0.0f, 0.0f);
 	nextTransform.data[0][3] -= 2 * (sidelenght + 0.05); //change x
 	nextTransform.data[1][3] -= sidelenght + 0.05; //change y
 
 	myTransform *= nextTransform;
-	createSquare(0.25, myTransform, 0.0f, 0.0f, 0.0f);
+	createCube(0.25, myTransform, 0.0f, 0.0f, 0.0f);
 }
 void drawTetraminoeCube(float sidelenght, mat4 transformMatrix)
 {
@@ -340,17 +372,17 @@ void drawTetraminoeCube(float sidelenght, mat4 transformMatrix)
 	mat4 nextTransform = mat4::identityMatrix();
 	nextTransform.data[0][3] = sidelenght + 0.05;
 
-	createSquare(0.25, myTransform, 0.980f, 0.988f, 0.309f);
+	createCube(0.25, myTransform, 0.980f, 0.988f, 0.309f);
 	myTransform *= nextTransform;
-	createSquare(0.25, myTransform, 0.980f, 0.988f, 0.309f);
+	createCube(0.25, myTransform, 0.980f, 0.988f, 0.309f);
 	nextTransform.data[0][3] = -(sidelenght + 0.05); //reset x
 	nextTransform.data[1][3] -= sidelenght + 0.05; //change y
 	myTransform *= nextTransform;
-	createSquare(0.25, myTransform, 0.980f, 0.988f, 0.309f);
+	createCube(0.25, myTransform, 0.980f, 0.988f, 0.309f);
 	nextTransform.data[1][3] = 0; //reset y
 	nextTransform.data[0][3] = sidelenght + 0.05; //change x
 	myTransform *= nextTransform;
-	createSquare(0.25, myTransform, 0.980f, 0.988f, 0.309f);
+	createCube(0.25, myTransform, 0.980f, 0.988f, 0.309f);
 }
 void drawTetraminoeS(float sidelenght, mat4 transformMatrix)
 {
@@ -358,16 +390,16 @@ void drawTetraminoeS(float sidelenght, mat4 transformMatrix)
 	mat4 nextTransform = mat4::identityMatrix();
 	nextTransform.data[0][3] = sidelenght + 0.05;
 
-	createSquare(0.25, myTransform, 0.309f, 0.988f, 0.878f);
+	createCube(0.25, myTransform, 0.309f, 0.988f, 0.878f);
 	myTransform *= nextTransform;
-	createSquare(0.25, myTransform, 0.309f, 0.988f, 0.878f);
+	createCube(0.25, myTransform, 0.309f, 0.988f, 0.878f);
 	nextTransform.data[0][3] = -sidelenght - 0.05; //reset x
 	nextTransform.data[1][3] -= sidelenght + 0.05; //change y
 	myTransform *= nextTransform;
-	createSquare(0.25, myTransform, 0.309f, 0.988f, 0.878f);
+	createCube(0.25, myTransform, 0.309f, 0.988f, 0.878f);
 	nextTransform.data[1][3] = 0; //reset y
 	myTransform *= nextTransform;
-	createSquare(0.25, myTransform, 0.309f, 0.988f, 0.878f);
+	createCube(0.25, myTransform, 0.309f, 0.988f, 0.878f);
 }
 void drawTetraminoeSinverted(float sidelenght, mat4 transformMatrix)
 {
@@ -375,17 +407,17 @@ void drawTetraminoeSinverted(float sidelenght, mat4 transformMatrix)
 	mat4 nextTransform = mat4::identityMatrix();
 	nextTransform.data[0][3] = sidelenght + 0.05;
 
-	createSquare(0.25, myTransform, 0.678f, 0.0f, 0.878f);
+	createCube(0.25, myTransform, 0.678f, 0.0f, 0.878f);
 	myTransform *= nextTransform;
-	createSquare(0.25, myTransform, 0.678f, 0.0f, 0.878f);
+	createCube(0.25, myTransform, 0.678f, 0.0f, 0.878f);
 	nextTransform.data[0][3] = 0; //reset x
 	nextTransform.data[1][3] -= sidelenght + 0.05; //change y
 	myTransform *= nextTransform;
-	createSquare(0.25, myTransform, 0.678f, 0.0f, 0.878f);
+	createCube(0.25, myTransform, 0.678f, 0.0f, 0.878f);
 	nextTransform.data[1][3] = 0; //reset y
 	nextTransform.data[0][3] = sidelenght + 0.05; //change x
 	myTransform *= nextTransform;
-	createSquare(0.25, myTransform, 0.678f, 0.0f, 0.878f);
+	createCube(0.25, myTransform, 0.678f, 0.0f, 0.878f);
 }
 
 void drawCamera(egn::Camera camera)
@@ -433,13 +465,15 @@ void drawScene()
 		0.0f, 0.0f, 1.0f, 0.0f,
 		0.0f, 0.0f, 0.0f, 1.0f);
 
+
+	//createCube(sidelenght, Line, 1, 0, 0);
 	drawTetraminoLine(sidelenght, rotation * Line);
 	drawTetraminoeRightL(sidelenght, rotation * LRight);
 	drawTetraminoeLeftL(sidelenght, rotation * LLeft);
-	//drawTetraminoeT(sidelenght, InitialTransform);
-	//drawTetraminoeCube(sidelenght, InitialTransform);
+	//drawTetraminoeT(sidelenght, InitialTransform); not this
+	//drawTetraminoeCube(sidelenght, InitialTransform); not this
 	drawTetraminoeS(sidelenght, rotation * S);
-	//drawTetraminoeSinverted(sidelenght, InvertedS);
+	//drawTetraminoeSinverted(sidelenght, InvertedS); not this
 
 	drawCamera(camera);
 
