@@ -17,9 +17,6 @@ const GLuint UBO_BP = 0;
 
 Shader* shader;
 
-vec3 eye;
-vec3 center;
-vec3 up;
 Camera camera;
 
 #define ERROR_CALLBACK
@@ -294,9 +291,9 @@ void createCube(float sidelenght, mat4 transformMatrix, float red, float green, 
 	createSquare(sidelenght, transformMatrix * transposeOnXMatrix * rotationMatrix, red*0.66, green*0.66, blue*0.66);
 	createSquare(sidelenght, transformMatrix * rotationMatrix * flipOnYMatrix, red * 0.66, green * 0.66, blue * 0.66);
 
-	rotationMatrix = mat4::rotationX(PI / 2);
-	createSquare(sidelenght, transformMatrix * transposeOnZMatrix * rotationMatrix, red*0.83, green*0.83, blue*0.83);
-	createSquare(sidelenght, transformMatrix * transposeOnYMatrix * transposeOnZMatrix * rotationMatrix * flipOnYMatrix, red * 0.83, green * 0.83, blue * 0.83);
+	rotationMatrix = mat4::rotationX(-PI / 2);
+	createSquare(sidelenght, transformMatrix * rotationMatrix, red*0.83, green*0.83, blue*0.83);
+	createSquare(sidelenght, transformMatrix * transposeOnYMatrix * rotationMatrix * flipOnYMatrix, red * 0.83, green * 0.83, blue * 0.83);
 
 
 }
@@ -471,7 +468,7 @@ void drawScene()
 	drawTetraminoeRightL(sidelenght, rotation * LRight);
 	drawTetraminoeLeftL(sidelenght, rotation * LLeft);
 	//drawTetraminoeT(sidelenght, InitialTransform); not this
-	//drawTetraminoeCube(sidelenght, InitialTransform); not this
+	//drawTetraminoeCube(sidelenght,Line); //not this
 	drawTetraminoeS(sidelenght, rotation * S);
 	//drawTetraminoeSinverted(sidelenght, InvertedS); not this
 
@@ -548,10 +545,8 @@ void key_callback(GLFWwindow* win, int key, int scancode, int action, int mods)
 
 	//RESET CAMERA
 	if (key == GLFW_KEY_T) {
-		eye = egn::vec3(0.0f, 0.0f, 5.0f);
-		center = egn::vec3(0.0f, 0.0f, -1.0f);
-		up = egn::vec3(0.0f, 1.0f, 0.0f);
-		camera.resetCamera(eye, center, up);
+		camera.resetCamera(5);
+		
 	}
 
 
@@ -561,8 +556,7 @@ void mouse_callback(GLFWwindow* win, double xpos, double ypos)
 {
 	int state = glfwGetMouseButton(win, GLFW_MOUSE_BUTTON_LEFT);
 	if (state == GLFW_PRESS) {
-		//camera.mouseCallBack((float)xpos, (float)ypos);
-		camera.sphericalRot((float)xpos, (float)ypos);
+		camera.mouseCallBack((float)xpos, (float)ypos);
 		camera.getViewMatrix().convertToGL(glViewMatrix);
 
 	}
@@ -574,6 +568,11 @@ void mouse_button_callback(GLFWwindow* win, int button, int action, int mods)
 {
 	std::cout << "button: " << button << " " << action << " " << mods << std::endl;
 }
+void  scroll_callback(GLFWwindow* win, double xoffset, double yoffset)
+{
+	camera.scrollCallBack((float)yoffset);
+	camera.getViewMatrix().convertToGL(glViewMatrix);
+}
 
 
 
@@ -581,13 +580,10 @@ void mouse_button_callback(GLFWwindow* win, int button, int action, int mods)
 
 void setupCamera()
 {
-	eye = egn::vec3(0.0f, 0.0f, 5.0f);
-	center = egn::vec3(0.0f, 0.0f, -1.0f);
-	up = egn::vec3(0.0f, 1.0f, 0.0f);
-	camera = egn::Camera::Camera(eye, center, up);
+	camera = egn::Camera::Camera(5);
 
-	camera.OrthographicProjectionMatrix(-2.0f, 2.0f, -2.0f, 2.0f, 1.0f, 10.0f);
-	camera.PerspectiveProjectionMatrix(30.0f, 640.0f / 480.0f, 1.0f, 10.0f);
+	camera.OrthographicProjectionMatrix(-2.0f, 2.0f, -2.0f, 2.0f, 1.0f, 20.0f);
+	camera.PerspectiveProjectionMatrix(30.0f, 640.0f / 480.0f, 1.0f, 20.0f);
 
 	camera.getViewMatrix().convertToGL(glViewMatrix);
 	camera.getProjectionMatrix().convertToGL(glProjectionMatrix);
@@ -615,6 +611,7 @@ void setupCallbacks(GLFWwindow* win)
 	glfwSetWindowSizeCallback(win, window_size_callback);
 	glfwSetCursorPosCallback(win, mouse_callback);
 	glfwSetMouseButtonCallback(win, mouse_button_callback);
+	glfwSetScrollCallback(win, scroll_callback);
 }
 
 GLFWwindow* setupGLFW(int gl_major, int gl_minor,

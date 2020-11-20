@@ -13,25 +13,27 @@ namespace egn {
 		rotation_type = EULER;
 	}
 
-	Camera::Camera(vec3& eye, vec3& center, vec3& upvec)
+	Camera::Camera(float r)
 	{
 		firstMouseMovement = true;
-		position = eye;
-		front = vec3(center) - position;
-		right = vec3::cross(front, upvec);
-		up = upvec;
+		T = mat4::identityMatrix();
+		T.data[2][3] = -r;
+		R = mat4::identityMatrix();
+		viewMatrix = T * R;
 		q = qtrn();
-		rotation_type = EULER;
+		rotation_type = QUATERNION;
 	}
 	
-	void Camera::resetCamera(vec3& eye, vec3& center, vec3& upvec)
+	void Camera::resetCamera(float r)
 	{
 		firstMouseMovement = true;
-		position = eye;
-		front = vec3(center) - position;
-		right = vec3::cross(front, upvec);
-		up = upvec;
+		T = mat4::identityMatrix();
+		T.data[2][3] = -r;
+		R = mat4::identityMatrix();
+		viewMatrix = T * R;
 		q = qtrn();
+		rotation_type = QUATERNION;
+
 	}
 	void Camera::init(GLuint vbo, GLsizeiptr datasize, GLuint UBO_id)
 	{
@@ -45,31 +47,6 @@ namespace egn {
 
 	mat4& Camera::getViewMatrix()
 	{
-		vec3 aux = vec3(position);
-		aux += front;
-		return lookAt(position, aux, up);
-	}
-	mat4& Camera::lookAt(const vec3& eye, const vec3& center, const vec3& upvec)
-	{	
-
-		vec3 view = center - eye;
-		vec3 v = vec3::normalize(view);
-
-		vec3 side = vec3::cross(v, up);
-		vec3 s = vec3::normalize(side);
-		vec3 u = vec3::cross(s, v);
-
-		R = mat4(s.x, s.y, s.z, 0.0f,
-			u.x, u.y, u.z, 0.0f,
-			-v.x, -v.y, -v.z, 0.0f,
-			0.0f, 0.0f, 0.0f, 1.0f);
-		T = mat4(1.0f, 0.0f, 0.0f, -eye.x,
-			0.0f, 1.0f, 0.0f, -eye.y,
-			0.0f, 0.0f, 1.0f, -eye.z,
-			0.0f, 0.0f, 0.0f, 1.0f);
-
-		mat4 M = R * T;
-		viewMatrix = M;
 		return viewMatrix;
 	}
 
@@ -141,51 +118,6 @@ namespace egn {
 		}
 	}
 
-	void egn::Camera::sphericalRot(float xpos, float ypos) {
-		//lookAt fixed on origin
-		//translate position to spherical coordinates
-
-		//radius needs to be established outside based on distance from eye to origin
-		float radius = 5;
-		if (firstMouseMovement)
-		{
-			lastX = xpos;
-			lastY = ypos;
-			firstMouseMovement = false;
-		}
-
-		float xoffset = xpos - lastX;
-		float yoffset = ypos - lastY;
-		lastX = xpos;
-		lastY = ypos;
-
-		xoffset *= 0.005f;
-		yoffset *= -0.005f;
-		float xCos = cos(xoffset);
-		float xSin = sin(xoffset);
-		float yCos = cos(yoffset);
-		float ySin = sin(yoffset);
-		// horizontal rotation
-		position.z =  position.z * xCos + position.x * xSin;
-		position.x = -position.z * xSin + position.x * xCos;
-
-		//vertical rotation
-		position.z =  position.z * yCos + position.y * ySin;
-		position.y = -position.z * ySin + position.y * yCos;
-
-		//adjust to radius (prevent rounding errors)
-		if (abs(position.x) + abs(position.y) + abs(position.z) != radius) {
-			position.x = position.x * radius / (abs(position.x) + abs(position.y) + abs(position.z));
-			position.y = position.y * radius / (abs(position.x) + abs(position.y) + abs(position.z));
-			position.z = position.z * radius / (abs(position.x) + abs(position.y) + abs(position.z));
-		}
-		std::cout << "x " << position.x << "   z " << position.z << std::endl;
-		
-		
-		front = -vec3::normalize(position);
-		
-	}
-
 	void egn::Camera::mouseCallBack(float xpos, float ypos)
 	{
 
@@ -219,21 +151,17 @@ namespace egn {
 			qtrn qy = qtrn();
 			qx = qx.qFromAngleAxis(xoffset, vec4(0.0f, 1.0f, 0.0f, 1.0f));
 			qy = qy.qFromAngleAxis(yoffset, vec4(1.0f, 0.0f, 0.0f, 1.0f));
-			q = q * qx * qy;
+			q = qx * qy * q;
 			mat4 matRot = qRotationMatrix(q);
 			R = matRot;
 		}
-		/* THIS SHIT DOES NOTHING????!
-		T.data[0][3] = position.x;
-		T.data[1][3] = position.y;
-		T.data[2][3] = position.z;*/
+
 		viewMatrix = T * R;
 
-
-		std::cout << T << viewMatrix << std::endl;
-		front = vec3::normalize(-vec3(viewMatrix.data[2][0], viewMatrix.data[2][1], viewMatrix.data[2][2]));
-		right = vec3::normalize(vec3(viewMatrix.data[0][0], viewMatrix.data[0][1], viewMatrix.data[0][2]));
-		up = vec3::cross(right,front);		
+	}
+	void egn::Camera::scrollCallBack(float offset) {
+		T.data[2][3] += offset;
+		viewMatrix = T * R;
 	}
 
 	void Camera::changeRotationType()
@@ -241,10 +169,12 @@ namespace egn {
 		if (rotation_type == EULER)
 		{
 			rotation_type = QUATERNION;
+			std::cout << "QUATERNION MODE" << std::endl;
 		}
 		else if (rotation_type == QUATERNION)
 		{
 			rotation_type = EULER;
+			std::cout << "EULER MODE" << std::endl;
 		}
 	}
 }
