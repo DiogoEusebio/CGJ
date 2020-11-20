@@ -1,9 +1,9 @@
 #pragma once
-#ifndef MASTER_HEADER
-#define MASTER_HEADER
-#include "../header/Matrix.h"
-#include "../header/Vector.h"
-#include "../header/Constants.h"
-#include "../header/Camera.h"
-#include "../header/Shader.h"
-#endif
+
+#include "Camera.h"
+#include "Constants.h"
+#include "Matrix.h"
+#include "Mesh.h"
+#include "Quaternion.h"
+#include "Shader.h"
+#include "Vector.h"

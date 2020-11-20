@@ -151,10 +151,10 @@ typedef struct
 {
 	GLfloat XYZW[4];
 	GLfloat RGBA[4];
-} Vertex;
+} VertexPoint;
 
 
-Vertex Vertices[] =
+VertexPoint Vertices[] =
 {
 	{{ 0.0f, 0.0f, 0.0f, 1.0f }, { 0.4, 0.498, 0.960 }},
 	{{ 0.25f, 0.0f, 0.0f, 1.0f }, { 0.4, 0.498, 0.960 }},
@@ -180,9 +180,9 @@ void createBufferObjects()
 		{
 			glBufferData(GL_ARRAY_BUFFER, sizeof(Vertices), Vertices, GL_STATIC_DRAW);
 			glEnableVertexAttribArray(VERTICES);
-			glVertexAttribPointer(VERTICES, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), 0);
+			glVertexAttribPointer(VERTICES, 4, GL_FLOAT, GL_FALSE, sizeof(VertexPoint), 0);
 			glEnableVertexAttribArray(COLORS);
-			glVertexAttribPointer(COLORS, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid*)sizeof(Vertices[0].XYZW));
+			glVertexAttribPointer(COLORS, 4, GL_FLOAT, GL_FALSE, sizeof(VertexPoint), (GLvoid*)sizeof(Vertices[0].XYZW));
 		}
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, VboId[1]);
 		{
@@ -202,9 +202,9 @@ void createBufferObjects()
 		{
 			glBufferData(GL_ARRAY_BUFFER, sizeof(Vertices), Vertices, GL_STATIC_DRAW);
 			glEnableVertexAttribArray(VERTICES);
-			glVertexAttribPointer(VERTICES, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), 0);
+			glVertexAttribPointer(VERTICES, 4, GL_FLOAT, GL_FALSE, sizeof(VertexPoint), 0);
 			glEnableVertexAttribArray(COLORS);
-			glVertexAttribPointer(COLORS, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid*)sizeof(Vertices[0].XYZW));
+			glVertexAttribPointer(COLORS, 4, GL_FLOAT, GL_FALSE, sizeof(VertexPoint), (GLvoid*)sizeof(Vertices[0].XYZW));
 		}
 	}
 	glBindVertexArray(0);
