@@ -15,7 +15,7 @@ GLuint VertexShaderId, FragmentShaderId, ProgramId;
 GLint ModelID, ViewID, ProjectionID, ColorID;
 const GLuint UBO_BP = 0;
 
-Shader* shader;
+Shader shader = Shader();
 
 Camera camera;
 SceneGraph scene = SceneGraph();
@@ -238,11 +238,11 @@ void createSquare(float sidelenght, mat4 transformMatrix, float red, float green
 	GLfloat vec[16];
 	GLfloat color[4] = { red, green, blue, 1 };
 	transformMatrix.convertToGL(vec);
-	glUniformMatrix4fv(shader->ModelMatrix_UID, 1, GL_FALSE, vec);
-	glUniform4fv(shader->Color_UID, 1, color);
+	glUniformMatrix4fv(shader.ModelMatrix_UID, 1, GL_FALSE, vec);
+	glUniform4fv(shader.Color_UID, 1, color);
 	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_BYTE, (GLvoid*)0);
 	GLfloat backColor[4] = { red * 0.5, green * 0.5, blue * 0.5, 1 };
-	glUniform4fv(shader->Color_UID, 1, backColor);
+	glUniform4fv(shader.Color_UID, 1, backColor);
 	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_BYTE, (GLvoid*)(sizeof(GLubyte) * 6));
 
 }
@@ -410,9 +410,9 @@ void drawScene()
 	// Drawing directly in clip space
 
 	glBindVertexArray(VaoId);
-	glUseProgram(shader->ProgramID);
-	glUniformMatrix4fv(shader->ProjectionMatrix_UID, 1, GL_FALSE, glProjectionMatrix);
-	glUniformMatrix4fv(shader->ViewMatrix_UID, 1, GL_FALSE, glViewMatrix);
+	glUseProgram(shader.ProgramID);
+	glUniformMatrix4fv(shader.ProjectionMatrix_UID, 1, GL_FALSE, glProjectionMatrix);
+	glUniformMatrix4fv(shader.ViewMatrix_UID, 1, GL_FALSE, glViewMatrix);
 	float sidelenght = 0.25;
 	mat4 rotation = mat4(cos(45 * PI / 180), -sin(45 * PI / 180), 0.0f, -0.25f,
 		sin(45 * PI / 180), cos(45 * PI / 180), 0.0f, 0.25f,
@@ -468,7 +468,7 @@ void drawScene()
 
 void window_close_callback(GLFWwindow* win)
 {
-	shader->destroyShaderProgram();
+	shader.destroyShaderProgram();
 	destroyBufferObjects();
 }
 
@@ -561,9 +561,8 @@ void  scroll_callback(GLFWwindow* win, double xoffset, double yoffset)
 ///////////////////////////////////////////////////////////////////////// SETUP
 void createScene()
 {
-	shader = new Shader();
-	shader->createShaderProgram("shaders/vertex.shader", "shaders/fragment.shader");
-	cube.setShader(shader);
+	shader.createShaderProgram("shaders/vertex.shader", "shaders/fragment.shader");
+	cube.setShader(&shader);
 
 	std::cout << "setShader done" << std::endl;
 	cubeMesh.loadMeshData("assets/cube.obj");
