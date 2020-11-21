@@ -18,6 +18,9 @@ const GLuint UBO_BP = 0;
 Shader* shader;
 
 Camera camera;
+SceneGraph scene = SceneGraph();
+SceneNode cube = SceneNode(nullptr, 0);
+mesh cubeMesh = mesh();
 
 #define ERROR_CALLBACK
 #ifdef  ERROR_CALLBACK
@@ -192,26 +195,6 @@ void createBufferObjects()
 	glBindVertexArray(0);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-	/*
-	glGenVertexArrays(1, &VaoId);
-	glBindVertexArray(VaoId);
-	{
-		glGenBuffers(2, VboId);
-
-		glBindBuffer(GL_ARRAY_BUFFER, VboId[0]);
-		{
-			glBufferData(GL_ARRAY_BUFFER, sizeof(Vertices), Vertices, GL_STATIC_DRAW);
-			glEnableVertexAttribArray(VERTICES);
-			glVertexAttribPointer(VERTICES, 4, GL_FLOAT, GL_FALSE, sizeof(VertexPoint), 0);
-			glEnableVertexAttribArray(COLORS);
-			glVertexAttribPointer(COLORS, 4, GL_FLOAT, GL_FALSE, sizeof(VertexPoint), (GLvoid*)sizeof(Vertices[0].XYZW));
-		}
-	}
-	glBindVertexArray(0);
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
-	
-	camera.init(VboId[1], sizeof(Indices), UBO_BP);
-	*/
 
 #ifndef ERROR_CALLBACK
 	checkOpenGLError("ERROR: Could not create VAOs and VBOs.");
@@ -248,7 +231,6 @@ const Matrix I = {
 
 GLfloat glViewMatrix[16];
 GLfloat glProjectionMatrix[16];
-GLfloat glDebugMatrix[16];
 
 
 void createSquare(float sidelenght, mat4 transformMatrix, float red, float green, float blue)
@@ -464,12 +446,12 @@ void drawScene()
 
 
 	//createCube(sidelenght, Line, 1, 0, 0);
-	drawTetraminoLine(sidelenght, rotation * Line);
-	drawTetraminoeRightL(sidelenght, rotation * LRight);
-	drawTetraminoeLeftL(sidelenght, rotation * LLeft);
+	//drawTetraminoLine(sidelenght, rotation * Line);
+	//drawTetraminoeRightL(sidelenght, rotation * LRight);
+	//drawTetraminoeLeftL(sidelenght, rotation * LLeft);
 	//drawTetraminoeT(sidelenght, InitialTransform); not this
 	//drawTetraminoeCube(sidelenght,Line); //not this
-	drawTetraminoeS(sidelenght, rotation * S);
+	//drawTetraminoeS(sidelenght, rotation * S);
 	//drawTetraminoeSinverted(sidelenght, InvertedS); not this
 
 	drawCamera(camera);
@@ -577,6 +559,25 @@ void  scroll_callback(GLFWwindow* win, double xoffset, double yoffset)
 
 
 ///////////////////////////////////////////////////////////////////////// SETUP
+void createScene()
+{
+	shader = new Shader();
+	shader->createShaderProgram("shaders/vertex.shader", "shaders/fragment.shader");
+	cube.setShader(shader);
+
+	std::cout << "setShader done" << std::endl;
+	cubeMesh.loadMeshData("assets/cube.obj");
+	std::cout << "loaded mesh" << std::endl;
+
+	cubeMesh.createBufferObjects();
+
+	std::cout << "createBufferOBJ done" << std::endl;
+	cube.setMesh(&cubeMesh);
+
+	std::cout << "setMesh done" << std::endl;
+	scene.setCamera(&camera);
+	scene.setRoot(&cube);
+}
 
 void setupCamera()
 {
@@ -688,9 +689,9 @@ GLFWwindow* setup(int major, int minor,
 #ifdef ERROR_CALLBACK
 	setupErrorCallback();
 #endif
-	shader = new Shader();
-	shader->createShaderProgram("shaders/vertex.shader", "shaders/fragment.shader");
+	
 	setupCamera();
+	createScene();
 	createBufferObjects();
 	return win;
 }
@@ -700,6 +701,8 @@ GLFWwindow* setup(int major, int minor,
 void display(GLFWwindow* win, double elapsed_sec)
 {
 	drawScene();
+
+	scene.draw();
 }
 
 void run(GLFWwindow* win)

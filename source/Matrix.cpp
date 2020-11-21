@@ -968,11 +968,11 @@ namespace egn {
 
 		return *this;
 	}
-	mat4 mat4::scaling(float sx, float sy, float sz, float sw)
+	mat4 mat4::scaleMatrix(float sx, float sy, float sz, float sw)
 	{
 		return mat4(sx, 0, 0, 0, 0, sy, 0, 0, 0, 0, sz, 0, 0, 0, 0, sw);
 	}
-	mat4 mat4::translation(float tx, float ty, float tz)
+	mat4 mat4::translationMatrix(float tx, float ty, float tz)
 	{
 		return mat4(1, 0, 0, tx, 0, 1, 0, ty, 0, 0, 1, tz, 0, 0, 0, 1);
 	}

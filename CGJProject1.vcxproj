@@ -150,6 +150,8 @@
     <ClCompile Include="source\Matrix.cpp" />
     <ClCompile Include="source\Mesh.cpp" />
     <ClCompile Include="source\Quaternion.cpp" />
+    <ClCompile Include="source\SceneGraph.cpp" />
+    <ClCompile Include="source\SceneNode.cpp" />
     <ClCompile Include="source\Shader.cpp" />
     <ClCompile Include="source\Vector.cpp" />
   </ItemGroup>
@@ -160,6 +162,8 @@
     <ClInclude Include="header\Matrix.h" />
     <ClInclude Include="header\Mesh.h" />
     <ClInclude Include="header\Quaternion.h" />
+    <ClInclude Include="header\SceneGraph.h" />
+    <ClInclude Include="header\SceneNode.h" />
     <ClInclude Include="header\Shader.h" />
     <ClInclude Include="header\Vector.h" />
   </ItemGroup>

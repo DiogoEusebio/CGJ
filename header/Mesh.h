@@ -40,9 +40,9 @@ namespace egn
 		} Face;
 
 
-		GLuint VaoId;
+		GLuint VaoId, VboId[2];
 		bool texturesLoaded, normalsLoaded;
-		std::vector <Vertex> vertexData;
+		std::vector <Vertex> vertexData, Vertices;
 		std::vector <VertexTexture> textureData;
 		std::vector <Normal> normalData;
 		std::vector <Face> faceData;
@@ -56,6 +56,9 @@ namespace egn
 		void parseNormal(std::stringstream& sin);
 		void parseFace(std::stringstream& sin);
 		void parseLine(std::stringstream& sin);
-		void loadMeshData(std::string& filename);
+		void loadMeshData(const std::string& filename);
+		void createBufferObjects();
+		void destroyBufferObjects();
+		void draw();
 	};
 };

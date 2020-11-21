@@ -29,34 +29,15 @@ namespace egn
 	void mesh::parseFace(std::stringstream& sin)
 	{
 		std::string token;
-		Face face;
-		std::vector <FaceVertex> faceInfo;
 		for (int i = 0; i < 3; i++)
 		{
-			FaceVertex f;
 			std::getline(sin, token, '/');
-			if (token.size() > 0)
-			{
-				f.vertexIndex = std::stoi(token) - 1;
-			}
+			if (token.size() > 0) vertexIdx.push_back(std::stoi(token));
 			std::getline(sin, token, '/');
-			if (token.size() > 0)
-			{
-				f.texture = std::stoi(token) - 1;
-				f.texture = true;
-			}
+			if (token.size() > 0) texcoordIdx.push_back(std::stoi(token));
 			std::getline(sin, token, ' ');
-			if (token.size() > 0)
-			{
-				f.normalIndex = std::stoi(token) - 1;
-				f.normal = true;
-			}
-			faceInfo.push_back(f);
+			if (token.size() > 0) normalIdx.push_back(std::stoi(token));
 		}
-		face.i = faceInfo[0];
-		face.j = faceInfo[1];
-		face.k = faceInfo[2];
-		faceData.push_back(face);
 	}
 
 	void mesh::parseLine(std::stringstream& sin)
@@ -69,7 +50,7 @@ namespace egn
 		else if (s.compare("f") == 0) parseFace(sin);
 	}
 
-	void mesh::loadMeshData(std::string& filename)
+	void mesh::loadMeshData(const std::string& filename)
 	{
 		std::ifstream ifile(filename);
 		std::string line;
@@ -79,5 +60,55 @@ namespace egn
 		}
 		texturesLoaded = (texcoordIdx.size() > 0);
 		normalsLoaded = (normalIdx.size() > 0);
+		//int debugcount = 0;
+		//std::cout << vertexData.size() << std::endl;
+		for (unsigned int i = 0; i < vertexIdx.size(); i++) {
+			unsigned int vi = vertexIdx[i];
+			//std::cout << vi << " " << debugcount++ << std::endl;
+			Vertex v = vertexData[vi - 1];
+			Vertices.push_back(v);	
+		}
+		//for (int i = 0; i < vertexIdx.size(); i++)
+		
+	}
+
+
+
+	void mesh::createBufferObjects()
+	{
+
+		GLuint VboVertices;
+
+		glGenVertexArrays(1, &VaoId);
+		glBindVertexArray(VaoId);
+		{
+			glGenBuffers(1, &VboVertices);
+			glBindBuffer(GL_ARRAY_BUFFER, VboVertices);
+			{
+				glBufferData(GL_ARRAY_BUFFER, Vertices.size() * sizeof(Vertex), &Vertices[0], GL_STATIC_DRAW);
+				glEnableVertexAttribArray(VERTICES);
+				glVertexAttribPointer(VERTICES, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), 0);
+			}
+			
+		}
+		//MAY CAUSE PROBLEMS DEPENDING ON GRAPHICS CARD MANUFACTURER
+		//glBindVertexArray(0);
+		//glBindBuffer(GL_ARRAY_BUFFER, 0);
+		//glDeleteBuffers(1, &VboVertices);
+	}
+
+	void mesh::destroyBufferObjects()
+	{
+		glBindVertexArray(VaoId);
+		glDisableVertexAttribArray(VERTICES);
+		glDeleteVertexArrays(1, &VaoId);
+		glBindBuffer(GL_ARRAY_BUFFER, 0);
+		glBindVertexArray(0);
+	}
+
+	void mesh::draw()
+	{
+		glBindVertexArray(VaoId);
+		glDrawArrays(GL_TRIANGLES, 0, (GLsizei)Vertices.size());
 	}
 }

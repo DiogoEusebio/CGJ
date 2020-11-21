@@ -7,3 +7,5 @@
 #include "Quaternion.h"
 #include "Shader.h"
 #include "Vector.h"
+#include "SceneGraph.h"
+#include "SceneNode.h"
