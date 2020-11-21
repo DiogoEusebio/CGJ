@@ -136,6 +136,7 @@ namespace egn
 		friend bool operator != (const mat4& m0, const mat4& m1);
 		mat4 static scaleMatrix(float sx, float sy, float sz, float sw);
 		mat4 static translationMatrix(float tx, float ty, float tz);
+		mat4 static translationMatrix(const vec3 v);
 		mat4 static transpose(const mat4&);
 		mat4 static rotationX(float x);
 		mat4 static rotationY(float y);

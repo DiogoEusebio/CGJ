@@ -976,6 +976,9 @@ namespace egn {
 	{
 		return mat4(1, 0, 0, tx, 0, 1, 0, ty, 0, 0, 1, tz, 0, 0, 0, 1);
 	}
+	mat4 mat4::translationMatrix(const vec3 v) {
+		return mat4(1, 0, 0, v.x, 0, 1, 0, v.y, 0, 0, 1, v.z, 0, 0, 0, 1);
+	}
 	mat4 mat4::transpose(const mat4& m)
 	{
 		mat4 res = mat4();

@@ -16,11 +16,11 @@ GLint ModelID, ViewID, ProjectionID, ColorID;
 const GLuint UBO_BP = 0;
 
 Shader shader = Shader();
+mesh cubeMesh = mesh();
 
 Camera camera;
+
 SceneGraph scene = SceneGraph();
-SceneNode cube = SceneNode(nullptr, 0);
-mesh cubeMesh = mesh();
 
 #define ERROR_CALLBACK
 #ifdef  ERROR_CALLBACK
@@ -280,55 +280,87 @@ void createCube(float sidelenght, mat4 transformMatrix, float red, float green, 
 
 }
 
-void drawTetraminoLine(float sidelenght, mat4 transformMatrix)
+void createTetraminoeLine(SceneNode* parent, int h)
 {
-	mat4 myTransform = transformMatrix;
-	mat4 nextTransform = mat4::identityMatrix();
+	SceneNode* LineTetraminoe = new SceneNode(parent, h);
+	LineTetraminoe->setMesh(&cubeMesh);
+	LineTetraminoe->setShader(&shader);
+	LineTetraminoe->setColor(vec4(1.0f, 0.0f, 0.0f, 1.0f));
+	LineTetraminoe->setTranslation(vec3(-3.25f, 10.0f, 0.0f));
+	
+	SceneNode* LineChild1 = new SceneNode(LineTetraminoe, h+1);
+	LineChild1->setMesh(&cubeMesh);
+	LineChild1->setShader(&shader);
+	LineChild1->setColor(vec4(1.0f, 0.0f, 0.0f, 1.0f));
+	LineChild1->setTranslation(vec3(2.25f, 0.0f, 0.0f));
 
-	nextTransform.data[1][3] += sidelenght + 0.05;
+	SceneNode* LineChild2 = new SceneNode(LineTetraminoe, h+1);
+	LineChild2->setMesh(&cubeMesh);
+	LineChild2->setShader(&shader);
+	LineChild2->setColor(vec4(1.0f, 0.0f, 0.0f, 1.0f));
+	LineChild2->setTranslation(vec3(4.50f, 0.0f, 0.0f));
 
-	for (int i = 0; i < 4; i++)
-	{
-		createCube(0.25f, myTransform, 1.0f, 0.454f, 0.121f);
-		myTransform *= nextTransform;
-	}
+	SceneNode* LineChild3 = new SceneNode(LineTetraminoe, h+1);
+	LineChild3->setMesh(&cubeMesh);
+	LineChild3->setShader(&shader);
+	LineChild3->setColor(vec4(1.0f, 0.0f, 0.0f, 1.0f));
+	LineChild3->setTranslation(vec3(6.75f, 0.0f, 0.0f));
 }
 
-void drawTetraminoeRightL(float sidelenght, mat4 transformMatrix)
+void createTetraminoeLRight(SceneNode* parent, int h)
 {
-	mat4 myTransform = transformMatrix;
-	mat4 nextTransform = mat4::identityMatrix();
-	nextTransform.data[1][3] += sidelenght + 0.05; //change y
+	SceneNode* LRight = new SceneNode(parent, h);
+	LRight->setMesh(&cubeMesh);
+	LRight->setShader(&shader);
+	LRight->setColor(vec4(0.0f, 1.0f, 0.0f, 0.0f));
+	LRight->setTranslation(vec3(3.5f, 12.25f, 0.0f));
 
-	createCube(0.25, myTransform, 0.349f, 0.839f, 0.0f);
-	myTransform *= nextTransform;
-	createCube(0.25, myTransform, 0.349f, 0.839f, 0.0f);
-	myTransform *= nextTransform;
-	createCube(0.25, myTransform, 0.349f, 0.839f, 0.0f);
+	SceneNode* Child1 = new SceneNode(LRight, h+1);
+	Child1->setMesh(&cubeMesh);
+	Child1->setShader(&shader);
+	Child1->setColor(vec4(0.0f, 1.0f, 0.0f, 0.0f));
+	Child1->setTranslation(vec3(-2.25f, 0.0f, 0.0f));
 
-	nextTransform.data[1][3] -= sidelenght + 0.05; //change y
-	nextTransform.data[0][3] -= sidelenght + 0.05; //change x
-	myTransform *= nextTransform;
-	createCube(0.25, myTransform, 0.349f, 0.839f, 0.0f);
+	SceneNode* Child2 = new SceneNode(LRight, h+1);
+	Child2->setMesh(&cubeMesh);
+	Child2->setShader(&shader);
+	Child2->setColor(vec4(0.0f, 1.0f, 0.0f, 0.0f));
+	Child2->setTranslation(vec3(0.0f, 2.25f, 0.0f));
+
+	SceneNode* Child3 = new SceneNode(LRight, h+1);
+	Child3->setMesh(&cubeMesh);
+	Child3->setShader(&shader);
+	Child3->setColor(vec4(0.0f, 1.0f, 0.0f, 0.0f));
+	Child3->setTranslation(vec3(0.0f, 4.5f, 0.0f));
+
 }
-void drawTetraminoeLeftL(float sidelenght, mat4 transformMatrix)
+void createTetraminoeLLeft(SceneNode* parent, int h)
 {
-	mat4 myTransform = transformMatrix;
-	mat4 nextTransform = mat4::identityMatrix();
-	nextTransform.data[1][3] += sidelenght + 0.05; //change y
+	SceneNode* LLeft = new SceneNode(parent, h);
+	LLeft->setMesh(&cubeMesh);
+	LLeft->setShader(&shader);
+	LLeft->setColor(vec4(0.0f, 0.0f, 1.0f, 0.0f));
+	LLeft->setTranslation(vec3(-3.25f, 16.75f, 0.0f));
 
-	createCube(0.25, myTransform, 0.901f, 0.239f, 0.850f);
-	myTransform *= nextTransform;
-	createCube(0.25, myTransform, 0.901f, 0.239f, 0.850f);
-	myTransform *= nextTransform;
-	createCube(0.25, myTransform, 0.901f, 0.239f, 0.850f);
+	SceneNode* Child1 = new SceneNode(LLeft, h+1);
+	Child1->setMesh(&cubeMesh);
+	Child1->setShader(&shader);
+	Child1->setColor(vec4(0.0f, 0.0f, 1.0f, 0.0f));
+	Child1->setTranslation(vec3(2.25f, 0.0f, 0.0f));
 
-	nextTransform.data[1][3] -= sidelenght + 0.05; //change y
-	nextTransform.data[0][3] += sidelenght + 0.05; //change x
-	myTransform *= nextTransform;
-	createCube(0.25, myTransform, 0.901f, 0.239f, 0.850f);
+	SceneNode* Child2 = new SceneNode(LLeft, h+1);
+	Child2->setMesh(&cubeMesh);
+	Child2->setShader(&shader);
+	Child2->setColor(vec4(0.0f, 0.0f, 1.0f, 0.0f));
+	Child2->setTranslation(vec3(0.0f, -2.25f, 0.0f));
+
+	SceneNode* Child3 = new SceneNode(LLeft, h+1);
+	Child3->setMesh(&cubeMesh);
+	Child3->setShader(&shader);
+	Child3->setColor(vec4(0.0f, 0.0f, 1.0f, 0.0f));
+	Child3->setTranslation(vec3(4.5f, 0.0f, 0.0f));
 }
-void drawTetraminoeT(float sidelenght, mat4 transformMatrix)
+void createTetraminoeT(float sidelenght, mat4 transformMatrix)
 {
 	mat4 myTransform = transformMatrix;
 	mat4 nextTransform = mat4::identityMatrix();
@@ -345,7 +377,7 @@ void drawTetraminoeT(float sidelenght, mat4 transformMatrix)
 	myTransform *= nextTransform;
 	createCube(0.25, myTransform, 0.0f, 0.0f, 0.0f);
 }
-void drawTetraminoeCube(float sidelenght, mat4 transformMatrix)
+void createTetraminoeCube(float sidelenght, mat4 transformMatrix)
 {
 	mat4 myTransform = transformMatrix;
 	mat4 nextTransform = mat4::identityMatrix();
@@ -363,24 +395,33 @@ void drawTetraminoeCube(float sidelenght, mat4 transformMatrix)
 	myTransform *= nextTransform;
 	createCube(0.25, myTransform, 0.980f, 0.988f, 0.309f);
 }
-void drawTetraminoeS(float sidelenght, mat4 transformMatrix)
+void createTetraminoeS(SceneNode* parent, int h)
 {
-	mat4 myTransform = transformMatrix;
-	mat4 nextTransform = mat4::identityMatrix();
-	nextTransform.data[0][3] = sidelenght + 0.05;
+	SceneNode* S = new SceneNode(parent, h);
+	S->setMesh(&cubeMesh);
+	S->setShader(&shader);
+	S->setColor(vec4(0.92f, 0.87f, 0.0f, 0.0f));
+	S->setTranslation(vec3(-1.0f, 12.25f, 0.0f));
 
-	createCube(0.25, myTransform, 0.309f, 0.988f, 0.878f);
-	myTransform *= nextTransform;
-	createCube(0.25, myTransform, 0.309f, 0.988f, 0.878f);
-	nextTransform.data[0][3] = -sidelenght - 0.05; //reset x
-	nextTransform.data[1][3] -= sidelenght + 0.05; //change y
-	myTransform *= nextTransform;
-	createCube(0.25, myTransform, 0.309f, 0.988f, 0.878f);
-	nextTransform.data[1][3] = 0; //reset y
-	myTransform *= nextTransform;
-	createCube(0.25, myTransform, 0.309f, 0.988f, 0.878f);
+	SceneNode* Child1 = new SceneNode(S, h+1);
+	Child1->setMesh(&cubeMesh);
+	Child1->setShader(&shader);
+	Child1->setColor(vec4(0.92f, 0.87f, 0.0f, 0.0f));
+	Child1->setTranslation(vec3(-2.25, 0.0f, 0.0f));
+
+	SceneNode* Child2 = new SceneNode(S, h+1);
+	Child2->setMesh(&cubeMesh);
+	Child2->setShader(&shader);
+	Child2->setColor(vec4(0.92f, 0.87f, 0.0f, 0.0f));
+	Child2->setTranslation(vec3(0.0f, 2.25f, 0.0f));
+
+	SceneNode* Child3 = new SceneNode(S, h+1);
+	Child3->setMesh(&cubeMesh);
+	Child3->setShader(&shader);
+	Child3->setColor(vec4(0.92f, 0.87f, 0.0f, 0.0f));
+	Child3->setTranslation(vec3(2.25f, 2.25f, 0.0f));
 }
-void drawTetraminoeSinverted(float sidelenght, mat4 transformMatrix)
+void createTetraminoeSinverted(float sidelenght, mat4 transformMatrix)
 {
 	mat4 myTransform = transformMatrix;
 	mat4 nextTransform = mat4::identityMatrix();
@@ -413,36 +454,7 @@ void drawScene()
 	glUseProgram(shader.ProgramID);
 	glUniformMatrix4fv(shader.ProjectionMatrix_UID, 1, GL_FALSE, glProjectionMatrix);
 	glUniformMatrix4fv(shader.ViewMatrix_UID, 1, GL_FALSE, glViewMatrix);
-	float sidelenght = 0.25;
-	mat4 rotation = mat4(cos(45 * PI / 180), -sin(45 * PI / 180), 0.0f, -0.25f,
-		sin(45 * PI / 180), cos(45 * PI / 180), 0.0f, 0.25f,
-		0.0f, 0.0f, 1.0f, 0.0f,
-		0.0f, 0.0f, 0.0f, 1.0f);
-
-	mat4 LRight = mat4(cos(PI), -sin(PI), 0.0f, -(sidelenght + 0.05),
-		sin(PI), cos(PI), 0.0f, 0.0f,
-		0.0f, 0.0f, 1.0f, 0.0f,
-		0.0f, 0.0f, 0.0f, 1.0f);
-
-	mat4 LLeftnorot = mat4(cos(PI), -sin(PI), 0.0f, -(sidelenght + 0.05),
-		sin(PI), cos(PI), 0.0f, (sidelenght + 0.05),
-		0.0f, 0.0f, 1.0f, 0.0f,
-		0.0f, 0.0f, 0.0f, 1.0f);
-
-	mat4 LLeft = mat4(cos(270 * PI / 180), -sin(270 * PI / 180), 0.0f, -1.65 * (sidelenght + 0.05) - 0.05,
-		sin(270 * PI / 180), cos(270 * PI / 180), 0.0f, (sidelenght + 0.05),
-		0.0f, 0.0f, 1.0f, 0.0f,
-		0.0f, 0.0f, 0.0f, 1.0f);
-
-	mat4 Line = mat4(cos(PI), -sin(PI), 0.0f, 2 * (sidelenght + 0.05),
-		sin(PI), cos(PI), 0.0f, (sidelenght + 0.05),
-		0.0f, 0.0f, 1.0f, 0.0f,
-		0.0f, 0.0f, 0.0f, 1.0f);
-
-	mat4 S = mat4(cos(90 * PI / 180), -sin(90 * PI / 180), 0.0f, 0.0f,
-		sin(90 * PI / 180), cos(90 * PI / 180), 0.0f, -2 * sidelenght - 0.05,
-		0.0f, 0.0f, 1.0f, 0.0f,
-		0.0f, 0.0f, 0.0f, 1.0f);
+	
 
 
 	//createCube(sidelenght, Line, 1, 0, 0);
@@ -508,8 +520,10 @@ void key_callback(GLFWwindow* win, int key, int scancode, int action, int mods)
 		camera.getViewMatrix().convertToGL(glViewMatrix);
 	}
 	if (key == GLFW_KEY_W && (action == GLFW_REPEAT || action == GLFW_PRESS))
-	{
-		camera.addTranslation(vec3(0.0f, 0.0f, 0.1f));
+	{	
+		SceneNode* root = scene.getRoot();
+		root->setTranslation(vec3(10.0f, -10.0f, 0.0f));
+		//camera.addTranslation(vec3(0.0f, 0.0f, 0.1f));
 		camera.getViewMatrix().convertToGL(glViewMatrix);
 		}
 
@@ -527,7 +541,7 @@ void key_callback(GLFWwindow* win, int key, int scancode, int action, int mods)
 
 	//RESET CAMERA
 	if (key == GLFW_KEY_T) {
-		camera.resetCamera(5);
+		camera.resetCamera(CAMERA_RADIUS);
 		
 	}
 
@@ -561,29 +575,67 @@ void  scroll_callback(GLFWwindow* win, double xoffset, double yoffset)
 ///////////////////////////////////////////////////////////////////////// SETUP
 void createScene()
 {
+	float sidelenght = 2.0f;
+
+	mat4 rotation = mat4(cos(45 * PI / 180), -sin(45 * PI / 180), 0.0f, -0.25f,
+		sin(45 * PI / 180), cos(45 * PI / 180), 0.0f, 0.25f,
+		0.0f, 0.0f, 1.0f, 0.0f,
+		0.0f, 0.0f, 0.0f, 1.0f);
+
+	mat4 LRight = mat4(cos(PI), -sin(PI), 0.0f, -(sidelenght + 0.05),
+		sin(PI), cos(PI), 0.0f, 0.0f,
+		0.0f, 0.0f, 1.0f, 0.0f,
+		0.0f, 0.0f, 0.0f, 1.0f);
+
+	mat4 LLeftnorot = mat4(cos(PI), -sin(PI), 0.0f, -(sidelenght + 0.05),
+		sin(PI), cos(PI), 0.0f, (sidelenght + 0.05),
+		0.0f, 0.0f, 1.0f, 0.0f,
+		0.0f, 0.0f, 0.0f, 1.0f);
+
+	mat4 LLeft = mat4(cos(270 * PI / 180), -sin(270 * PI / 180), 0.0f, -1.65 * (sidelenght + 0.05) - 0.05,
+		sin(270 * PI / 180), cos(270 * PI / 180), 0.0f, (sidelenght + 0.05),
+		0.0f, 0.0f, 1.0f, 0.0f,
+		0.0f, 0.0f, 0.0f, 1.0f);
+
+	mat4 Line = mat4(cos(PI), -sin(PI), 0.0f, 2 * (sidelenght + 0.05),
+		sin(PI), cos(PI), 0.0f, (sidelenght + 0.05),
+		0.0f, 0.0f, 1.0f, 0.0f,
+		0.0f, 0.0f, 0.0f, 1.0f);
+
+	mat4 S = mat4(cos(90 * PI / 180), -sin(90 * PI / 180), 0.0f, 0.0f,
+		sin(90 * PI / 180), cos(90 * PI / 180), 0.0f, -2 * sidelenght - 0.05,
+		0.0f, 0.0f, 1.0f, 0.0f,
+		0.0f, 0.0f, 0.0f, 1.0f);
+
+	//create Shader
 	shader.createShaderProgram("shaders/vertex.shader", "shaders/fragment.shader");
-	cube.setShader(&shader);
 
-	std::cout << "setShader done" << std::endl;
+	//create Mesh
 	cubeMesh.loadMeshData("assets/cube.obj");
-	std::cout << "loaded mesh" << std::endl;
-
 	cubeMesh.createBufferObjects();
 
-	std::cout << "createBufferOBJ done" << std::endl;
-	cube.setMesh(&cubeMesh);
+	SceneNode* Floor = new SceneNode(nullptr, 0);
+	Floor->setMesh(&cubeMesh);
+	Floor->setShader(&shader);
+	Floor->setScaleMatrix(mat4::scaleMatrix(10.0f, 0.1f, 10.0f, 1.0f));
+	Floor->setTranslation(vec3(0.0f, -10.0f, 0.0f));
+
+	createTetraminoeLine(Floor, 1);
+	createTetraminoeLRight(Floor, 1);
+	createTetraminoeLLeft(Floor, 1);
+	createTetraminoeS(Floor, 1);
 
 	std::cout << "setMesh done" << std::endl;
 	scene.setCamera(&camera);
-	scene.setRoot(&cube);
+	scene.setRoot(Floor);
 }
 
 void setupCamera()
 {
-	camera = egn::Camera::Camera(5);
+	camera = egn::Camera::Camera(CAMERA_RADIUS);
 
-	camera.OrthographicProjectionMatrix(-2.0f, 2.0f, -2.0f, 2.0f, 1.0f, 20.0f);
-	camera.PerspectiveProjectionMatrix(30.0f, 640.0f / 480.0f, 1.0f, 20.0f);
+	camera.OrthographicProjectionMatrix(-2.0f, 2.0f, -2.0f, 2.0f, 1.0f, 100.0f);
+	camera.PerspectiveProjectionMatrix(30.0f, 640.0f / 480.0f, 1.0f, 100.0f);
 
 	camera.getViewMatrix().convertToGL(glViewMatrix);
 	camera.getProjectionMatrix().convertToGL(glProjectionMatrix);

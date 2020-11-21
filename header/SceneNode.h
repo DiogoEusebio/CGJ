@@ -12,12 +12,12 @@ namespace egn {
 		SceneNode* parent;
 		Shader* shader;
 		mat4 modelMatrix;
-		mat4 scaleMatirx;
+		mat4 scaleMatrix;
 		mat4 totalMatrix;
 		mesh* objmesh;
 		vec4 color;
 		float height;
-		std::vector<SceneNode*> nodes;
+		std::vector<SceneNode*> childs;
 	public:
 		vec3 localTranslationVec;
 		qtrn localQuaternion;
@@ -28,7 +28,7 @@ namespace egn {
 		void Draw(Camera* cam);
 		void setModelMatrix(mat4 matrix);
 		void setTranslation(vec3 v);
-		void setScaleMatirx(mat4 matrix);
+		void setScaleMatrix(mat4 matrix);
 		void setQuaternion(qtrn q);
 		void setColor(vec4 c);
 		void setMesh(mesh* m);

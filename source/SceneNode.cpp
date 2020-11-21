@@ -8,6 +8,8 @@ namespace egn {
 		if (parent != nullptr)
 			parent->addChild(this);
 		height = h;
+		totalMatrix = mat4::identityMatrix();
+		scaleMatrix = mat4::identityMatrix();
 		color = vec4(1.0f, 1.0f, 1.0f, 1.0f);
 	}
 
@@ -15,15 +17,15 @@ namespace egn {
 	{
 		objmesh->destroyBufferObjects();
 		shader->destroyShaderProgram();
-		for (SceneNode* node : nodes)
+		for (SceneNode* child : childs)
 		{
-			node->destroy();
+			child->destroy();
 		}
 	}
 
 	void SceneNode::addChild(SceneNode* node)
 	{
-		nodes.push_back(node);
+		childs.push_back(node);
 	}
 
 	void SceneNode::setTranslation(vec3 v)
@@ -31,9 +33,9 @@ namespace egn {
 		localTranslationVec = v;
 	}
 	
-	void SceneNode::setScaleMatirx(mat4 matrix)
+	void SceneNode::setScaleMatrix(mat4 matrix)
 	{
-		scaleMatirx = matrix;
+		scaleMatrix = matrix;
 	}
 	void SceneNode::setModelMatrix(mat4 matrix)
 	{
@@ -68,13 +70,19 @@ namespace egn {
 	{
 		float colorF[4];
 		color.getData(colorF);
-		mat4 modelMatrix = mat4::identityMatrix();
 		GLfloat glModelMatrix[16];
 		mat4 viewMatrix = cam->getViewMatrix();
 		GLfloat glViewMatrix[16];
 		mat4 projectionMatrix = cam->getProjectionMatrix();
 		GLfloat glProjectionMatrix[16];
 
+		if (parent != nullptr) {
+			totalMatrix = parent->totalMatrix * mat4::translationMatrix(localTranslationVec);
+		}
+		else {
+			totalMatrix = mat4::translationMatrix(localTranslationVec);
+		}
+		modelMatrix = totalMatrix * scaleMatrix;
 		glUseProgram(shader->ProgramID);
 
 		glUniform4fv(shader->Color_UID, 1, colorF);
@@ -86,5 +94,9 @@ namespace egn {
 
 		glUseProgram(0);
 		glBindVertexArray(0);
+
+		for (SceneNode* child : childs) {
+			child->Draw(cam);
+		}
 	}
 }
