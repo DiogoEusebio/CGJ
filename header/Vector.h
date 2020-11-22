@@ -84,6 +84,7 @@ namespace egn
 		friend const vec3 operator / (const float k, const vec3& v);
 		float static dot(const vec3& v0, const vec3& v1);
 		vec3 static cross(const vec3& v0, const vec3& v1);
+		vec3 static lerp(const vec3& v0, const vec3& v1, float delta);
 		friend bool operator == (const vec3& v0, const vec3& v1);
 		friend bool operator != (const vec3& v0, const vec3& v1);
 		friend std::ostream& operator << (std::ostream& os, const vec3& v);

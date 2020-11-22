@@ -314,6 +314,7 @@ void createTetraminoeLRight(SceneNode* parent, int h)
 	LRight->setShader(&shader);
 	LRight->setColor(vec4(0.0f, 1.0f, 0.0f, 0.0f));
 	LRight->setTranslation(vec3(3.5f, 12.25f, 0.0f));
+	LRight->setAnimationTranslation(vec3(-1.25f, 2.5f, 1.25f));
 
 	SceneNode* Child1 = new SceneNode(LRight, h+1);
 	Child1->setMesh(&cubeMesh);
@@ -341,6 +342,7 @@ void createTetraminoeLLeft(SceneNode* parent, int h)
 	LLeft->setShader(&shader);
 	LLeft->setColor(vec4(0.0f, 0.0f, 1.0f, 0.0f));
 	LLeft->setTranslation(vec3(-3.25f, 16.75f, 0.0f));
+	LLeft->setAnimationTranslation(vec3(1.25f, 2.5f, 1.25f));
 
 	SceneNode* Child1 = new SceneNode(LLeft, h+1);
 	Child1->setMesh(&cubeMesh);
@@ -502,6 +504,8 @@ void key_callback(GLFWwindow* win, int key, int scancode, int action, int mods)
 		glfwSetWindowShouldClose(win, GLFW_TRUE);
 		window_close_callback(win);
 	}
+
+	// CAMERA SWITCH
 	if (key == GLFW_KEY_P && action == 1) {
 		camera.switchProjectionMatrix();
 		camera.getProjectionMatrix().convertToGL(glProjectionMatrix);
@@ -513,7 +517,6 @@ void key_callback(GLFWwindow* win, int key, int scancode, int action, int mods)
 		camera.addTranslation(vec3(-0.01f, 0.0f, 0.0f));
 		camera.getViewMatrix().convertToGL(glViewMatrix);
 	}
-
 	if (key == GLFW_KEY_D && (action == GLFW_REPEAT || action == GLFW_PRESS))
 	{	
 		camera.addTranslation(vec3(0.01f, 0.0f, 0.0f));
@@ -521,19 +524,16 @@ void key_callback(GLFWwindow* win, int key, int scancode, int action, int mods)
 	}
 	if (key == GLFW_KEY_W && (action == GLFW_REPEAT || action == GLFW_PRESS))
 	{	
-		SceneNode* root = scene.getRoot();
-		root->setTranslation(vec3(10.0f, -10.0f, 0.0f));
-		//camera.addTranslation(vec3(0.0f, 0.0f, 0.1f));
+		camera.addTranslation(vec3(0.0f, 0.0f, 0.1f));
 		camera.getViewMatrix().convertToGL(glViewMatrix);
-		}
-
+	}
 	if (key == GLFW_KEY_S && (action == GLFW_REPEAT || action == GLFW_PRESS))
 	{	
 		camera.addTranslation(vec3(0.0f, 0.0f, -0.1f));
 		camera.getViewMatrix().convertToGL(glViewMatrix);
 	}
 
-
+	// CAMERA CHANGE GIMBAL
 	if (key == GLFW_KEY_G && action == GLFW_PRESS)
 	{
 		camera.changeRotationType();
@@ -542,10 +542,31 @@ void key_callback(GLFWwindow* win, int key, int scancode, int action, int mods)
 	//RESET CAMERA
 	if (key == GLFW_KEY_T) {
 		camera.resetCamera(CAMERA_RADIUS);
-		
 	}
 
+	// SCENE MOVEMENT
+	if (key == GLFW_KEY_UP && (action == GLFW_REPEAT || action == GLFW_PRESS))
+	{
+		scene.translate(vec3(0, 0, -1));
+	}
+	if (key == GLFW_KEY_DOWN && (action == GLFW_REPEAT || action == GLFW_PRESS))
+	{
+		scene.translate(vec3(0, 0, 1));
+	}
+	if (key == GLFW_KEY_RIGHT && (action == GLFW_REPEAT || action == GLFW_PRESS))
+	{
+		scene.translate(vec3(1, 0, 0));
+	}
+	if (key == GLFW_KEY_LEFT && (action == GLFW_REPEAT || action == GLFW_PRESS))
+	{
+		scene.translate(vec3(-1, 0, 0));
+	}
 
+	// SCENE ANIMATION
+	if (key == GLFW_KEY_F && action == GLFW_PRESS)
+	{
+		scene.animate();
+	}
 }
 
 void mouse_callback(GLFWwindow* win, double xpos, double ypos)

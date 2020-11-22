@@ -366,6 +366,15 @@ namespace egn {
 		return vec3(x, y, z);
 	}
 
+	vec3 vec3::lerp(const vec3& v0, const vec3& v1, float delta)
+	{
+		vec3 res = vec3();
+		vec3 aux = v1 - v0;
+		aux *= delta;
+		res = v0 + aux;
+		return res;
+	}
+
 	bool operator==(const vec3& v0, const vec3& v1)
 	{
 		if (v0.x == v1.x && v0.y == v1.y && v0.z == v1.z)

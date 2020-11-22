@@ -30,7 +30,12 @@ namespace egn {
 
 	void SceneNode::setTranslation(vec3 v)
 	{
-		localTranslationVec = v;
+		initialTranslationVector = v;
+	}
+
+	void SceneNode::setAnimationTranslation(vec3 v)
+	{
+		finalTranslationVector = v;
 	}
 	
 	void SceneNode::setScaleMatrix(mat4 matrix)
@@ -43,9 +48,13 @@ namespace egn {
 	}
 	void SceneNode::setQuaternion(qtrn q)
 	{
-		localQuaternion = q;
+		initialQuaternion = q;
 	}
-	
+	void SceneNode::setAnimationQuaternion(qtrn q)
+	{
+		finalQuaternion = &q;
+	}
+
 	void SceneNode::setColor(vec4 c)
 	{
 		color = c;
@@ -66,7 +75,7 @@ namespace egn {
 	{
 		return shader;
 	}
-	void SceneNode::Draw(Camera* cam)
+	void SceneNode::Draw(Camera* cam, float delta)
 	{
 		float colorF[4];
 		color.getData(colorF);
@@ -75,12 +84,31 @@ namespace egn {
 		GLfloat glViewMatrix[16];
 		mat4 projectionMatrix = cam->getProjectionMatrix();
 		GLfloat glProjectionMatrix[16];
+		vec3 currentPosition;
+		qtrn currentQuaternion;
+
+		if (finalTranslationVector != NULL)
+		{
+			currentPosition = vec3::lerp(initialTranslationVector, finalTranslationVector, delta);
+		}
+		else
+		{
+			currentPosition = initialTranslationVector;
+		}
+		if (finalQuaternion != NULL)
+		{
+			currentQuaternion = qSlerp(*finalQuaternion, initialQuaternion, delta);
+		}
+		else
+		{
+			currentQuaternion = initialQuaternion;
+		}
 
 		if (parent != nullptr) {
-			totalMatrix = parent->totalMatrix * mat4::translationMatrix(localTranslationVec);
+			totalMatrix = parent->totalMatrix * mat4::translationMatrix(currentPosition);
 		}
 		else {
-			totalMatrix = mat4::translationMatrix(localTranslationVec);
+			totalMatrix = mat4::translationMatrix(currentPosition);
 		}
 		modelMatrix = totalMatrix * scaleMatrix;
 		glUseProgram(shader->ProgramID);
@@ -96,7 +124,16 @@ namespace egn {
 		glBindVertexArray(0);
 
 		for (SceneNode* child : childs) {
-			child->Draw(cam);
+			child->Draw(cam, delta);
+		}
+	}
+
+	void SceneNode::translate(vec3 v)
+	{
+		initialTranslationVector += v;
+		if (finalTranslationVector != NULL)
+		{
+			finalTranslationVector += v;
 		}
 	}
 }
