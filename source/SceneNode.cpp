@@ -11,6 +11,7 @@ namespace egn {
 		totalMatrix = mat4::identityMatrix();
 		scaleMatrix = mat4::identityMatrix();
 		color = vec4(1.0f, 1.0f, 1.0f, 1.0f);
+		initialQuaternion = qtrn(1.0f, 0.0f, 0.0f, 0.0f);
 	}
 
 	void SceneNode::destroy()
@@ -35,6 +36,7 @@ namespace egn {
 
 	void SceneNode::setAnimationTranslation(vec3 v)
 	{
+		v += initialTranslationVector;
 		finalTranslationVector = v;
 	}
 	
@@ -52,7 +54,8 @@ namespace egn {
 	}
 	void SceneNode::setAnimationQuaternion(qtrn q)
 	{
-		finalQuaternion = &q;
+		finalQuaternion = q;
+		animated = true;
 	}
 
 	void SceneNode::setColor(vec4 c)
@@ -95,20 +98,22 @@ namespace egn {
 		{
 			currentPosition = initialTranslationVector;
 		}
-		if (finalQuaternion != NULL)
+		if (animated)
 		{
-			currentQuaternion = qSlerp(*finalQuaternion, initialQuaternion, delta);
+			currentQuaternion = qSlerp(initialQuaternion, finalQuaternion, delta);
 		}
 		else
 		{
 			currentQuaternion = initialQuaternion;
 		}
 
+
+		mat4 rot = qRotationMatrix(currentQuaternion);
 		if (parent != nullptr) {
-			totalMatrix = parent->totalMatrix * mat4::translationMatrix(currentPosition);
+			totalMatrix = parent->totalMatrix * mat4::translationMatrix(currentPosition) * rot;
 		}
 		else {
-			totalMatrix = mat4::translationMatrix(currentPosition);
+			totalMatrix = mat4::translationMatrix(currentPosition) * rot;
 		}
 		modelMatrix = totalMatrix * scaleMatrix;
 		glUseProgram(shader->ProgramID);

@@ -232,7 +232,7 @@ const Matrix I = {
 GLfloat glViewMatrix[16];
 GLfloat glProjectionMatrix[16];
 
-
+/*
 void createSquare(float sidelenght, mat4 transformMatrix, float red, float green, float blue)
 {
 	GLfloat vec[16];
@@ -279,89 +279,93 @@ void createCube(float sidelenght, mat4 transformMatrix, float red, float green, 
 
 
 }
-
+*/
 void createTetraminoeLine(SceneNode* parent, int h)
 {
 	SceneNode* LineTetraminoe = new SceneNode(parent, h);
 	LineTetraminoe->setMesh(&cubeMesh);
 	LineTetraminoe->setShader(&shader);
-	LineTetraminoe->setColor(vec4(1.0f, 0.0f, 0.0f, 1.0f));
+	LineTetraminoe->setColor(vec4(1.0f, 0.454f, 0.121f, 1.0f));
 	LineTetraminoe->setTranslation(vec3(-3.25f, 10.0f, 0.0f));
+	LineTetraminoe->setAnimationTranslation(vec3(0.0f, 0.0f, -5.0f));
+	LineTetraminoe->setAnimationQuaternion(qtrn(0.7071068f, 0.0f, 0.7071068f, 0.0f));
 	
 	SceneNode* LineChild1 = new SceneNode(LineTetraminoe, h+1);
 	LineChild1->setMesh(&cubeMesh);
 	LineChild1->setShader(&shader);
-	LineChild1->setColor(vec4(1.0f, 0.0f, 0.0f, 1.0f));
+	LineChild1->setColor(vec4(1.0f, 0.454f, 0.121f, 1.0f));
 	LineChild1->setTranslation(vec3(2.25f, 0.0f, 0.0f));
 
 	SceneNode* LineChild2 = new SceneNode(LineTetraminoe, h+1);
 	LineChild2->setMesh(&cubeMesh);
 	LineChild2->setShader(&shader);
-	LineChild2->setColor(vec4(1.0f, 0.0f, 0.0f, 1.0f));
+	LineChild2->setColor(vec4(1.0f, 0.454f, 0.121f, 1.0f));
 	LineChild2->setTranslation(vec3(4.50f, 0.0f, 0.0f));
 
 	SceneNode* LineChild3 = new SceneNode(LineTetraminoe, h+1);
 	LineChild3->setMesh(&cubeMesh);
 	LineChild3->setShader(&shader);
-	LineChild3->setColor(vec4(1.0f, 0.0f, 0.0f, 1.0f));
+	LineChild3->setColor(vec4(1.0f, 0.454f, 0.121f, 1.0f));
 	LineChild3->setTranslation(vec3(6.75f, 0.0f, 0.0f));
 }
 
-void createTetraminoeLRight(SceneNode* parent, int h)
-{
-	SceneNode* LRight = new SceneNode(parent, h);
-	LRight->setMesh(&cubeMesh);
-	LRight->setShader(&shader);
-	LRight->setColor(vec4(0.0f, 1.0f, 0.0f, 0.0f));
-	LRight->setTranslation(vec3(3.5f, 12.25f, 0.0f));
-	LRight->setAnimationTranslation(vec3(-1.25f, 2.5f, 1.25f));
-
-	SceneNode* Child1 = new SceneNode(LRight, h+1);
-	Child1->setMesh(&cubeMesh);
-	Child1->setShader(&shader);
-	Child1->setColor(vec4(0.0f, 1.0f, 0.0f, 0.0f));
-	Child1->setTranslation(vec3(-2.25f, 0.0f, 0.0f));
-
-	SceneNode* Child2 = new SceneNode(LRight, h+1);
-	Child2->setMesh(&cubeMesh);
-	Child2->setShader(&shader);
-	Child2->setColor(vec4(0.0f, 1.0f, 0.0f, 0.0f));
-	Child2->setTranslation(vec3(0.0f, 2.25f, 0.0f));
-
-	SceneNode* Child3 = new SceneNode(LRight, h+1);
-	Child3->setMesh(&cubeMesh);
-	Child3->setShader(&shader);
-	Child3->setColor(vec4(0.0f, 1.0f, 0.0f, 0.0f));
-	Child3->setTranslation(vec3(0.0f, 4.5f, 0.0f));
-
-}
 void createTetraminoeLLeft(SceneNode* parent, int h)
 {
 	SceneNode* LLeft = new SceneNode(parent, h);
 	LLeft->setMesh(&cubeMesh);
 	LLeft->setShader(&shader);
-	LLeft->setColor(vec4(0.0f, 0.0f, 1.0f, 0.0f));
-	LLeft->setTranslation(vec3(-3.25f, 16.75f, 0.0f));
-	LLeft->setAnimationTranslation(vec3(1.25f, 2.5f, 1.25f));
+	LLeft->setColor(vec4(0.678f, 0.0f, 0.878f, 1.0f));
+	LLeft->setTranslation(vec3(3.5f, 12.25f, 0.0f));
+	LLeft->setAnimationTranslation(vec3(0.0f, 0.0f, 2.25f));
+	LLeft->setAnimationQuaternion(qtrn(0.0f, 1.0f, 1.0f, 0.0f));
 
 	SceneNode* Child1 = new SceneNode(LLeft, h+1);
 	Child1->setMesh(&cubeMesh);
 	Child1->setShader(&shader);
-	Child1->setColor(vec4(0.0f, 0.0f, 1.0f, 0.0f));
-	Child1->setTranslation(vec3(2.25f, 0.0f, 0.0f));
+	Child1->setColor(vec4(0.678f, 0.0f, 0.878f, 1.0f));
+	Child1->setTranslation(vec3(-2.25f, 0.0f, 0.0f));
 
 	SceneNode* Child2 = new SceneNode(LLeft, h+1);
 	Child2->setMesh(&cubeMesh);
 	Child2->setShader(&shader);
-	Child2->setColor(vec4(0.0f, 0.0f, 1.0f, 0.0f));
-	Child2->setTranslation(vec3(0.0f, -2.25f, 0.0f));
+	Child2->setColor(vec4(0.678f, 0.0f, 0.878f, 1.0f));
+	Child2->setTranslation(vec3(0.0f, 2.25f, 0.0f));
 
 	SceneNode* Child3 = new SceneNode(LLeft, h+1);
 	Child3->setMesh(&cubeMesh);
 	Child3->setShader(&shader);
-	Child3->setColor(vec4(0.0f, 0.0f, 1.0f, 0.0f));
+	Child3->setColor(vec4(0.678f, 0.0f, 0.878f, 1.0f));
+	Child3->setTranslation(vec3(0.0f, 4.5f, 0.0f));
+
+}
+void createTetraminoeLRight(SceneNode* parent, int h)
+{
+	SceneNode* LRight = new SceneNode(parent, h);
+	LRight->setMesh(&cubeMesh);
+	LRight->setShader(&shader);
+	LRight->setColor(vec4(0.349f, 0.839f, 0.0f, 1.0f));
+	LRight->setTranslation(vec3(-3.25f, 16.75f, 0.0f));
+	LRight->setAnimationTranslation(vec3(1.25f, 2.5f, 1.25f));
+
+	SceneNode* Child1 = new SceneNode(LRight, h+1);
+	Child1->setMesh(&cubeMesh);
+	Child1->setShader(&shader);
+	Child1->setColor(vec4(0.349f, 0.839f, 0.0f, 1.0f));
+	Child1->setTranslation(vec3(2.25f, 0.0f, 0.0f));
+
+	SceneNode* Child2 = new SceneNode(LRight, h+1);
+	Child2->setMesh(&cubeMesh);
+	Child2->setShader(&shader);
+	Child2->setColor(vec4(0.349f, 0.839f, 0.0f, 1.0f));
+	Child2->setTranslation(vec3(0.0f, -2.25f, 0.0f));
+
+	SceneNode* Child3 = new SceneNode(LRight, h+1);
+	Child3->setMesh(&cubeMesh);
+	Child3->setShader(&shader);
+	Child3->setColor(vec4(0.349f, 0.839f, 0.0f, 1.0f));
 	Child3->setTranslation(vec3(4.5f, 0.0f, 0.0f));
 }
+/*
 void createTetraminoeT(float sidelenght, mat4 transformMatrix)
 {
 	mat4 myTransform = transformMatrix;
@@ -378,7 +382,8 @@ void createTetraminoeT(float sidelenght, mat4 transformMatrix)
 
 	myTransform *= nextTransform;
 	createCube(0.25, myTransform, 0.0f, 0.0f, 0.0f);
-}
+}*/
+/*
 void createTetraminoeCube(float sidelenght, mat4 transformMatrix)
 {
 	mat4 myTransform = transformMatrix;
@@ -396,33 +401,35 @@ void createTetraminoeCube(float sidelenght, mat4 transformMatrix)
 	nextTransform.data[0][3] = sidelenght + 0.05; //change x
 	myTransform *= nextTransform;
 	createCube(0.25, myTransform, 0.980f, 0.988f, 0.309f);
-}
+} */
 void createTetraminoeS(SceneNode* parent, int h)
 {
 	SceneNode* S = new SceneNode(parent, h);
 	S->setMesh(&cubeMesh);
 	S->setShader(&shader);
-	S->setColor(vec4(0.92f, 0.87f, 0.0f, 0.0f));
+	S->setColor(vec4(0.309f, 0.988f, 0.878f, 1.0f));
 	S->setTranslation(vec3(-1.0f, 12.25f, 0.0f));
+	S->setAnimationQuaternion(qtrn(0.7071068f, 0.0f, 0.0f, 0.7071068f));
 
 	SceneNode* Child1 = new SceneNode(S, h+1);
 	Child1->setMesh(&cubeMesh);
 	Child1->setShader(&shader);
-	Child1->setColor(vec4(0.92f, 0.87f, 0.0f, 0.0f));
+	Child1->setColor(vec4(0.309f, 0.988f, 0.878f, 1.0f));
 	Child1->setTranslation(vec3(-2.25, 0.0f, 0.0f));
 
 	SceneNode* Child2 = new SceneNode(S, h+1);
 	Child2->setMesh(&cubeMesh);
 	Child2->setShader(&shader);
-	Child2->setColor(vec4(0.92f, 0.87f, 0.0f, 0.0f));
+	Child2->setColor(vec4(0.309f, 0.988f, 0.878f, 1.0f));
 	Child2->setTranslation(vec3(0.0f, 2.25f, 0.0f));
 
 	SceneNode* Child3 = new SceneNode(S, h+1);
 	Child3->setMesh(&cubeMesh);
 	Child3->setShader(&shader);
-	Child3->setColor(vec4(0.92f, 0.87f, 0.0f, 0.0f));
+	Child3->setColor(vec4(0.309f, 0.988f, 0.878f, 1.0f));
 	Child3->setTranslation(vec3(2.25f, 2.25f, 0.0f));
 }
+/*
 void createTetraminoeSinverted(float sidelenght, mat4 transformMatrix)
 {
 	mat4 myTransform = transformMatrix;
@@ -441,7 +448,7 @@ void createTetraminoeSinverted(float sidelenght, mat4 transformMatrix)
 	myTransform *= nextTransform;
 	createCube(0.25, myTransform, 0.678f, 0.0f, 0.878f);
 }
-
+*/
 void drawCamera(egn::Camera camera)
 {
 	camera.getViewMatrix().convertToGL(glViewMatrix);

@@ -20,7 +20,8 @@ namespace egn {
 		vec3 initialTranslationVector;
 		vec3 finalTranslationVector = NULL;
 		qtrn initialQuaternion;
-		qtrn* finalQuaternion = NULL;
+		qtrn finalQuaternion;
+		bool animated = false;
 		std::vector<SceneNode*> childs;
 	public:
 		vec3 localTranslationVec;

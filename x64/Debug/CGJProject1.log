@@ -1,89 +1,55 @@
 ﻿  main.cpp
-C:\Users\J. Galamba\Documents\CGJ\source\main.cpp(8,1): warning C4005: 'COLORS': macro redefinition
-C:\Users\J. Galamba\Documents\CGJ\header\Shader.h(11): message : see previous definition of 'COLORS'
-C:\Users\J. Galamba\Documents\CGJ\source\main.cpp(9,1): warning C4005: 'PI': macro redefinition
-C:\Users\J. Galamba\Documents\CGJ\header\Constants.h(7): message : see previous definition of 'PI'
-C:\Users\J. Galamba\Documents\CGJ\source\main.cpp(168,1): warning C4305: 'initializing': truncation from 'double' to 'GLfloat'
-C:\Users\J. Galamba\Documents\CGJ\source\main.cpp(244,31): warning C4838: conversion from 'double' to 'GLfloat' requires a narrowing conversion
-C:\Users\J. Galamba\Documents\CGJ\source\main.cpp(244,31): warning C4244: 'initializing': conversion from 'double' to 'GLfloat', possible loss of data
-C:\Users\J. Galamba\Documents\CGJ\source\main.cpp(244,44): warning C4838: conversion from 'double' to 'GLfloat' requires a narrowing conversion
-C:\Users\J. Galamba\Documents\CGJ\source\main.cpp(244,44): warning C4244: 'initializing': conversion from 'double' to 'GLfloat', possible loss of data
-C:\Users\J. Galamba\Documents\CGJ\source\main.cpp(244,56): warning C4838: conversion from 'double' to 'GLfloat' requires a narrowing conversion
-C:\Users\J. Galamba\Documents\CGJ\source\main.cpp(244,56): warning C4244: 'initializing': conversion from 'double' to 'GLfloat', possible loss of data
-C:\Users\J. Galamba\Documents\CGJ\source\main.cpp(264,41): warning C4305: 'argument': truncation from 'double' to 'float'
-C:\Users\J. Galamba\Documents\CGJ\source\main.cpp(265,46): warning C4305: 'argument': truncation from 'double' to 'float'
-C:\Users\J. Galamba\Documents\CGJ\source\main.cpp(271,105): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-C:\Users\J. Galamba\Documents\CGJ\source\main.cpp(271,95): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-C:\Users\J. Galamba\Documents\CGJ\source\main.cpp(271,84): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-C:\Users\J. Galamba\Documents\CGJ\source\main.cpp(273,108): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-C:\Users\J. Galamba\Documents\CGJ\source\main.cpp(273,97): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-C:\Users\J. Galamba\Documents\CGJ\source\main.cpp(273,85): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-C:\Users\J. Galamba\Documents\CGJ\source\main.cpp(274,108): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-C:\Users\J. Galamba\Documents\CGJ\source\main.cpp(274,95): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-C:\Users\J. Galamba\Documents\CGJ\source\main.cpp(274,81): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-C:\Users\J. Galamba\Documents\CGJ\source\main.cpp(276,42): warning C4305: 'argument': truncation from 'double' to 'float'
-C:\Users\J. Galamba\Documents\CGJ\source\main.cpp(277,87): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-C:\Users\J. Galamba\Documents\CGJ\source\main.cpp(277,76): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-C:\Users\J. Galamba\Documents\CGJ\source\main.cpp(277,64): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-C:\Users\J. Galamba\Documents\CGJ\source\main.cpp(278,129): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-C:\Users\J. Galamba\Documents\CGJ\source\main.cpp(278,116): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-C:\Users\J. Galamba\Documents\CGJ\source\main.cpp(278,102): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-C:\Users\J. Galamba\Documents\CGJ\source\main.cpp(285,52): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\J. Galamba\Documents\CGJ\source\main.cpp(291,57): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\J. Galamba\Documents\CGJ\source\main.cpp(297,57): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\J. Galamba\Documents\CGJ\source\main.cpp(303,57): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\J. Galamba\Documents\CGJ\source\main.cpp(312,44): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\J. Galamba\Documents\CGJ\source\main.cpp(319,45): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\J. Galamba\Documents\CGJ\source\main.cpp(325,45): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\J. Galamba\Documents\CGJ\source\main.cpp(331,45): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\J. Galamba\Documents\CGJ\source\main.cpp(340,43): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\J. Galamba\Documents\CGJ\source\main.cpp(347,44): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\J. Galamba\Documents\CGJ\source\main.cpp(353,44): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\J. Galamba\Documents\CGJ\source\main.cpp(359,44): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\J. Galamba\Documents\CGJ\source\main.cpp(369,47): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
-C:\Users\J. Galamba\Documents\CGJ\source\main.cpp(376,53): warning C4244: '-=': conversion from 'double' to 'float', possible loss of data
-C:\Users\J. Galamba\Documents\CGJ\source\main.cpp(377,47): warning C4244: '-=': conversion from 'double' to 'float', possible loss of data
-C:\Users\J. Galamba\Documents\CGJ\source\main.cpp(386,40): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-C:\Users\J. Galamba\Documents\CGJ\source\main.cpp(391,29): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-C:\Users\J. Galamba\Documents\CGJ\source\main.cpp(392,47): warning C4244: '-=': conversion from 'double' to 'float', possible loss of data
-C:\Users\J. Galamba\Documents\CGJ\source\main.cpp(396,40): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-C:\Users\J. Galamba\Documents\CGJ\source\main.cpp(402,39): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\J. Galamba\Documents\CGJ\source\main.cpp(408,40): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\J. Galamba\Documents\CGJ\source\main.cpp(414,40): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\J. Galamba\Documents\CGJ\source\main.cpp(420,40): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\J. Galamba\Documents\CGJ\source\main.cpp(430,40): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-C:\Users\J. Galamba\Documents\CGJ\source\main.cpp(436,47): warning C4244: '-=': conversion from 'double' to 'float', possible loss of data
-C:\Users\J. Galamba\Documents\CGJ\source\main.cpp(440,40): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-C:\Users\J. Galamba\Documents\CGJ\source\main.cpp(602,26): warning C4244: 'argument': conversion from 'double' to 'const float', possible loss of data
-C:\Users\J. Galamba\Documents\CGJ\source\main.cpp(602,6): warning C4244: 'argument': conversion from 'double' to 'const float', possible loss of data
-C:\Users\J. Galamba\Documents\CGJ\source\main.cpp(601,43): warning C4244: 'argument': conversion from 'double' to 'const float', possible loss of data
-C:\Users\J. Galamba\Documents\CGJ\source\main.cpp(601,26): warning C4244: 'argument': conversion from 'double' to 'const float', possible loss of data
-C:\Users\J. Galamba\Documents\CGJ\source\main.cpp(607,15): warning C4244: 'argument': conversion from 'double' to 'const float', possible loss of data
-C:\Users\J. Galamba\Documents\CGJ\source\main.cpp(607,6): warning C4244: 'argument': conversion from 'double' to 'const float', possible loss of data
-C:\Users\J. Galamba\Documents\CGJ\source\main.cpp(606,46): warning C4244: 'argument': conversion from 'double' to 'const float', possible loss of data
-C:\Users\J. Galamba\Documents\CGJ\source\main.cpp(606,30): warning C4244: 'argument': conversion from 'double' to 'const float', possible loss of data
-C:\Users\J. Galamba\Documents\CGJ\source\main.cpp(606,24): warning C4244: 'argument': conversion from 'double' to 'const float', possible loss of data
-C:\Users\J. Galamba\Documents\CGJ\source\main.cpp(612,39): warning C4244: 'argument': conversion from 'double' to 'const float', possible loss of data
-C:\Users\J. Galamba\Documents\CGJ\source\main.cpp(612,15): warning C4244: 'argument': conversion from 'double' to 'const float', possible loss of data
-C:\Users\J. Galamba\Documents\CGJ\source\main.cpp(612,6): warning C4244: 'argument': conversion from 'double' to 'const float', possible loss of data
-C:\Users\J. Galamba\Documents\CGJ\source\main.cpp(611,50): warning C4244: 'argument': conversion from 'double' to 'const float', possible loss of data
-C:\Users\J. Galamba\Documents\CGJ\source\main.cpp(611,34): warning C4244: 'argument': conversion from 'double' to 'const float', possible loss of data
-C:\Users\J. Galamba\Documents\CGJ\source\main.cpp(611,28): warning C4244: 'argument': conversion from 'double' to 'const float', possible loss of data
-C:\Users\J. Galamba\Documents\CGJ\source\main.cpp(617,63): warning C4244: 'argument': conversion from 'double' to 'const float', possible loss of data
-C:\Users\J. Galamba\Documents\CGJ\source\main.cpp(617,27): warning C4244: 'argument': conversion from 'double' to 'const float', possible loss of data
-C:\Users\J. Galamba\Documents\CGJ\source\main.cpp(617,6): warning C4244: 'argument': conversion from 'double' to 'const float', possible loss of data
-C:\Users\J. Galamba\Documents\CGJ\source\main.cpp(616,97): warning C4244: 'argument': conversion from 'double' to 'const float', possible loss of data
-C:\Users\J. Galamba\Documents\CGJ\source\main.cpp(616,41): warning C4244: 'argument': conversion from 'double' to 'const float', possible loss of data
-C:\Users\J. Galamba\Documents\CGJ\source\main.cpp(616,23): warning C4244: 'argument': conversion from 'double' to 'const float', possible loss of data
-C:\Users\J. Galamba\Documents\CGJ\source\main.cpp(622,39): warning C4244: 'argument': conversion from 'double' to 'const float', possible loss of data
-C:\Users\J. Galamba\Documents\CGJ\source\main.cpp(622,15): warning C4244: 'argument': conversion from 'double' to 'const float', possible loss of data
-C:\Users\J. Galamba\Documents\CGJ\source\main.cpp(622,6): warning C4244: 'argument': conversion from 'double' to 'const float', possible loss of data
-C:\Users\J. Galamba\Documents\CGJ\source\main.cpp(621,46): warning C4244: 'argument': conversion from 'double' to 'const float', possible loss of data
-C:\Users\J. Galamba\Documents\CGJ\source\main.cpp(621,28): warning C4244: 'argument': conversion from 'double' to 'const float', possible loss of data
-C:\Users\J. Galamba\Documents\CGJ\source\main.cpp(621,22): warning C4244: 'argument': conversion from 'double' to 'const float', possible loss of data
-C:\Users\J. Galamba\Documents\CGJ\source\main.cpp(627,65): warning C4244: 'argument': conversion from 'double' to 'const float', possible loss of data
-C:\Users\J. Galamba\Documents\CGJ\source\main.cpp(627,26): warning C4244: 'argument': conversion from 'double' to 'const float', possible loss of data
-C:\Users\J. Galamba\Documents\CGJ\source\main.cpp(627,6): warning C4244: 'argument': conversion from 'double' to 'const float', possible loss of data
-C:\Users\J. Galamba\Documents\CGJ\source\main.cpp(626,36): warning C4244: 'argument': conversion from 'double' to 'const float', possible loss of data
-C:\Users\J. Galamba\Documents\CGJ\source\main.cpp(626,19): warning C4244: 'argument': conversion from 'double' to 'const float', possible loss of data
-  CGJProject1.vcxproj -> C:\Users\J. Galamba\Documents\CGJ\x64\Debug\CGJProject1.exe
+C:\Users\USER\Documents\GitHub\CGJ\source\main.cpp(8,1): warning C4005: 'COLORS': macro redefinition
+C:\Users\USER\Documents\GitHub\CGJ\header\Shader.h(11): message : see previous definition of 'COLORS'
+C:\Users\USER\Documents\GitHub\CGJ\source\main.cpp(9,1): warning C4005: 'PI': macro redefinition
+C:\Users\USER\Documents\GitHub\CGJ\header\Constants.h(7): message : see previous definition of 'PI'
+C:\Users\USER\Documents\GitHub\CGJ\source\main.cpp(168,1): warning C4305: 'initializing': truncation from 'double' to 'GLfloat'
+C:\Users\USER\Documents\GitHub\CGJ\source\main.cpp(285,52): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\USER\Documents\GitHub\CGJ\source\main.cpp(293,57): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\USER\Documents\GitHub\CGJ\source\main.cpp(299,57): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\USER\Documents\GitHub\CGJ\source\main.cpp(305,57): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\USER\Documents\GitHub\CGJ\source\main.cpp(314,43): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\USER\Documents\GitHub\CGJ\source\main.cpp(322,44): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\USER\Documents\GitHub\CGJ\source\main.cpp(328,44): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\USER\Documents\GitHub\CGJ\source\main.cpp(334,44): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\USER\Documents\GitHub\CGJ\source\main.cpp(343,44): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\USER\Documents\GitHub\CGJ\source\main.cpp(350,45): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\USER\Documents\GitHub\CGJ\source\main.cpp(356,45): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\USER\Documents\GitHub\CGJ\source\main.cpp(362,45): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\USER\Documents\GitHub\CGJ\source\main.cpp(407,39): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\USER\Documents\GitHub\CGJ\source\main.cpp(414,40): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\USER\Documents\GitHub\CGJ\source\main.cpp(420,40): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\USER\Documents\GitHub\CGJ\source\main.cpp(426,40): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\USER\Documents\GitHub\CGJ\source\main.cpp(609,26): warning C4244: 'argument': conversion from 'double' to 'const float', possible loss of data
+C:\Users\USER\Documents\GitHub\CGJ\source\main.cpp(609,6): warning C4244: 'argument': conversion from 'double' to 'const float', possible loss of data
+C:\Users\USER\Documents\GitHub\CGJ\source\main.cpp(608,43): warning C4244: 'argument': conversion from 'double' to 'const float', possible loss of data
+C:\Users\USER\Documents\GitHub\CGJ\source\main.cpp(608,26): warning C4244: 'argument': conversion from 'double' to 'const float', possible loss of data
+C:\Users\USER\Documents\GitHub\CGJ\source\main.cpp(614,15): warning C4244: 'argument': conversion from 'double' to 'const float', possible loss of data
+C:\Users\USER\Documents\GitHub\CGJ\source\main.cpp(614,6): warning C4244: 'argument': conversion from 'double' to 'const float', possible loss of data
+C:\Users\USER\Documents\GitHub\CGJ\source\main.cpp(613,46): warning C4244: 'argument': conversion from 'double' to 'const float', possible loss of data
+C:\Users\USER\Documents\GitHub\CGJ\source\main.cpp(613,30): warning C4244: 'argument': conversion from 'double' to 'const float', possible loss of data
+C:\Users\USER\Documents\GitHub\CGJ\source\main.cpp(613,24): warning C4244: 'argument': conversion from 'double' to 'const float', possible loss of data
+C:\Users\USER\Documents\GitHub\CGJ\source\main.cpp(619,39): warning C4244: 'argument': conversion from 'double' to 'const float', possible loss of data
+C:\Users\USER\Documents\GitHub\CGJ\source\main.cpp(619,15): warning C4244: 'argument': conversion from 'double' to 'const float', possible loss of data
+C:\Users\USER\Documents\GitHub\CGJ\source\main.cpp(619,6): warning C4244: 'argument': conversion from 'double' to 'const float', possible loss of data
+C:\Users\USER\Documents\GitHub\CGJ\source\main.cpp(618,50): warning C4244: 'argument': conversion from 'double' to 'const float', possible loss of data
+C:\Users\USER\Documents\GitHub\CGJ\source\main.cpp(618,34): warning C4244: 'argument': conversion from 'double' to 'const float', possible loss of data
+C:\Users\USER\Documents\GitHub\CGJ\source\main.cpp(618,28): warning C4244: 'argument': conversion from 'double' to 'const float', possible loss of data
+C:\Users\USER\Documents\GitHub\CGJ\source\main.cpp(624,63): warning C4244: 'argument': conversion from 'double' to 'const float', possible loss of data
+C:\Users\USER\Documents\GitHub\CGJ\source\main.cpp(624,27): warning C4244: 'argument': conversion from 'double' to 'const float', possible loss of data
+C:\Users\USER\Documents\GitHub\CGJ\source\main.cpp(624,6): warning C4244: 'argument': conversion from 'double' to 'const float', possible loss of data
+C:\Users\USER\Documents\GitHub\CGJ\source\main.cpp(623,97): warning C4244: 'argument': conversion from 'double' to 'const float', possible loss of data
+C:\Users\USER\Documents\GitHub\CGJ\source\main.cpp(623,41): warning C4244: 'argument': conversion from 'double' to 'const float', possible loss of data
+C:\Users\USER\Documents\GitHub\CGJ\source\main.cpp(623,23): warning C4244: 'argument': conversion from 'double' to 'const float', possible loss of data
+C:\Users\USER\Documents\GitHub\CGJ\source\main.cpp(629,39): warning C4244: 'argument': conversion from 'double' to 'const float', possible loss of data
+C:\Users\USER\Documents\GitHub\CGJ\source\main.cpp(629,15): warning C4244: 'argument': conversion from 'double' to 'const float', possible loss of data
+C:\Users\USER\Documents\GitHub\CGJ\source\main.cpp(629,6): warning C4244: 'argument': conversion from 'double' to 'const float', possible loss of data
+C:\Users\USER\Documents\GitHub\CGJ\source\main.cpp(628,46): warning C4244: 'argument': conversion from 'double' to 'const float', possible loss of data
+C:\Users\USER\Documents\GitHub\CGJ\source\main.cpp(628,28): warning C4244: 'argument': conversion from 'double' to 'const float', possible loss of data
+C:\Users\USER\Documents\GitHub\CGJ\source\main.cpp(628,22): warning C4244: 'argument': conversion from 'double' to 'const float', possible loss of data
+C:\Users\USER\Documents\GitHub\CGJ\source\main.cpp(634,65): warning C4244: 'argument': conversion from 'double' to 'const float', possible loss of data
+C:\Users\USER\Documents\GitHub\CGJ\source\main.cpp(634,26): warning C4244: 'argument': conversion from 'double' to 'const float', possible loss of data
+C:\Users\USER\Documents\GitHub\CGJ\source\main.cpp(634,6): warning C4244: 'argument': conversion from 'double' to 'const float', possible loss of data
+C:\Users\USER\Documents\GitHub\CGJ\source\main.cpp(633,36): warning C4244: 'argument': conversion from 'double' to 'const float', possible loss of data
+C:\Users\USER\Documents\GitHub\CGJ\source\main.cpp(633,19): warning C4244: 'argument': conversion from 'double' to 'const float', possible loss of data
+  CGJProject1.vcxproj -> C:\Users\USER\Documents\GitHub\CGJ\x64\Debug\CGJProject1.exe
